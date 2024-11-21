@@ -5,9 +5,10 @@ interface SliderProps {
   max: number;
   value: [number, number];
   onChange: (value: [number, number]) => void;
+  formatValue?: (value: number) => string;
 }
 
-export function Slider({ min, max, value, onChange }: SliderProps) {
+export function Slider({ min, max, value, onChange, formatValue }: SliderProps) {
   const minThumbRef = useRef<HTMLDivElement>(null);
   const maxThumbRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -53,52 +54,59 @@ export function Slider({ min, max, value, onChange }: SliderProps) {
     <div className="relative py-4">
       <div
         ref={trackRef}
-        className="h-2 bg-gray-200 rounded-full cursor-pointer"
+        className="absolute h-2 w-full bg-gray-200 rounded-full cursor-pointer"
         onClick={(e) => {
           if (!trackRef.current) return;
           const track = trackRef.current.getBoundingClientRect();
           const percentage = (e.clientX - track.left) / track.width;
           const newValue = Math.round(min + percentage * (max - min));
+          const [minVal, maxVal] = value;
           
-          // Determine which thumb to move based on proximity
-          const distToMin = Math.abs(getLeftPosition(value[0]) / 100 - percentage);
-          const distToMax = Math.abs(getLeftPosition(value[1]) / 100 - percentage);
-          
-          if (distToMin < distToMax) {
-            onChange([Math.min(newValue, value[1] - 1), value[1]]);
+          if (Math.abs(newValue - minVal) < Math.abs(newValue - maxVal)) {
+            onChange([Math.min(newValue, maxVal - 1), maxVal]);
           } else {
-            onChange([value[0], Math.max(newValue, value[0] + 1)]);
+            onChange([minVal, Math.max(newValue, minVal + 1)]);
           }
         }}
       >
         <div
-          className="absolute h-2 bg-blue-600 rounded-full"
+          className="absolute h-full bg-blue-500 rounded-full"
           style={{
             left: `${getLeftPosition(value[0])}%`,
             right: `${100 - getLeftPosition(value[1])}%`,
           }}
         />
-        
-        {/* Min thumb */}
-        <div
-          ref={minThumbRef}
-          className="absolute w-4 h-4 bg-white border-2 border-blue-600 rounded-full -mt-1 -ml-2 cursor-grab active:cursor-grabbing"
-          style={{ left: `${getLeftPosition(value[0])}%` }}
-          onMouseDown={() => {
-            isDraggingRef.current = 'min';
-          }}
-        />
-        
-        {/* Max thumb */}
-        <div
-          ref={maxThumbRef}
-          className="absolute w-4 h-4 bg-white border-2 border-blue-600 rounded-full -mt-1 -ml-2 cursor-grab active:cursor-grabbing"
-          style={{ left: `${getLeftPosition(value[1])}%` }}
-          onMouseDown={() => {
-            isDraggingRef.current = 'max';
-          }}
-        />
       </div>
+
+      <div
+        ref={minThumbRef}
+        className="absolute w-4 h-4 bg-white border-2 border-blue-500 rounded-full cursor-grab -mt-1 focus:outline-none"
+        style={{ left: `${getLeftPosition(value[0])}%` }}
+        onMouseDown={() => {
+          isDraggingRef.current = 'min';
+        }}
+        role="slider"
+        aria-valuemin={min}
+        aria-valuemax={value[1]}
+        aria-valuenow={value[0]}
+        aria-label="Valor mínimo"
+        tabIndex={0}
+      />
+
+      <div
+        ref={maxThumbRef}
+        className="absolute w-4 h-4 bg-white border-2 border-blue-500 rounded-full cursor-grab -mt-1 focus:outline-none"
+        style={{ left: `${getLeftPosition(value[1])}%` }}
+        onMouseDown={() => {
+          isDraggingRef.current = 'max';
+        }}
+        role="slider"
+        aria-valuemin={value[0]}
+        aria-valuemax={max}
+        aria-valuenow={value[1]}
+        aria-label="Valor máximo"
+        tabIndex={0}
+      />
     </div>
   );
 }

@@ -1,23 +1,26 @@
-import React from 'react';
-import { Home } from './pages/Home';
-import { Shop } from './pages/Shop';
-import { useNavigation } from './hooks/useNavigation';
+import { Routes, Route } from "react-router-dom";
+import { Home } from "./pages/Home";
+import { Shop } from "./pages/Shop";
+import { Navbar } from "./components/Navbar";
+
+// Componente temporário para páginas em construção
+const UnderConstruction = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <h1 className="text-2xl font-bold">Página em construção</h1>
+  </div>
+);
 
 function App() {
-  const { currentPage } = useNavigation();
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'shop':
-        return <Shop />;
-      default:
-        return <Home />;
-    }
-  };
-
   return (
     <div className="app">
-      {renderPage()}
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/about" element={<UnderConstruction />} />
+        <Route path="/reviews" element={<UnderConstruction />} />
+        <Route path="/contact" element={<UnderConstruction />} />
+      </Routes>
     </div>
   );
 }

@@ -18,10 +18,17 @@ export function Filters({
   setPriceRange,
   maxPrice,
 }: FiltersProps) {
+  const formatPrice = (price: number) => {
+    return price.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    });
+  };
+
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-3">Categories</h3>
+        <h3 className="text-lg font-semibold mb-3">Categorias</h3>
         <div className="space-y-2">
           <button
             onClick={() => setSelectedCategory('')}
@@ -29,7 +36,7 @@ export function Filters({
               selectedCategory === '' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-50'
             }`}
           >
-            All Products
+            Todos os Produtos
           </button>
           {categories.map((category) => (
             <button
@@ -46,16 +53,17 @@ export function Filters({
       </div>
 
       <div>
-        <h3 className="text-lg font-semibold mb-3">Price Range</h3>
+        <h3 className="text-lg font-semibold mb-3">Faixa de Preço</h3>
         <Slider
           min={0}
           max={maxPrice}
           value={priceRange}
           onChange={setPriceRange}
+          formatValue={formatPrice}
         />
-        <div className="flex items-center justify-between mt-2 text-sm text-gray-600">
-          <span>${priceRange[0]}</span>
-          <span>${priceRange[1]}</span>
+        <div className="mt-2 flex justify-between text-sm text-gray-600">
+          <span>{formatPrice(priceRange[0])}</span>
+          <span>{formatPrice(priceRange[1])}</span>
         </div>
       </div>
     </div>
