@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, ArrowLeft, ArrowLeftCircle, ArrowRightCircle, Smartphone, Laptop, Gamepad, Headphones } from 'lucide-react';
-import { useNavigation } from '../hooks/useNavigation';
+import { useNavigation } from '../contexts/NavigationContext';
 
 interface Offer {
   id: number;

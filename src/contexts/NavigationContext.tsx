@@ -1,23 +1,30 @@
-import React, { createContext, useState, useCallback } from 'react';
+import React, { createContext, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-interface NavigationContextType {
-  currentPage: string;
-  navigateTo: (page: string) => void;
-}
+type NavigationContextType = {
+  navigateTo: (path: string) => void;
+};
 
-export const NavigationContext = createContext<NavigationContextType | null>(null);
+const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
 
 export function NavigationProvider({ children }: { children: React.ReactNode }) {
-  const [currentPage, setCurrentPage] = useState('home');
+  const navigate = useNavigate();
 
-  const navigateTo = useCallback((page: string) => {
-    setCurrentPage(page);
-    window.scrollTo(0, 0);
-  }, []);
+  const navigateTo = (path: string) => {
+    navigate(path);
+  };
 
   return (
-    <NavigationContext.Provider value={{ currentPage, navigateTo }}>
+    <NavigationContext.Provider value={{ navigateTo }}>
       {children}
     </NavigationContext.Provider>
   );
+}
+
+export function useNavigation() {
+  const context = useContext(NavigationContext);
+  if (context === undefined) {
+    throw new Error('useNavigation must be used within a NavigationProvider');
+  }
+  return context;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Navbar } from '../components/Navbar';
 import { Hero } from '../components/Hero';
 import { FeaturedProducts } from '../components/FeaturedProducts';
+import { InfoSection } from '../components/InfoSection';
 import { Footer } from '../components/Footer';
 
 export function Home() {
@@ -10,6 +11,7 @@ export function Home() {
       <Navbar />
       <Hero />
       <FeaturedProducts />
+      <InfoSection />
       <Footer />
     </div>
   );
