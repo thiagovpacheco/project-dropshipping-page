@@ -41,7 +41,13 @@ export function Navbar() {
             </button>
           </div>
 
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center space-x-4">
+            <button className="p-2 hover:bg-gray-100 rounded-full">
+              <Search className="w-5 h-5" />
+            </button>
+            <button className="p-2 hover:bg-gray-100 rounded-full">
+              <ShoppingCart className="w-5 h-5" />
+            </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
@@ -50,19 +56,47 @@ export function Navbar() {
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Mobile menu */}
-      {isOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <button onClick={() => handleNavigation('shop')} className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md">Shop</button>
-            <button onClick={() => handleNavigation('about')} className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md">About</button>
-            <button onClick={() => handleNavigation('reviews')} className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md">Reviews</button>
-            <button onClick={() => handleNavigation('contact')} className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md">Contact</button>
+        {/* Mobile menu */}
+        {isOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-100">
+              <button 
+                onClick={() => handleNavigation('shop')} 
+                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-blue-600 hover:bg-gray-50"
+              >
+                Shop
+              </button>
+              <button 
+                onClick={() => handleNavigation('about')} 
+                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-blue-600 hover:bg-gray-50"
+              >
+                About
+              </button>
+              <button 
+                onClick={() => handleNavigation('reviews')} 
+                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-blue-600 hover:bg-gray-50"
+              >
+                Reviews
+              </button>
+              <button 
+                onClick={() => handleNavigation('contact')} 
+                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-blue-600 hover:bg-gray-50"
+              >
+                Contact
+              </button>
+              <button 
+                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-blue-600 hover:bg-gray-50"
+              >
+                <div className="flex items-center">
+                  <User className="w-5 h-5 mr-2" />
+                  <span>Account</span>
+                </div>
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </nav>
   );
 }
