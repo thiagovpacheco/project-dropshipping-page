@@ -9,6 +9,19 @@ interface Category {
   subcategories: string[];
 }
 
+interface NavigationItem {
+  id: string;
+  label: string;
+  route: string;
+}
+
+const navigationItems: NavigationItem[] = [
+  { id: 'home', label: 'Home', route: 'home' },
+  { id: 'categories', label: 'Categorias', route: 'categories' },
+  { id: 'about', label: 'Sobre', route: 'about' },
+  { id: 'contact', label: 'Contato', route: 'contact' },
+];
+
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { navigateTo } = useNavigation();
@@ -63,20 +76,20 @@ export function Navbar() {
       </div>
 
       {/* Main navbar */}
-      <nav className="bg-white border-b border-gray-200 shadow-sm">
+      <nav className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 shadow-sm z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
               <button 
-                onClick={() => handleNavigation('home')} 
-                className="text-2xl font-bold tracking-tighter text-blue-600 hover:text-blue-700 transition-colors"
+                onClick={() => navigateTo('home')} 
+                className="text-xl sm:text-2xl font-bold tracking-tighter text-blue-600 hover:text-blue-700 transition-colors"
               >
                 NEXUS
               </button>
             </div>
 
-            {/* Search bar */}
+            {/* Search bar - Hidden on mobile */}
             <div className="hidden md:flex flex-1 max-w-2xl mx-8">
               <div className="relative w-full">
                 <input
@@ -105,14 +118,14 @@ export function Navbar() {
             <div className="md:hidden flex items-center">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="p-2 rounded-md text-gray-700 hover:text-blue-600 transition-colors"
+                className="p-2 rounded-md text-gray-700 hover:text-blue-600 transition-colors focus:outline-none"
               >
                 {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
           </div>
 
-          {/* Categories bar */}
+          {/* Categories bar - Hidden on mobile */}
           <div className="hidden md:flex py-2 -mb-px space-x-8">
             {categories.map((category) => (
               <div
@@ -148,42 +161,99 @@ export function Navbar() {
 
         {/* Mobile menu */}
         {isOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200">
-            <div className="px-4 py-3">
+          <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
+            {/* Mobile search */}
+            <div className="p-4 border-b border-gray-200">
               <div className="relative">
                 <input
                   type="text"
                   placeholder="Buscar produtos..."
-                  className="w-full px-4 py-2 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
+                  className="w-full px-4 py-3 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 text-base"
                 />
-                <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
+                <Search className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
               </div>
             </div>
-            <div className="px-2 pt-2 pb-3 space-y-1">
+
+            {/* Mobile categories */}
+            <div className="py-2">
               {categories.map((category) => (
-                <button
-                  key={category.name}
-                  className="flex items-center w-full px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
-                >
-                  {category.icon}
-                  <span className="ml-3">{category.name}</span>
-                </button>
+                <div key={category.name} className="relative">
+                  <button
+                    onClick={() => {
+                      const categoryElement = document.getElementById(`category-${category.name}`);
+                      categoryElement?.classList.toggle('hidden');
+                    }}
+                    className="flex items-center w-full px-4 py-3 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+                  >
+                    <span className="text-blue-600 mr-3">{category.icon}</span>
+                    <span>{category.name}</span>
+                    <ChevronDown className="w-5 h-5 ml-auto transition-transform duration-200" />
+                  </button>
+                  <div id={`category-${category.name}`} className="hidden bg-gray-50">
+                    {category.subcategories.map((sub) => (
+                      <a
+                        key={sub}
+                        href="#"
+                        className="block px-11 py-2.5 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-100"
+                      >
+                        {sub}
+                      </a>
+                    ))}
+                  </div>
+                </div>
               ))}
-              <div className="border-t border-gray-200 pt-4">
-                <button className="flex items-center w-full px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50">
-                  <User className="w-5 h-5" />
-                  <span className="ml-3">Minha Conta</span>
+            </div>
+
+            {/* Mobile account and cart */}
+            <div className="border-t border-gray-200">
+              <div className="p-2">
+                <button className="flex items-center w-full px-4 py-3 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-lg">
+                  <User className="w-5 h-5 mr-3" />
+                  <span>Minha Conta</span>
                 </button>
-                <button className="flex items-center w-full px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50">
-                  <ShoppingCart className="w-5 h-5" />
-                  <span className="ml-3">Carrinho</span>
-                  <span className="ml-auto bg-blue-600 text-white text-xs rounded-full px-2 py-0.5">0</span>
+                <button className="flex items-center w-full px-4 py-3 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-lg">
+                  <ShoppingCart className="w-5 h-5 mr-3" />
+                  <span>Carrinho</span>
+                  <span className="ml-auto bg-blue-600 text-white text-xs rounded-full px-2 py-1">0</span>
                 </button>
               </div>
             </div>
           </div>
         )}
       </nav>
+
+      {/* Desktop navigation */}
+      <div className="hidden md:flex items-center space-x-6">
+        {navigationItems.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => navigateTo(item.route)}
+            className="text-gray-700 hover:text-blue-600 transition-colors"
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Mobile Navigation Menu */}
+      {isOpen && (
+        <div className="sm:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t">
+            {navigationItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => {
+                  navigateTo(item.route);
+                  setIsOpen(false);
+                }}
+                className="w-full text-left text-gray-700 hover:text-blue-600 hover:bg-gray-50 block px-3 py-2 text-base font-medium transition-colors duration-200"
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
