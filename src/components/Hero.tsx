@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, ArrowLeft, ArrowLeftCircle, ArrowRightCircle, Smartphone, Laptop, Gamepad, Headphones } from 'lucide-react';
-import { useNavigation } from '../contexts/NavigationContext';
+import { ArrowRight, ArrowLeftCircle, ArrowRightCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface Offer {
   id: number;
@@ -13,7 +13,6 @@ interface Offer {
 }
 
 export function Hero() {
-  const { navigateTo } = useNavigation();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const offers: Offer[] = [
@@ -71,71 +70,66 @@ export function Hero() {
     setCurrentSlide((prev) => (prev - 1 + offers.length) % offers.length);
   };
 
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
-
   return (
-    <div className="relative h-[70vh] sm:h-[80vh] lg:h-[90vh] overflow-hidden">
-      {/* Slides */}
-      <div className="relative h-full">
+    <div className="relative overflow-hidden">
+      {/* Container principal do slider */}
+      <div className="relative h-[450px] md:h-[500px] lg:h-[550px]">
+        {/* Mapeamento dos slides com animações */}
         {offers.map((offer, index) => (
           <div
             key={offer.id}
-            className={`absolute inset-0 transition-opacity duration-500 ${
-              index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
-            }`}
-            style={{
-              backgroundImage: `url(${offer.backgroundImage})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
+            className={`absolute inset-0 w-full h-full transition-all duration-700 ease-in-out transform
+              ${index === currentSlide 
+                ? 'opacity-100 translate-x-0 z-10' 
+                : index < currentSlide 
+                  ? 'opacity-0 -translate-x-full z-0' 
+                  : 'opacity-0 translate-x-full z-0'
+              }`}
           >
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
-
-            {/* Content */}
-            <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="h-full flex items-center">
-                <div className="max-w-xl lg:max-w-2xl space-y-4 sm:space-y-6">
-                  {/* Category Badge */}
-                  <span className="inline-flex items-center space-x-2 px-4 sm:px-5 py-1.5 sm:py-2 rounded-lg bg-white/10 backdrop-blur-md text-white text-xs sm:text-sm font-medium tracking-wider uppercase">
-                    <span className="text-white">
-                      {offer.category === "Smartphones" && <Smartphone className="w-4 h-4 sm:w-5 sm:h-5" />}
-                      {offer.category === "Eletrônicos" && <Laptop className="w-4 h-4 sm:w-5 sm:h-5" />}
-                      {offer.category === "Games" && <Gamepad className="w-4 h-4 sm:w-5 sm:h-5" />}
-                      {offer.category === "Áudio" && <Headphones className="w-4 h-4 sm:w-5 sm:h-5" />}
-                    </span>
-                    <span>{offer.category}</span>
-                  </span>
-
-                  {/* Title and Description */}
-                  <div className="space-y-3 sm:space-y-4">
-                    <h2 className={`text-3xl sm:text-4xl lg:text-6xl font-bold ${offer.textColor} leading-[1.1] tracking-tight`}>
-                      {offer.title}
-                    </h2>
-                    <div className="space-y-2 sm:space-y-3">
-                      <p className={`text-lg sm:text-xl lg:text-2xl ${offer.textColor} font-medium tracking-wide`}>
-                        {offer.description}
-                      </p>
-                      <p className={`text-2xl sm:text-3xl lg:text-5xl font-bold ${offer.textColor} tracking-tight`}>
-                        {offer.discount}
-                      </p>
-                    </div>
+            {/* Background com zoom suave */}
+            <div 
+              className="absolute inset-0 w-full h-full transition-transform duration-[8000ms] ease-out"
+              style={{
+                backgroundImage: `url(${offer.backgroundImage})`,
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+                transform: index === currentSlide ? 'scale(1.05)' : 'scale(1)'
+              }}
+            />
+            
+            {/* Overlay gradiente com fade */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent">
+              {/* Conteúdo do slide com fade-in */}
+              <div className="container mx-auto px-6 h-full flex items-center">
+                <div className={`max-w-xl transform transition-all duration-700 delay-100
+                  ${index === currentSlide 
+                    ? 'opacity-100 translate-y-0' 
+                    : 'opacity-0 translate-y-12'
+                  }`}
+                >
+                  <h1 className={`text-4xl md:text-5xl font-bold mb-4 ${offer.textColor}`}>
+                    {offer.title}
+                  </h1>
+                  <p className={`text-xl md:text-2xl mb-6 ${offer.textColor}`}>
+                    {offer.description}
+                  </p>
+                  <div className={`text-2xl md:text-3xl font-bold mb-8 ${offer.textColor}`}>
+                    {offer.discount}
                   </div>
-
-                  {/* CTA Button */}
-                  <button 
-                    onClick={() => navigateTo('shop')}
-                    className="group bg-white/95 hover:bg-indigo-600 text-slate-900 hover:text-white px-6 sm:px-8 py-3 sm:py-4 
-                             rounded-xl font-medium inline-flex items-center space-x-2 sm:space-x-3 
-                             transition-all duration-300 shadow-lg hover:shadow-xl 
-                             backdrop-blur-sm text-sm sm:text-base
-                             border border-white/20"
+                  <Link
+                    to={`/${offer.category.toLowerCase()}`}
+                    className="group inline-flex items-center space-x-3 
+                              bg-white/90 text-slate-800 px-6 py-3 rounded-xl 
+                              font-medium cursor-pointer select-none
+                              transition-all duration-300 ease-in-out
+                              hover:bg-indigo-600 hover:text-white hover:scale-[1.02]
+                              active:scale-[0.98] active:bg-indigo-700
+                              shadow-md hover:shadow-xl"
                   >
-                    <span>Ver Ofertas</span>
-                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
-                  </button>
+                    <span className="transform transition-transform duration-300">Ver Ofertas</span>
+                    <ArrowRight className="w-5 h-5 transform transition-all duration-300 
+                                         group-hover:translate-x-1.5 group-hover:text-white" />
+                  </Link>
                 </div>
               </div>
             </div>
@@ -143,35 +137,37 @@ export function Hero() {
         ))}
       </div>
 
-      {/* Navigation Arrows */}
+      {/* Controles com fade hover */}
       <div className="absolute inset-0 z-20 flex items-center justify-between p-4">
         <button
           onClick={prevSlide}
           className="p-2 sm:p-3 rounded-xl bg-white/10 hover:bg-indigo-600/80 text-white 
-                   backdrop-blur-sm transition-all duration-200 border border-white/20"
+                   backdrop-blur-sm transition-all duration-200 border border-white/20
+                   opacity-75 hover:opacity-100"
         >
           <ArrowLeftCircle className="w-6 h-6 sm:w-8 sm:h-8" />
         </button>
         <button
           onClick={nextSlide}
           className="p-2 sm:p-3 rounded-xl bg-white/10 hover:bg-indigo-600/80 text-white 
-                   backdrop-blur-sm transition-all duration-200 border border-white/20"
+                   backdrop-blur-sm transition-all duration-200 border border-white/20
+                   opacity-75 hover:opacity-100"
         >
           <ArrowRightCircle className="w-6 h-6 sm:w-8 sm:h-8" />
         </button>
       </div>
 
-      {/* Navigation Dots */}
+      {/* Indicadores com animação */}
       <div className="absolute bottom-4 inset-x-0 z-20 flex justify-center space-x-2">
         {offers.map((_, index) => (
           <button
             key={index}
-            onClick={() => goToSlide(index)}
-            className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-200 ${
-              index === currentSlide
-                ? 'bg-indigo-600 scale-125'
+            onClick={() => setCurrentSlide(index)}
+            className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-500
+              ${currentSlide === index 
+                ? 'bg-indigo-600 scale-125' 
                 : 'bg-white/50 hover:bg-white/75'
-            }`}
+              }`}
           />
         ))}
       </div>

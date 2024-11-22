@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigation } from '../contexts/NavigationContext';
-import { ChevronRight, Smartphone, Laptop, Gamepad, Headphones, Camera, Watch, Tv, Speaker } from 'lucide-react';
+import { ChevronRight, Smartphone, Laptop, Gamepad, Headphones, Camera, Watch, Tv, Speaker, ArrowRight } from 'lucide-react';
 
 interface Product {
   id: number;
@@ -396,18 +396,31 @@ export function FeaturedProducts() {
               </div>
 
               {/* Botão de ação rápida */}
-              <button 
-                onClick={() => navigateTo('product')}
-                className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg
-                         transform translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100
-                         transition-all duration-300 hover:scale-110
-                         hover:bg-indigo-50"
-              >
-                <svg className="w-6 h-6 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-              </button>
+              <div className="mt-4 flex items-center justify-between">
+                <div>
+                  <span className="text-2xl font-bold text-indigo-600">
+                    {product.price.toLocaleString('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL'
+                    })}
+                  </span>
+                  {product.discount && (
+                    <span className="ml-2 text-sm text-green-600 font-medium">
+                      {product.discount}
+                    </span>
+                  )}
+                </div>
+                <button 
+                  onClick={() => navigateTo(`/${product.category.toLowerCase()}`)}
+                  className="group inline-flex items-center space-x-2 px-4 py-2 
+                            bg-white border border-slate-200 rounded-lg text-slate-800
+                            hover:bg-indigo-600 hover:border-indigo-600 hover:text-white
+                            transition-all duration-300 shadow-sm hover:shadow-md"
+                >
+                  <span>Ver Ofertas</span>
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </button>
+              </div>
             </div>
           ))}
         </div>

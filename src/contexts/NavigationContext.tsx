@@ -1,17 +1,17 @@
 import React, { createContext, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-type NavigationContextType = {
-  navigateTo: (path: string) => void;
-};
+interface NavigationContextType {
+  navigateTo: (route: string) => void;
+}
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
 
 export function NavigationProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
 
-  const navigateTo = (path: string) => {
-    navigate(path);
+  const navigateTo = (route: string) => {
+    navigate(route);
   };
 
   return (
