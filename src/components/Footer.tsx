@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, Mail, Phone, Clock, MapPin, Facebook, Twitter } from 'lucide-react';
+import { Instagram, Mail, Phone, Clock, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export function Footer() {
@@ -23,21 +23,10 @@ export function Footer() {
             <div className="mt-6 flex space-x-4">
               <a 
                 href="#" 
-                className="text-slate-400 dark:text-slate-500 hover:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-300"
-              >
-                <Facebook className="w-6 h-6" />
-              </a>
-              <a 
-                href="#" 
-                className="text-slate-400 dark:text-slate-500 hover:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-300"
+                className="text-slate-400 dark:text-slate-500 hover:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-300 flex items-center gap-2"
               >
                 <Instagram className="w-6 h-6" />
-              </a>
-              <a 
-                href="#" 
-                className="text-slate-400 dark:text-slate-500 hover:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-300"
-              >
-                <Twitter className="w-6 h-6" />
+                <span>Instagram</span>
               </a>
             </div>
           </div>
