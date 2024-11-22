@@ -385,41 +385,16 @@ export function FeaturedProducts() {
                   
                   <button 
                     onClick={() => navigateTo('product')}
-                    className="w-full bg-slate-900 text-white px-6 py-3 rounded-xl font-medium
+                    className="w-full group inline-flex items-center justify-center gap-2
+                             bg-slate-900 text-white px-6 py-3 rounded-xl font-medium
                              transform transition-all duration-300
                              hover:bg-indigo-600 hover:-translate-y-0.5 hover:shadow-lg
                              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
                   >
                     Ver Produto
+                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </button>
                 </div>
-              </div>
-
-              {/* Botão de ação rápida */}
-              <div className="mt-4 flex items-center justify-between">
-                <div>
-                  <span className="text-2xl font-bold text-indigo-600">
-                    {product.price.toLocaleString('pt-BR', {
-                      style: 'currency',
-                      currency: 'BRL'
-                    })}
-                  </span>
-                  {product.discount && (
-                    <span className="ml-2 text-sm text-green-600 font-medium">
-                      {product.discount}
-                    </span>
-                  )}
-                </div>
-                <button 
-                  onClick={() => navigateTo(`/${product.category.toLowerCase()}`)}
-                  className="group inline-flex items-center space-x-2 px-4 py-2 
-                            bg-white border border-slate-200 rounded-lg text-slate-800
-                            hover:bg-indigo-600 hover:border-indigo-600 hover:text-white
-                            transition-all duration-300 shadow-sm hover:shadow-md"
-                >
-                  <span>Ver Ofertas</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </button>
               </div>
             </div>
           ))}
