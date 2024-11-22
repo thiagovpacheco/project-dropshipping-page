@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, ShoppingCart, Search, User, ChevronDown, Laptop, Smartphone, Headphones, Camera, Gamepad, Tv } from 'lucide-react';
 
@@ -84,6 +84,8 @@ const categories: Category[] = [
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [justClicked, setJustClicked] = useState(false);
+  const [searchFocused, setSearchFocused] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const cartItemCount = 3;
 
   const handleMouseEnter = (categoryName: string) => {
@@ -92,6 +94,17 @@ const Navbar = () => {
 
   const handleMouseLeave = () => {
   };
+
+  const handleSearchClick = () => {
+    setIsOpen(true);
+    setSearchFocused(true);
+  };
+
+  useEffect(() => {
+    if (searchFocused && isOpen && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [searchFocused, isOpen]);
 
   return (
     <nav className="bg-white dark:bg-slate-900 shadow-md dark:shadow-slate-800/50 transition-colors duration-300 relative">
@@ -186,7 +199,11 @@ const Navbar = () => {
 
           {/* Mobile Actions */}
           <div className="flex items-center lg:hidden gap-4">
-            <button className="p-2 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+            <button 
+              className="p-2 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
+              onClick={handleSearchClick}
+              aria-label="Buscar"
+            >
               <Search className="w-6 h-6" />
             </button>
             
@@ -212,13 +229,41 @@ const Navbar = () => {
           </div>
         </div>
 
+        {/* Mobile Search Panel */}
+        <div
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            isOpen ? 'max-h-24 opacity-100 mb-4' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className="px-4 py-3">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Buscar produtos..."
+                className="w-full px-5 py-3 pl-12 pr-4 rounded-xl border border-slate-200 dark:border-slate-700
+                         bg-white dark:bg-slate-800 
+                         text-slate-900 dark:text-slate-100
+                         focus:outline-none focus:ring-2 focus:ring-indigo-600/50 focus:border-indigo-600/50
+                         dark:focus:ring-indigo-400/50 dark:focus:border-indigo-400/50
+                         placeholder:text-slate-400 dark:placeholder:text-slate-500 
+                         transition-all duration-300 text-base"
+                autoComplete="off"
+              />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 dark:text-slate-500 w-5 h-5" />
+            </div>
+          </div>
+        </div>
+
         {/* Mobile Menu */}
         <div
           className={`fixed inset-0 z-50 lg:hidden bg-slate-900/50 dark:bg-slate-900/70 backdrop-blur-sm transition-opacity duration-300 ${
             isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
           aria-hidden={!isOpen}
-          onClick={() => setIsOpen(false)}
+          onClick={() => {
+            setIsOpen(false);
+            setSearchFocused(false);
+          }}
         >
           <div
             className={`fixed inset-y-0 right-0 w-full max-w-sm bg-white dark:bg-slate-900 shadow-xl dark:shadow-slate-700/50 transition-transform duration-300 ease-in-out ${
@@ -231,12 +276,18 @@ const Navbar = () => {
                 <Link 
                   to="/"
                   className="text-2xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-500 dark:to-violet-500"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    setIsOpen(false);
+                    setSearchFocused(false);
+                  }}
                 >
                   NEXUS
                 </Link>
                 <button
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    setIsOpen(false);
+                    setSearchFocused(false);
+                  }}
                   className="p-2 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
                 >
                   <X className="w-6 h-6" />
@@ -247,6 +298,7 @@ const Navbar = () => {
                 <div className="px-4 py-3">
                   <div className="relative">
                     <input
+                      ref={searchInputRef}
                       type="text"
                       placeholder="Buscar produtos..."
                       className="w-full px-5 py-3 pl-12 pr-4 rounded-xl border border-slate-200 dark:border-slate-700
@@ -256,6 +308,7 @@ const Navbar = () => {
                                dark:focus:ring-indigo-400/50 dark:focus:border-indigo-400/50
                                placeholder:text-slate-400 dark:placeholder:text-slate-500 
                                transition-all duration-300 text-base"
+                      autoComplete="off"
                     />
                     <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 dark:text-slate-500 w-5 h-5" />
                   </div>
@@ -267,7 +320,10 @@ const Navbar = () => {
                       <Link
                         to={category.route}
                         className="flex items-center px-4 py-3 text-base font-medium text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl transition-colors duration-200"
-                        onClick={() => setIsOpen(false)}
+                        onClick={() => {
+                          setIsOpen(false);
+                          setSearchFocused(false);
+                        }}
                       >
                         <span className="text-slate-400 dark:text-slate-500 mr-3">{category.icon}</span>
                         <span>{category.name}</span>
@@ -278,7 +334,10 @@ const Navbar = () => {
                             key={sub.name}
                             to={sub.route}
                             className="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors duration-200"
-                            onClick={() => setIsOpen(false)}
+                            onClick={() => {
+                              setIsOpen(false);
+                              setSearchFocused(false);
+                            }}
                           >
                             {sub.name}
                           </Link>
