@@ -127,7 +127,11 @@ export function Hero() {
                   {/* CTA Button */}
                   <button 
                     onClick={() => navigateTo('shop')}
-                    className="group bg-white hover:bg-blue-600 text-gray-900 hover:text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-medium inline-flex items-center space-x-2 sm:space-x-3 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base"
+                    className="group bg-white/95 hover:bg-indigo-600 text-slate-900 hover:text-white px-6 sm:px-8 py-3 sm:py-4 
+                             rounded-xl font-medium inline-flex items-center space-x-2 sm:space-x-3 
+                             transition-all duration-300 shadow-lg hover:shadow-xl 
+                             backdrop-blur-sm text-sm sm:text-base
+                             border border-white/20"
                   >
                     <span>Ver Ofertas</span>
                     <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
@@ -143,13 +147,15 @@ export function Hero() {
       <div className="absolute inset-0 z-20 flex items-center justify-between p-4">
         <button
           onClick={prevSlide}
-          className="p-1 sm:p-2 rounded-full bg-black/20 hover:bg-black/30 text-white backdrop-blur-sm transition-all duration-200"
+          className="p-2 sm:p-3 rounded-xl bg-white/10 hover:bg-indigo-600/80 text-white 
+                   backdrop-blur-sm transition-all duration-200 border border-white/20"
         >
           <ArrowLeftCircle className="w-6 h-6 sm:w-8 sm:h-8" />
         </button>
         <button
           onClick={nextSlide}
-          className="p-1 sm:p-2 rounded-full bg-black/20 hover:bg-black/30 text-white backdrop-blur-sm transition-all duration-200"
+          className="p-2 sm:p-3 rounded-xl bg-white/10 hover:bg-indigo-600/80 text-white 
+                   backdrop-blur-sm transition-all duration-200 border border-white/20"
         >
           <ArrowRightCircle className="w-6 h-6 sm:w-8 sm:h-8" />
         </button>
@@ -160,10 +166,10 @@ export function Hero() {
         {offers.map((_, index) => (
           <button
             key={index}
-            onClick={() => setCurrentSlide(index)}
+            onClick={() => goToSlide(index)}
             className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-200 ${
               index === currentSlide
-                ? 'bg-white scale-125'
+                ? 'bg-indigo-600 scale-125'
                 : 'bg-white/50 hover:bg-white/75'
             }`}
           />

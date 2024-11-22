@@ -311,145 +311,247 @@ export function FeaturedProducts() {
     return price * (1 - discount / 100);
   };
 
-  const ProductCard = ({ product }: { product: Product }) => (
-    <div className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
-      {/* Image Container with fixed aspect ratio */}
-      <div className="relative pt-[100%] w-full overflow-hidden">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-        />
-        {/* Badges */}
-        <div className="absolute top-4 left-4 flex flex-col gap-2">
-          {product.isNew && (
-            <span className="bg-blue-600 text-white text-sm font-medium px-3 py-1 rounded-full">
-              Novo
-            </span>
-          )}
-          {product.discount && (
-            <span className="bg-red-600 text-white text-sm font-medium px-3 py-1 rounded-full">
-              -{product.discount}%
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* Product Info */}
-      <div className="p-6 flex flex-col flex-grow">
-        <div className="flex-grow">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{product.name}</h3>
-          {product.description && (
-            <p className="text-sm text-gray-600 mb-3 line-clamp-2">{product.description}</p>
-          )}
-        </div>
-        
-        {/* Price Section */}
-        <div className="mt-4">
-          <div className="flex items-baseline gap-2 mb-4">
-            <span className="text-2xl font-bold text-gray-900">
-              {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
-            </span>
-            {product.discount && (
-              <span className="text-sm text-gray-500 line-through">
-                {formatPrice(product.price)}
-              </span>
-            )}
-          </div>
-          
-          <button 
-            onClick={() => navigateTo('product')}
-            className="w-full bg-gray-900 text-white px-6 py-3 rounded-lg font-medium 
-                     hover:bg-gray-800 transform hover:-translate-y-0.5 transition-all
-                     focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2"
-          >
-            Ver Produto
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-
   return (
-    <section className="py-12 sm:py-24 relative overflow-hidden">
-      {/* Background Design Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-blue-50">
-        <div className="absolute top-0 left-0 w-full h-full opacity-5">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-          <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
-        </div>
-      </div>
+    <section className="relative py-16 bg-gradient-to-b from-slate-50 to-white">
+      {/* Elemento decorativo superior */}
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-indigo-200/50 to-transparent"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Header Section */}
-        <div className="text-center mb-20 relative">
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 relative">
-            Produtos em Destaque
-            <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-blue-600 rounded-full"></div>
-          </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed">
-            Confira nossa seleção dos produtos mais vendidos em cada categoria
-          </p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Cabeçalho da seção */}
+        <div className="relative">
+          <div className="flex flex-col items-center text-center mb-12">
+            <h2 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600 mb-4 tracking-tight">
+              Produtos em Destaque
+            </h2>
+            <div className="w-32 h-1 bg-gradient-to-r from-indigo-600 to-violet-600 rounded-full mb-4 transform transition-all duration-300 group-hover:scale-110"></div>
+            <p className="max-w-2xl text-slate-600 text-lg">
+              Descubra nossa seleção exclusiva de produtos premium com os melhores preços e qualidade garantida.
+            </p>
+          </div>
         </div>
 
-        {/* Categories */}
-        {Object.entries(categories).map(([category, { icon, subcategories }], index) => {
-          const categoryProducts = products.filter(product => product.category === category);
-
-          return (
-            <div key={category} className="relative">
-              {/* Category Separator */}
-              {index > 0 && (
-                <div className="my-16 relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-200"></div>
-                  </div>
-                  <div className="relative flex justify-center">
-                    <span className="bg-gradient-to-r from-blue-50 via-white to-blue-50 px-6 text-sm text-gray-500">
-                      <div className="w-20 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full mx-auto"></div>
+        {/* Grid responsivo de produtos */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          {products.slice(0, 8).map((product) => (
+            <div key={product.id} 
+                 className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-[520px] flex flex-col border border-slate-100">
+              {/* Container da imagem com proporção fixa */}
+              <div className="relative h-[280px] overflow-hidden">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* Badges de desconto e novidade */}
+                <div className="absolute top-4 left-4 flex flex-col gap-2">
+                  {product.isNew && (
+                    <span className="bg-indigo-600 text-white text-sm font-semibold px-3 py-1 rounded-full
+                                   shadow-lg transform transition-transform duration-300 hover:scale-105">
+                      Novo
                     </span>
+                  )}
+                  {product.discount && (
+                    <span className="bg-rose-600 text-white text-sm font-semibold px-3 py-1 rounded-full
+                                   shadow-lg transform transition-transform duration-300 hover:scale-105">
+                      -{product.discount}%
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Informações do produto */}
+              <div className="flex flex-col flex-grow p-6">
+                <div className="mb-4">
+                  <h3 className="text-lg font-semibold text-slate-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors">
+                    {product.name}
+                  </h3>
+                  <p className="text-sm text-slate-600 line-clamp-2">
+                    {product.description}
+                  </p>
+                </div>
+
+                {/* Preços e botão de compra */}
+                <div className="mt-auto space-y-4">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-bold text-slate-900">
+                      {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
+                    </span>
+                    {product.discount && (
+                      <span className="text-sm text-slate-500 line-through">
+                        {formatPrice(product.price)}
+                      </span>
+                    )}
                   </div>
-                </div>
-              )}
-
-              <div className="mb-16 last:mb-0">
-                {/* Category Header */}
-                <div className="relative mb-12">
-                  <div className="flex items-center gap-4">
-                    <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300 hover:shadow-xl">
-                      {icon}
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900">{category}</h3>
-                  </div>
-                </div>
-
-                {/* Products Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                  {categoryProducts.slice(0, 4).map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                  ))}
-                </div>
-
-                {/* Ver mais button */}
-                <div className="flex justify-center mt-12">
-                  <button
-                    onClick={() => navigateTo('shop', { category })}
-                    className="group inline-flex items-center gap-2 px-8 py-3 rounded-full
-                             text-blue-600 font-medium bg-white shadow-md
-                             border border-blue-100 transition-all duration-300
-                             hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-600
-                             hover:text-white hover:border-transparent hover:shadow-lg
-                             transform hover:-translate-y-0.5"
+                  
+                  <button 
+                    onClick={() => navigateTo('product')}
+                    className="w-full bg-slate-900 text-white px-6 py-3 rounded-xl font-medium
+                             transform transition-all duration-300
+                             hover:bg-indigo-600 hover:-translate-y-0.5 hover:shadow-lg
+                             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
                   >
-                    Ver mais produtos de {category}
-                    <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                    Ver Produto
                   </button>
                 </div>
               </div>
+
+              {/* Botão de ação rápida */}
+              <button 
+                onClick={() => navigateTo('product')}
+                className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg
+                         transform translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100
+                         transition-all duration-300 hover:scale-110
+                         hover:bg-indigo-50"
+              >
+                <svg className="w-6 h-6 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </button>
             </div>
-          );
-        })}
+          ))}
+        </div>
+
+        {/* Botão "Ver mais produtos" */}
+        <div className="flex justify-center mt-12">
+          <button 
+            onClick={() => navigateTo('products')}
+            className="group relative inline-flex items-center gap-2 bg-white text-slate-900 px-6 py-3 rounded-xl
+                     font-medium border border-slate-200 shadow-sm
+                     transform transition-all duration-300
+                     hover:border-indigo-600/20 hover:shadow-lg hover:-translate-y-0.5"
+          >
+            Ver mais produtos
+            <svg 
+              className="w-5 h-5 transform transition-transform duration-300 group-hover:translate-x-1" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Seção de Avaliações */}
+        <div className="relative mt-24 py-20 bg-gradient-to-b from-slate-50 via-slate-50/80 to-white rounded-3xl">
+          {/* Divisor decorativo superior */}
+          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-indigo-200/50 to-transparent"></div>
+          
+          {/* Elemento decorativo */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-4 shadow-lg">
+            <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-violet-600 rounded-full flex items-center justify-center">
+              <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Conteúdo das avaliações */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Cabeçalho da seção */}
+            <div className="text-center mb-16">
+              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                O Que Nossos Clientes Dizem
+              </h3>
+              <div className="flex items-center justify-center gap-1 mb-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <svg key={star} className="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              <p className="text-lg text-gray-600">
+                4.9 de 5 estrelas | +1000 avaliações verificadas
+              </p>
+            </div>
+
+            {/* Grid de avaliações */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Avaliação 1 */}
+              <div className="bg-white rounded-2xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-gray-100">
+                <div className="flex items-center gap-1 text-yellow-400 mb-4">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <svg key={star} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-4 line-clamp-4">
+                  "Excelente experiência de compra! Os produtos são de alta qualidade e chegaram antes do prazo previsto. O atendimento ao cliente foi excepcional."
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                    M
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900">Maria Silva</h4>
+                    <p className="text-sm text-gray-500">Cliente verificado</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Avaliação 2 */}
+              <div className="bg-white rounded-2xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-gray-100">
+                <div className="flex items-center gap-1 text-yellow-400 mb-4">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <svg key={star} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-4 line-clamp-4">
+                  "Produtos incríveis e preços competitivos. A entrega foi super rápida e o produto superou minhas expectativas. Recomendo!"
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                    J
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900">João Santos</h4>
+                    <p className="text-sm text-gray-500">Cliente verificado</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Avaliação 3 */}
+              <div className="bg-white rounded-2xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-gray-100">
+                <div className="flex items-center gap-1 text-yellow-400 mb-4">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <svg key={star} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-4 line-clamp-4">
+                  "Ótimo custo-benefício! A qualidade dos produtos é excelente e o processo de compra é muito simples. Voltarei a comprar com certeza!"
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                    A
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900">Ana Oliveira</h4>
+                    <p className="text-sm text-gray-500">Cliente verificado</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Badge de confiança */}
+            <div className="flex justify-center mt-12">
+              <div className="inline-flex items-center gap-2 px-6 py-3 bg-green-50 text-green-700 rounded-full shadow-sm border border-green-100">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="font-medium">100% Avaliações Verificadas</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Divisor decorativo inferior */}
+          <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
+        </div>
       </div>
     </section>
   );
