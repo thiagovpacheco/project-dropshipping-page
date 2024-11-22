@@ -29,6 +29,15 @@ export default {
           },
         },
       },
+      transitionProperty: {
+        'colors-transform': 'background-color, border-color, color, fill, stroke, transform',
+      },
+      transitionDuration: {
+        '150': '150ms',
+      },
+      transitionTimingFunction: {
+        'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
+      },
     },
   },
   plugins: [],
