@@ -98,36 +98,40 @@ export function Hero() {
             {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent">
               <div className="container mx-auto px-6 h-full flex items-center">
-                <div className={`max-w-xl transform transition-all duration-700 delay-100
-                  ${index === currentSlide 
-                    ? 'opacity-100 translate-y-0' 
-                    : 'opacity-0 translate-y-12'
-                  }`}
+                <div className={`max-w-xl transform transition-all duration-700 delay-100 
+                      mx-12 sm:mx-16 md:mx-20 lg:mx-24
+                      ${index === currentSlide 
+                        ? 'opacity-100 translate-y-0' 
+                        : 'opacity-0 translate-y-12'
+                      }`}
                 >
-                  <h1 className={`text-4xl md:text-5xl font-bold mb-4 ${offer.textColor}`}>
+                  <h1 className={`text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 ${offer.textColor}`}>
                     {offer.title}
                   </h1>
-                  <p className={`text-xl md:text-2xl mb-6 ${offer.textColor}`}>
+                  <p className={`text-lg sm:text-xl md:text-2xl mb-4 sm:mb-6 ${offer.textColor}`}>
                     {offer.description}
                   </p>
-                  <div className={`text-2xl md:text-3xl font-bold mb-8 ${offer.textColor}`}>
+                  <div className={`text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 ${offer.textColor}`}>
                     {offer.discount}
                   </div>
                   <div className="relative z-50">
                     <Link
                       to={`/${offer.category.toLowerCase()}`}
-                      className="group inline-flex items-center gap-2
-                               bg-white text-slate-800 px-8 py-4 rounded-xl 
-                               font-semibold text-lg cursor-pointer select-none
+                      className="group inline-flex items-center gap-1.5 sm:gap-2
+                               bg-white text-slate-800 
+                               px-5 py-2.5 sm:px-8 sm:py-4 
+                               rounded-lg sm:rounded-xl 
+                               font-medium sm:font-semibold 
+                               text-base sm:text-lg
+                               cursor-pointer select-none
                                transition-all duration-300 ease-in-out
                                hover:bg-[#4F46E5] hover:text-white 
                                active:bg-[#4338CA] active:scale-[0.98]
-                               shadow-lg hover:shadow-[#4F46E5]/20 hover:shadow-xl
-                               border-2 border-transparent hover:border-white/20
-                               relative"
+                               shadow-md sm:shadow-lg hover:shadow-[#4F46E5]/20 hover:shadow-xl
+                               border-2 border-transparent hover:border-white/20"
                     >
                       <span>Ver Ofertas</span>
-                      <ArrowRight className="w-5 h-5 transition-transform duration-300 
+                      <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 
                                          transform group-hover:translate-x-1" />
                     </Link>
                   </div>
@@ -139,23 +143,33 @@ export function Hero() {
       </div>
 
       {/* Navigation Arrows */}
-      <div className="absolute inset-0 z-40 flex items-center justify-between p-4 pointer-events-none">
-        <button
-          onClick={prevSlide}
-          className="pointer-events-auto p-2 sm:p-3 rounded-xl bg-white/10 hover:bg-[#4F46E5]/80 text-white 
-                   backdrop-blur-sm transition-all duration-200 border border-white/20
-                   opacity-75 hover:opacity-100"
-        >
-          <ArrowLeftCircle className="w-6 h-6 sm:w-8 sm:h-8" />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="pointer-events-auto p-2 sm:p-3 rounded-xl bg-white/10 hover:bg-[#4F46E5]/80 text-white 
-                   backdrop-blur-sm transition-all duration-200 border border-white/20
-                   opacity-75 hover:opacity-100"
-        >
-          <ArrowRightCircle className="w-6 h-6 sm:w-8 sm:h-8" />
-        </button>
+      <div className="absolute inset-y-0 left-0 right-0 z-40 flex items-center justify-between pointer-events-none">
+        <div className="flex-none">
+          <button
+            onClick={prevSlide}
+            className="pointer-events-auto ml-2 sm:ml-6 md:ml-12 p-2 sm:p-3 rounded-xl 
+                     bg-black/20 hover:bg-[#4F46E5]/80 text-white 
+                     backdrop-blur-sm transition-all duration-200 
+                     border border-white/20 opacity-75 hover:opacity-100
+                     transform hover:scale-110"
+            aria-label="Previous slide"
+          >
+            <ArrowLeftCircle className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
+          </button>
+        </div>
+        <div className="flex-none">
+          <button
+            onClick={nextSlide}
+            className="pointer-events-auto mr-2 sm:mr-6 md:mr-12 p-2 sm:p-3 rounded-xl 
+                     bg-black/20 hover:bg-[#4F46E5]/80 text-white 
+                     backdrop-blur-sm transition-all duration-200 
+                     border border-white/20 opacity-75 hover:opacity-100
+                     transform hover:scale-110"
+            aria-label="Next slide"
+          >
+            <ArrowRightCircle className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
+          </button>
+        </div>
       </div>
 
       <div className="absolute bottom-4 inset-x-0 z-20 flex justify-center space-x-2">
