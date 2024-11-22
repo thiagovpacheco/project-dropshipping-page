@@ -13,6 +13,7 @@ import { Photography } from './pages/Photography';
 import { Gaming } from './pages/Gaming';
 import { TVHome } from './pages/TVHome';
 import { NavigationProvider } from './contexts/NavigationContext';
+import { ThemeToggle } from './components/ThemeToggle';
 
 // Home page component
 const HomePage = () => (
@@ -27,7 +28,7 @@ function App() {
   return (
     <Router>
       <NavigationProvider>
-        <div className="flex flex-col min-h-screen bg-white">
+        <div className="flex flex-col min-h-screen bg-white dark:bg-slate-900 transition-colors duration-300">
           <FreeShippingBanner />
           <Navbar />
           <main className="flex-grow">
@@ -42,6 +43,7 @@ function App() {
             </Routes>
           </main>
           <Footer />
+          <ThemeToggle />
         </div>
       </NavigationProvider>
     </Router>

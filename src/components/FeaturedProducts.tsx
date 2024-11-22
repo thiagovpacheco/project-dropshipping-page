@@ -312,19 +312,19 @@ export function FeaturedProducts() {
   };
 
   return (
-    <section className="relative py-16 bg-gradient-to-b from-slate-50 to-white">
+    <section className="relative py-16 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800 transition-colors duration-300">
       {/* Elemento decorativo superior */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-indigo-200/50 to-transparent"></div>
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-indigo-200/50 dark:via-indigo-400/10 to-transparent"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Cabeçalho da seção */}
         <div className="relative">
           <div className="flex flex-col items-center text-center mb-12">
-            <h2 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600 mb-4 tracking-tight">
+            <h2 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400 mb-4 tracking-tight">
               Produtos em Destaque
             </h2>
-            <div className="w-32 h-1 bg-gradient-to-r from-indigo-600 to-violet-600 rounded-full mb-4 transform transition-all duration-300 group-hover:scale-110"></div>
-            <p className="max-w-2xl text-slate-600 text-lg">
+            <div className="w-32 h-1 bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400 rounded-full mb-4 transform transition-all duration-300 group-hover:scale-110"></div>
+            <p className="max-w-2xl text-slate-600 dark:text-slate-400 text-lg">
               Descubra nossa seleção exclusiva de produtos premium com os melhores preços e qualidade garantida.
             </p>
           </div>
@@ -334,7 +334,7 @@ export function FeaturedProducts() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {products.slice(0, 8).map((product) => (
             <div key={product.id} 
-                 className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-[520px] flex flex-col border border-slate-100">
+                 className="group bg-white dark:bg-slate-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-[520px] flex flex-col border border-slate-100 dark:border-slate-700">
               {/* Container da imagem com proporção fixa */}
               <div className="relative h-[280px] overflow-hidden">
                 <img
@@ -345,13 +345,13 @@ export function FeaturedProducts() {
                 {/* Badges de desconto e novidade */}
                 <div className="absolute top-4 left-4 flex flex-col gap-2">
                   {product.isNew && (
-                    <span className="bg-indigo-600 text-white text-sm font-semibold px-3 py-1 rounded-full
+                    <span className="bg-indigo-600 dark:bg-indigo-500 text-white text-sm font-semibold px-3 py-1 rounded-full
                                    shadow-lg transform transition-transform duration-300 hover:scale-105">
                       Novo
                     </span>
                   )}
                   {product.discount && (
-                    <span className="bg-rose-600 text-white text-sm font-semibold px-3 py-1 rounded-full
+                    <span className="bg-rose-600 dark:bg-rose-500 text-white text-sm font-semibold px-3 py-1 rounded-full
                                    shadow-lg transform transition-transform duration-300 hover:scale-105">
                       -{product.discount}%
                     </span>
@@ -362,10 +362,10 @@ export function FeaturedProducts() {
               {/* Informações do produto */}
               <div className="flex flex-col flex-grow p-6">
                 <div className="mb-4">
-                  <h3 className="text-lg font-semibold text-slate-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                     {product.name}
                   </h3>
-                  <p className="text-sm text-slate-600 line-clamp-2">
+                  <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
                     {product.description}
                   </p>
                 </div>
@@ -373,11 +373,11 @@ export function FeaturedProducts() {
                 {/* Preços e botão de compra */}
                 <div className="mt-auto space-y-4">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-bold text-slate-900">
+                    <span className="text-2xl font-bold text-slate-900 dark:text-white">
                       {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
                     </span>
                     {product.discount && (
-                      <span className="text-sm text-slate-500 line-through">
+                      <span className="text-sm text-slate-500 dark:text-slate-400 line-through">
                         {formatPrice(product.price)}
                       </span>
                     )}
@@ -386,10 +386,10 @@ export function FeaturedProducts() {
                   <button 
                     onClick={() => navigateTo('product')}
                     className="w-full group inline-flex items-center justify-center gap-2
-                             bg-slate-900 text-white px-6 py-3 rounded-xl font-medium
+                             bg-slate-900 dark:bg-slate-700 text-white px-6 py-3 rounded-xl font-medium
                              transform transition-all duration-300
-                             hover:bg-indigo-600 hover:-translate-y-0.5 hover:shadow-lg
-                             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
+                             hover:bg-indigo-600 dark:hover:bg-indigo-500 hover:-translate-y-0.5 hover:shadow-lg
+                             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 dark:focus:ring-indigo-400"
                   >
                     Ver Produto
                     <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -404,10 +404,10 @@ export function FeaturedProducts() {
         <div className="flex justify-center mt-12">
           <button 
             onClick={() => navigateTo('products')}
-            className="group relative inline-flex items-center gap-2 bg-white text-slate-900 px-6 py-3 rounded-xl
-                     font-medium border border-slate-200 shadow-sm
+            className="group relative inline-flex items-center gap-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-6 py-3 rounded-xl
+                     font-medium border border-slate-200 dark:border-slate-700 shadow-sm
                      transform transition-all duration-300
-                     hover:border-indigo-600/20 hover:shadow-lg hover:-translate-y-0.5"
+                     hover:border-indigo-600/20 dark:hover:border-indigo-400/20 hover:shadow-lg hover:-translate-y-0.5"
           >
             Ver mais produtos
             <svg 
@@ -422,13 +422,13 @@ export function FeaturedProducts() {
         </div>
 
         {/* Seção de Avaliações */}
-        <div className="relative mt-24 py-20 bg-gradient-to-b from-slate-50 via-slate-50/80 to-white rounded-3xl">
+        <div className="relative mt-24 py-20 bg-gradient-to-b from-slate-50 via-slate-50/80 to-white dark:from-slate-900 dark:via-slate-900/80 dark:to-slate-800 rounded-3xl">
           {/* Divisor decorativo superior */}
-          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-indigo-200/50 to-transparent"></div>
+          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-indigo-200/50 dark:via-indigo-400/10 to-transparent"></div>
           
           {/* Elemento decorativo */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-4 shadow-lg">
-            <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-violet-600 rounded-full flex items-center justify-center">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-slate-800 rounded-full p-4 shadow-lg">
+            <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400 rounded-full flex items-center justify-center">
               <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
               </svg>
@@ -439,7 +439,7 @@ export function FeaturedProducts() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Cabeçalho da seção */}
             <div className="text-center mb-16">
-              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                 O Que Nossos Clientes Dizem
               </h3>
               <div className="flex items-center justify-center gap-1 mb-2">
@@ -449,7 +449,7 @@ export function FeaturedProducts() {
                   </svg>
                 ))}
               </div>
-              <p className="text-lg text-gray-600">
+              <p className="text-lg text-gray-600 dark:text-gray-400">
                 4.9 de 5 estrelas | +1000 avaliações verificadas
               </p>
             </div>
@@ -457,7 +457,7 @@ export function FeaturedProducts() {
             {/* Grid de avaliações */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Avaliação 1 */}
-              <div className="bg-white rounded-2xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-gray-100">
+              <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-gray-100 dark:border-slate-700">
                 <div className="flex items-center gap-1 text-yellow-400 mb-4">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <svg key={star} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -465,7 +465,7 @@ export function FeaturedProducts() {
                     </svg>
                   ))}
                 </div>
-                <p className="text-gray-700 mb-4 line-clamp-4">
+                <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-4">
                   "Excelente experiência de compra! Os produtos são de alta qualidade e chegaram antes do prazo previsto. O atendimento ao cliente foi excepcional."
                 </p>
                 <div className="flex items-center gap-3">
@@ -473,14 +473,14 @@ export function FeaturedProducts() {
                     M
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">Maria Silva</h4>
-                    <p className="text-sm text-gray-500">Cliente verificado</p>
+                    <h4 className="font-semibold text-gray-900 dark:text-white">Maria Silva</h4>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Cliente verificado</p>
                   </div>
                 </div>
               </div>
 
               {/* Avaliação 2 */}
-              <div className="bg-white rounded-2xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-gray-100">
+              <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-gray-100 dark:border-slate-700">
                 <div className="flex items-center gap-1 text-yellow-400 mb-4">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <svg key={star} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -488,7 +488,7 @@ export function FeaturedProducts() {
                     </svg>
                   ))}
                 </div>
-                <p className="text-gray-700 mb-4 line-clamp-4">
+                <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-4">
                   "Produtos incríveis e preços competitivos. A entrega foi super rápida e o produto superou minhas expectativas. Recomendo!"
                 </p>
                 <div className="flex items-center gap-3">
@@ -496,14 +496,14 @@ export function FeaturedProducts() {
                     J
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">João Santos</h4>
-                    <p className="text-sm text-gray-500">Cliente verificado</p>
+                    <h4 className="font-semibold text-gray-900 dark:text-white">João Santos</h4>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Cliente verificado</p>
                   </div>
                 </div>
               </div>
 
               {/* Avaliação 3 */}
-              <div className="bg-white rounded-2xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-gray-100">
+              <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-gray-100 dark:border-slate-700">
                 <div className="flex items-center gap-1 text-yellow-400 mb-4">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <svg key={star} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -511,7 +511,7 @@ export function FeaturedProducts() {
                     </svg>
                   ))}
                 </div>
-                <p className="text-gray-700 mb-4 line-clamp-4">
+                <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-4">
                   "Ótimo custo-benefício! A qualidade dos produtos é excelente e o processo de compra é muito simples. Voltarei a comprar com certeza!"
                 </p>
                 <div className="flex items-center gap-3">
@@ -519,8 +519,8 @@ export function FeaturedProducts() {
                     A
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">Ana Oliveira</h4>
-                    <p className="text-sm text-gray-500">Cliente verificado</p>
+                    <h4 className="font-semibold text-gray-900 dark:text-white">Ana Oliveira</h4>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Cliente verificado</p>
                   </div>
                 </div>
               </div>
@@ -528,7 +528,7 @@ export function FeaturedProducts() {
 
             {/* Badge de confiança */}
             <div className="flex justify-center mt-12">
-              <div className="inline-flex items-center gap-2 px-6 py-3 bg-green-50 text-green-700 rounded-full shadow-sm border border-green-100">
+              <div className="inline-flex items-center gap-2 px-6 py-3 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded-full shadow-sm border border-green-100 dark:border-green-900/30">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -538,7 +538,7 @@ export function FeaturedProducts() {
           </div>
 
           {/* Divisor decorativo inferior */}
-          <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
+          <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent"></div>
         </div>
       </div>
     </section>

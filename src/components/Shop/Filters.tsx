@@ -2,68 +2,65 @@ import React from 'react';
 import { Slider } from './Slider';
 
 interface FiltersProps {
-  categories: string[];
-  selectedCategory: string;
-  setSelectedCategory: (category: string) => void;
-  priceRange: [number, number];
-  setPriceRange: (range: [number, number]) => void;
+  minPrice: number;
   maxPrice: number;
+  priceRange: [number, number];
+  onPriceChange: (value: [number, number]) => void;
+  categories: string[];
+  selectedCategories: string[];
+  onCategoryChange: (category: string) => void;
 }
 
 export function Filters({
-  categories,
-  selectedCategory,
-  setSelectedCategory,
-  priceRange,
-  setPriceRange,
+  minPrice,
   maxPrice,
+  priceRange,
+  onPriceChange,
+  categories,
+  selectedCategories,
+  onCategoryChange,
 }: FiltersProps) {
-  const formatPrice = (price: number) => {
-    return price.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    });
-  };
-
   return (
     <div className="space-y-6">
+      {/* Filtro de Preço */}
       <div>
-        <h3 className="text-lg font-semibold mb-3">Categorias</h3>
-        <div className="space-y-2">
-          <button
-            onClick={() => setSelectedCategory('')}
-            className={`block w-full text-left px-3 py-2 rounded-lg transition-colors ${
-              selectedCategory === '' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-50'
-            }`}
-          >
-            Todos os Produtos
-          </button>
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`block w-full text-left px-3 py-2 rounded-lg transition-colors ${
-                selectedCategory === category ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-50'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
+        <h3 className="text-lg font-semibold mb-4 text-slate-900 dark:text-slate-200 transition-colors duration-300">
+          Preço
+        </h3>
+        <Slider
+          min={minPrice}
+          max={maxPrice}
+          value={priceRange}
+          onChange={onPriceChange}
+        />
+        <div className="mt-2 flex items-center justify-between text-sm text-slate-600 dark:text-slate-400 transition-colors duration-300">
+          <span>R$ {priceRange[0].toFixed(2)}</span>
+          <span>R$ {priceRange[1].toFixed(2)}</span>
         </div>
       </div>
 
+      {/* Filtro de Categorias */}
       <div>
-        <h3 className="text-lg font-semibold mb-3">Faixa de Preço</h3>
-        <Slider
-          min={0}
-          max={maxPrice}
-          value={priceRange}
-          onChange={setPriceRange}
-          formatValue={formatPrice}
-        />
-        <div className="mt-2 flex justify-between text-sm text-gray-600">
-          <span>{formatPrice(priceRange[0])}</span>
-          <span>{formatPrice(priceRange[1])}</span>
+        <h3 className="text-lg font-semibold mb-4 text-slate-900 dark:text-slate-200 transition-colors duration-300">
+          Categorias
+        </h3>
+        <div className="space-y-2">
+          {categories.map((category) => (
+            <label
+              key={category}
+              className="flex items-center space-x-2 cursor-pointer group"
+            >
+              <input
+                type="checkbox"
+                checked={selectedCategories.includes(category)}
+                onChange={() => onCategoryChange(category)}
+                className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-indigo-600 dark:text-indigo-500 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-colors duration-300"
+              />
+              <span className="text-slate-700 dark:text-slate-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
+                {category}
+              </span>
+            </label>
+          ))}
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { Hero } from '../components/Hero';
 import { FeaturedProducts } from '../components/FeaturedProducts';
 import { InfoSection } from '../components/InfoSection';
 import { Footer } from '../components/Footer';
+import CustomerReviews from '../components/CustomerReviews/CustomerReviews';
 
 export function Home() {
   return (
@@ -11,6 +12,7 @@ export function Home() {
       <Navbar />
       <Hero />
       <FeaturedProducts />
+      <CustomerReviews />
       <InfoSection />
       <Footer />
     </div>
