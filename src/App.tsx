@@ -29,7 +29,11 @@ function App() {
     <Router>
       <NavigationProvider>
         <div className="flex flex-col min-h-screen bg-white dark:bg-slate-900 transition-colors duration-300">
-          <FreeShippingBanner />
+          <div className="bg-slate-900 dark:bg-[#4F46E5] text-white py-2">
+            <p className="text-center text-sm sm:text-base font-medium animate-marquee">
+              Frete grátis para todas as compras!
+            </p>
+          </div>
           <Navbar />
           <main className="flex-grow">
             <Routes>

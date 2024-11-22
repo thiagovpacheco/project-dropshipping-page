@@ -100,7 +100,7 @@ const products: Product[] = [
     id: 6,
     name: 'Samsung Galaxy S23 Ultra',
     price: 6999.90,
-    image: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1610945265064-0a8c4e0e7b1c?auto=format&fit=crop&q=80',
     category: 'Smartphones',
     subcategory: 'Samsung',
     discount: 15,
@@ -184,7 +184,7 @@ const products: Product[] = [
     id: 14,
     name: 'Canon EOS R6',
     price: 14999.90,
-    image: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1502920917128-a205069470b6?auto=format&fit=crop&q=80',
     category: 'Fotografia',
     subcategory: 'Câmeras',
     discount: 15,
@@ -334,24 +334,24 @@ export function FeaturedProducts() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {products.slice(0, 8).map((product) => (
             <div key={product.id} 
-                 className="group bg-white dark:bg-slate-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-[520px] flex flex-col border border-slate-100 dark:border-slate-700">
+                 className="group bg-white dark:bg-slate-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-auto sm:h-[520px] flex flex-col border border-slate-100 dark:border-slate-700">
               {/* Container da imagem com proporção fixa */}
-              <div className="relative h-[280px] overflow-hidden">
+              <div className="relative h-[200px] sm:h-[280px] overflow-hidden">
                 <img
                   src={product.image}
                   alt={product.name}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 {/* Badges de desconto e novidade */}
-                <div className="absolute top-4 left-4 flex flex-col gap-2">
+                <div className="absolute top-2 sm:top-4 left-2 sm:left-4 flex flex-col gap-1 sm:gap-2">
                   {product.isNew && (
-                    <span className="bg-indigo-600 dark:bg-indigo-500 text-white text-sm font-semibold px-3 py-1 rounded-full
+                    <span className="bg-indigo-600 dark:bg-indigo-500 text-white text-xs sm:text-sm font-semibold px-2 sm:px-3 py-1 rounded-full
                                    shadow-lg transform transition-transform duration-300 hover:scale-105">
                       Novo
                     </span>
                   )}
                   {product.discount && (
-                    <span className="bg-rose-600 dark:bg-rose-500 text-white text-sm font-semibold px-3 py-1 rounded-full
+                    <span className="bg-rose-600 dark:bg-rose-500 text-white text-xs sm:text-sm font-semibold px-2 sm:px-3 py-1 rounded-full
                                    shadow-lg transform transition-transform duration-300 hover:scale-105">
                       -{product.discount}%
                     </span>
@@ -360,40 +360,46 @@ export function FeaturedProducts() {
               </div>
 
               {/* Informações do produto */}
-              <div className="flex flex-col flex-grow p-6">
-                <div className="mb-4">
-                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+              <div className="flex flex-col flex-grow p-4 sm:p-6">
+                <div className="mb-3 sm:mb-4">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 dark:text-white mb-1 sm:mb-2 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                     {product.name}
                   </h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
                     {product.description}
                   </p>
                 </div>
 
                 {/* Preços e botão de compra */}
-                <div className="mt-auto space-y-4">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-bold text-slate-900 dark:text-white">
+                <div className="mt-auto space-y-3 sm:space-y-4">
+                  <div className="flex flex-col">
+                    <span className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
                       {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
                     </span>
                     {product.discount && (
-                      <span className="text-sm text-slate-500 dark:text-slate-400 line-through">
+                      <span className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-through">
                         {formatPrice(product.price)}
                       </span>
                     )}
+                    <div className="flex justify-center mt-3">
+                      <button 
+                        onClick={() => navigateTo('product')}
+                        className="inline-flex items-center justify-center
+                                 bg-slate-900 dark:bg-slate-700 text-white 
+                                 px-6 py-2
+                                 text-sm font-medium
+                                 rounded-lg
+                                 hover:bg-indigo-600 dark:hover:bg-indigo-500
+                                 transition-all duration-300
+                                 min-w-[140px]
+                                 sm:px-7 sm:py-2.5 sm:text-sm
+                                 lg:px-8 lg:py-3 lg:text-base lg:rounded-xl"
+                      >
+                        <span className="mr-2">Ver Produto</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
-                  
-                  <button 
-                    onClick={() => navigateTo('product')}
-                    className="w-full group inline-flex items-center justify-center gap-2
-                             bg-slate-900 dark:bg-slate-700 text-white px-6 py-3 rounded-xl font-medium
-                             transform transition-all duration-300
-                             hover:bg-indigo-600 dark:hover:bg-indigo-500 hover:-translate-y-0.5 hover:shadow-lg
-                             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 dark:focus:ring-indigo-400"
-                  >
-                    Ver Produto
-                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </button>
                 </div>
               </div>
             </div>
@@ -444,7 +450,12 @@ export function FeaturedProducts() {
               </h3>
               <div className="flex items-center justify-center gap-1 mb-2">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <svg key={star} className="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                  <svg 
+                    key={star} 
+                    className="w-6 h-6 text-yellow-400" 
+                    fill="currentColor" 
+                    viewBox="0 0 20 20"
+                  >
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
                 ))}
@@ -460,7 +471,12 @@ export function FeaturedProducts() {
               <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-gray-100 dark:border-slate-700">
                 <div className="flex items-center gap-1 text-yellow-400 mb-4">
                   {[1, 2, 3, 4, 5].map((star) => (
-                    <svg key={star} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg 
+                      key={star} 
+                      className="w-6 h-6 text-yellow-400" 
+                      fill="currentColor" 
+                      viewBox="0 0 20 20"
+                    >
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
@@ -483,7 +499,12 @@ export function FeaturedProducts() {
               <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-gray-100 dark:border-slate-700">
                 <div className="flex items-center gap-1 text-yellow-400 mb-4">
                   {[1, 2, 3, 4, 5].map((star) => (
-                    <svg key={star} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg 
+                      key={star} 
+                      className="w-6 h-6 text-yellow-400" 
+                      fill="currentColor" 
+                      viewBox="0 0 20 20"
+                    >
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
@@ -506,7 +527,12 @@ export function FeaturedProducts() {
               <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-gray-100 dark:border-slate-700">
                 <div className="flex items-center gap-1 text-yellow-400 mb-4">
                   {[1, 2, 3, 4, 5].map((star) => (
-                    <svg key={star} className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg 
+                      key={star} 
+                      className="w-6 h-6 text-yellow-400" 
+                      fill="currentColor" 
+                      viewBox="0 0 20 20"
+                    >
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
