@@ -14,6 +14,7 @@ interface Offer {
 
 export function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const offers: Offer[] = [
     {
@@ -63,11 +64,17 @@ export function Hero() {
   }, [offers.length]);
 
   const nextSlide = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setCurrentSlide((prev) => (prev + 1) % offers.length);
+    setTimeout(() => setIsTransitioning(false), 700); // Duração da transição
   };
 
   const prevSlide = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setCurrentSlide((prev) => (prev - 1 + offers.length) % offers.length);
+    setTimeout(() => setIsTransitioning(false), 700); // Duração da transição
   };
 
   return (
@@ -130,9 +137,8 @@ export function Hero() {
                                shadow-md sm:shadow-lg hover:shadow-[#4F46E5]/20 hover:shadow-xl
                                border-2 border-transparent hover:border-white/20"
                     >
-                      <span>Ver Ofertas</span>
-                      <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 
-                                         transform group-hover:translate-x-1" />
+                      Ver Ofertas
+                      <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
                     </Link>
                   </div>
                 </div>
@@ -147,11 +153,12 @@ export function Hero() {
         <div className="flex-none">
           <button
             onClick={prevSlide}
-            className="pointer-events-auto ml-2 sm:ml-6 md:ml-12 p-2 sm:p-3 rounded-xl 
-                     bg-black/20 hover:bg-[#4F46E5]/80 text-white 
-                     backdrop-blur-sm transition-all duration-200 
-                     border border-white/20 opacity-75 hover:opacity-100
-                     transform hover:scale-110"
+            className="pointer-events-auto nav-button
+                     ml-2 sm:ml-6 md:ml-12 p-2 sm:p-3 rounded-xl 
+                     bg-black/20 text-white
+                     backdrop-blur-sm
+                     border border-white/20 opacity-75
+                     tap-highlight-transparent"
             aria-label="Previous slide"
           >
             <ArrowLeftCircle className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
@@ -160,11 +167,12 @@ export function Hero() {
         <div className="flex-none">
           <button
             onClick={nextSlide}
-            className="pointer-events-auto mr-2 sm:mr-6 md:mr-12 p-2 sm:p-3 rounded-xl 
-                     bg-black/20 hover:bg-[#4F46E5]/80 text-white 
-                     backdrop-blur-sm transition-all duration-200 
-                     border border-white/20 opacity-75 hover:opacity-100
-                     transform hover:scale-110"
+            className="pointer-events-auto nav-button
+                     mr-2 sm:mr-6 md:mr-12 p-2 sm:p-3 rounded-xl 
+                     bg-black/20 text-white
+                     backdrop-blur-sm
+                     border border-white/20 opacity-75
+                     tap-highlight-transparent"
             aria-label="Next slide"
           >
             <ArrowRightCircle className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
