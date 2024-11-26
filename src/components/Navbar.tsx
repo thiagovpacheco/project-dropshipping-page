@@ -119,6 +119,7 @@ const Navbar = () => {
             </Link>
           </div>
 
+          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center justify-center space-x-10 flex-1 px-4">
             {categories.map((category) => (
               <div
@@ -201,12 +202,11 @@ const Navbar = () => {
           <div className="flex items-center lg:hidden gap-4">
             <button 
               className="p-2 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
-              onClick={handleSearchClick}
-              aria-label="Buscar"
+              aria-label="Minha Conta"
             >
-              <Search className="w-6 h-6" />
+              <User className="w-6 h-6" />
             </button>
-            
+
             <div className="relative">
               <button className="p-2 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
                 <ShoppingCart className="w-6 h-6" />
@@ -302,12 +302,12 @@ const Navbar = () => {
                       type="text"
                       placeholder="Buscar produtos..."
                       className="w-full px-5 py-3 pl-12 pr-4 rounded-xl border border-slate-200 dark:border-slate-700
-                               bg-white dark:bg-slate-800 
-                               text-slate-900 dark:text-slate-100
-                               focus:outline-none focus:ring-2 focus:ring-indigo-600/50 focus:border-indigo-600/50
-                               dark:focus:ring-indigo-400/50 dark:focus:border-indigo-400/50
-                               placeholder:text-slate-400 dark:placeholder:text-slate-500 
-                               transition-all duration-300 text-base"
+                         bg-white dark:bg-slate-800 
+                         text-slate-900 dark:text-slate-100
+                         focus:outline-none focus:ring-2 focus:ring-indigo-600/50 focus:border-indigo-600/50
+                         dark:focus:ring-indigo-400/50 dark:focus:border-indigo-400/50
+                         placeholder:text-slate-400 dark:placeholder:text-slate-500 
+                         transition-all duration-300 text-base"
                       autoComplete="off"
                     />
                     <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 dark:text-slate-500 w-5 h-5" />
