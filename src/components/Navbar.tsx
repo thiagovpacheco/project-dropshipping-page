@@ -113,7 +113,11 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link 
               to="/"
-              className="text-2xl sm:text-3xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 dark:from-indigo-500 dark:to-violet-500 dark:hover:from-indigo-400 dark:hover:to-violet-400 transition-all duration-300 min-w-[120px]"
+              className="text-2xl sm:text-3xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600 touch-manipulation
+                lg:hover:from-indigo-700 lg:hover:to-violet-700 
+                dark:from-indigo-500 dark:to-violet-500 
+                lg:dark:hover:from-indigo-400 lg:dark:hover:to-violet-400 
+                transition-all duration-300 min-w-[120px]"
             >
               NEXUS
             </Link>
@@ -201,14 +205,20 @@ const Navbar = () => {
           {/* Mobile Actions */}
           <div className="flex items-center lg:hidden gap-4">
             <button 
-              className="p-2 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="p-2 text-slate-600 dark:text-slate-300 transition-colors duration-200 rounded-full touch-manipulation
+                lg:hover:text-indigo-600 lg:dark:hover:text-indigo-400 lg:hover:bg-slate-100 lg:dark:hover:bg-slate-800
+                active:bg-slate-100 dark:active:bg-slate-800"
               aria-label="Minha Conta"
             >
               <User className="w-6 h-6" />
             </button>
 
             <div className="relative">
-              <button className="p-2 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+              <button 
+                className="p-2 text-slate-600 dark:text-slate-300 transition-colors duration-200 rounded-full touch-manipulation
+                  lg:hover:text-indigo-600 lg:dark:hover:text-indigo-400 lg:hover:bg-slate-100 lg:dark:hover:bg-slate-800
+                  active:bg-slate-100 dark:active:bg-slate-800"
+              >
                 <ShoppingCart className="w-6 h-6" />
                 {cartItemCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-indigo-600 dark:bg-indigo-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-white dark:border-slate-900">
@@ -220,7 +230,9 @@ const Navbar = () => {
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="p-2 text-slate-600 dark:text-slate-300 transition-colors duration-200 rounded-full touch-manipulation
+                lg:hover:text-indigo-600 lg:dark:hover:text-indigo-400 lg:hover:bg-slate-100 lg:dark:hover:bg-slate-800
+                active:bg-slate-100 dark:active:bg-slate-800"
               aria-expanded={isOpen}
               aria-label="Menu principal"
             >
