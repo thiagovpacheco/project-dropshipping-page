@@ -10,7 +10,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 p-2.5 sm:p-3 
+      className={`fixed bottom-2 right-3 sm:bottom-6 sm:right-6 p-2 sm:p-3 
                 rounded-xl sm:rounded-2xl
                 bg-white/60 dark:bg-slate-800/40
                 text-slate-700 dark:text-slate-200
@@ -29,17 +29,15 @@ export function ThemeToggle() {
     >
       <div className="relative">
         {theme === 'light' ? (
-          <Moon className="w-[18px] h-[18px] sm:w-5 sm:h-5 
+          <Moon className="w-4 h-4 sm:w-5 sm:h-5 
                           text-indigo-600/80 dark:text-indigo-400/80
-                          transition-all duration-300 
-                          rotate-0 group-hover:rotate-[360deg]
-                          group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
+                          transition-transform duration-500 ease-in-out
+                          rotate-0 group-hover:rotate-[360deg]" />
         ) : (
-          <Sun className="w-[18px] h-[18px] sm:w-5 sm:h-5 
-                         text-indigo-500/80 dark:text-indigo-400/80
-                         transition-all duration-300 
-                         rotate-0 group-hover:rotate-[360deg]
-                         group-hover:text-indigo-500 dark:group-hover:text-indigo-400" />
+          <Sun className="w-4 h-4 sm:w-5 sm:h-5 
+                          text-indigo-600/80 dark:text-indigo-400/80
+                          transition-transform duration-500 ease-in-out
+                          rotate-0 group-hover:rotate-[360deg]" />
         )}
       </div>
     </button>
