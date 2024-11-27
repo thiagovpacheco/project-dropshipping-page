@@ -6,14 +6,11 @@ import { Hero } from './components/Hero';
 import { FeaturedProducts } from './components/FeaturedProducts';
 import { InfoSection } from './components/InfoSection';
 import { Footer } from './components/Footer';
-import { Electronics } from './pages/Electronics';
-import { Smartphones } from './pages/Smartphones';
-import { Audio } from './pages/Audio';
-import { Photography } from './pages/Photography';
-import { Gaming } from './pages/Gaming';
-import { TVHome } from './pages/TVHome';
-import { NavigationProvider } from './contexts/NavigationContext';
 import { ThemeToggle } from './components/ThemeToggle';
+import { NavigationProvider } from './contexts/NavigationContext';
+
+// Pages
+import ElectronicsPage from './pages/ElectronicsPage';
 
 // Home page component
 const HomePage = () => (
@@ -29,21 +26,12 @@ function App() {
     <Router>
       <NavigationProvider>
         <div className="flex flex-col min-h-screen bg-white dark:bg-slate-900 transition-colors duration-300">
-          <div className="bg-slate-900 dark:bg-[#4F46E5] text-white py-1.5">
-            <p className="text-center text-xs sm:text-sm font-medium animate-marquee">
-              Frete grátis para todas as compras!
-            </p>
-          </div>
+          <FreeShippingBanner />
           <Navbar />
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/eletronicos" element={<Electronics />} />
-              <Route path="/smartphones" element={<Smartphones />} />
-              <Route path="/audio" element={<Audio />} />
-              <Route path="/fotografia" element={<Photography />} />
-              <Route path="/games" element={<Gaming />} />
-              <Route path="/tv-home" element={<TVHome />} />
+              <Route path="/eletronicos/*" element={<ElectronicsPage />} />
             </Routes>
           </main>
           <Footer />
