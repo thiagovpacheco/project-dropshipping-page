@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigation } from '../contexts/NavigationContext';
-import { ChevronRight, Smartphone, Laptop, Gamepad, Headphones, Camera, Watch, Tv, Speaker, ArrowRight } from 'lucide-react';
+import { ChevronRight, Smartphone, Laptop, Gamepad, Headphones, Camera, Watch, Tv, Speaker, ArrowRight, Eye } from 'lucide-react';
 
 interface Product {
   id: number;
@@ -382,21 +382,20 @@ export function FeaturedProducts() {
                       </span>
                     )}
                     <div className="flex justify-center mt-3">
-                      <button 
+                    <button 
                         onClick={() => navigateTo('product')}
-                        className="inline-flex items-center justify-center
-                                 bg-slate-900 dark:bg-slate-700 text-white 
-                                 px-6 py-2
-                                 text-sm font-medium
-                                 rounded-lg
-                                 hover:bg-indigo-600 dark:hover:bg-indigo-500
-                                 transition-all duration-300
-                                 min-w-[140px]
-                                 sm:px-7 sm:py-2.5 sm:text-sm
-                                 lg:px-8 lg:py-3 lg:text-base lg:rounded-xl"
+                        className="inline-flex items-center justify-center gap-2
+                                 text-indigo-600 dark:text-indigo-400
+                                 bg-indigo-50 dark:bg-indigo-900/30 
+                                 hover:bg-indigo-100 dark:hover:bg-indigo-900/50
+                                 active:bg-indigo-200 dark:active:bg-indigo-900/70
+                                 px-8 py-3 rounded-xl
+                                 text-base font-medium
+                                 transform transition-all duration-200 ease-in-out
+                                 hover:scale-[1.02]"
                       >
-                        <span className="mr-2">Ver Produto</span>
-                        <ArrowRight className="w-4 h-4" />
+                        Ver Produto
+                        <Eye className="w-5 h-5" />
                       </button>
                     </div>
                   </div>
