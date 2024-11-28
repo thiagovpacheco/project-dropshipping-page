@@ -31,10 +31,10 @@ export const Filters: React.FC<FiltersProps> = ({
   selectedBrands,
   setSelectedBrands,
 }) => {
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [expandedSection, setExpandedSection] = useState<string | null>('all');
 
   const toggleSection = (section: string) => {
-    setExpandedSection(expandedSection === section ? null : section);
+    setExpandedSection(expandedSection === section ? 'all' : section);
   };
 
   const handleBrandChange = (brand: string) => {
@@ -84,7 +84,7 @@ export const Filters: React.FC<FiltersProps> = ({
         </button>
         <div
           className={`space-y-2 transition-all duration-300 ease-in-out overflow-hidden ${
-            expandedSection === 'categories' ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            expandedSection === 'categories' || expandedSection === 'all' ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
           {categories.map(category => (
@@ -123,7 +123,7 @@ export const Filters: React.FC<FiltersProps> = ({
         </button>
         <div
           className={`space-y-4 transition-all duration-300 ease-in-out overflow-hidden ${
-            expandedSection === 'price' ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'
+            expandedSection === 'price' || expandedSection === 'all' ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
           <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400">
@@ -162,7 +162,7 @@ export const Filters: React.FC<FiltersProps> = ({
         </button>
         <div
           className={`space-y-2 transition-all duration-300 ease-in-out overflow-hidden ${
-            expandedSection === 'brands' ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            expandedSection === 'brands' || expandedSection === 'all' ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
           {brands.map((brand) => (
