@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -41,6 +41,7 @@ const mockProducts: Product[] = [
 ];
 
 export const Electronics = () => {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState<Product[]>(mockProducts);
   const [priceRange, setPriceRange] = useState([0, 10000]);
@@ -61,6 +62,19 @@ export const Electronics = () => {
         : [...prev, brand]
     );
   };
+
+  const handleProductClick = (productId: string) => {
+    navigate(`/produto/${productId}`);
+  };
+
+  const filteredProducts = products.filter(product => {
+    const priceInRange = product.price >= priceRange[0] && product.price <= priceRange[1];
+    const brandSelected = selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+    const categoryMatches = selectedCategory === 'todos' || product.category === selectedCategory;
+    const searchQueryMatches = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return priceInRange && brandSelected && categoryMatches && searchQueryMatches;
+  });
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -144,9 +158,9 @@ export const Electronics = () => {
 
         {/* Products Grid */}
         <div className="w-full md:w-3/4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
-              <Card key={product.id} className="group hover:shadow-lg transition-shadow duration-300">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProducts.map((product) => (
+              <Card key={product.id} className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => handleProductClick(product.id)}>
                 <CardHeader className="relative">
                   {product.isPromotion && (
                     <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-md text-sm">

@@ -11,6 +11,7 @@ import { NavigationProvider } from './contexts/NavigationContext';
 
 // Pages
 import ElectronicsPage from './pages/ElectronicsPage';
+import ProductOffer from './pages/ProductOffer';
 
 // Home page component
 const HomePage = () => (
@@ -32,6 +33,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/eletronicos/*" element={<ElectronicsPage />} />
+              <Route path="/produto/:productId" element={<ProductOffer />} />
             </Routes>
           </main>
           <Footer />

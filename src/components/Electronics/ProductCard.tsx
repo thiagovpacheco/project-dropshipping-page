@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Product } from '../../types/product';
 import { ShoppingCart, Eye, Check } from 'lucide-react';
 
@@ -7,6 +8,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const navigate = useNavigate();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const discountPercentage = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
@@ -17,6 +19,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     setTimeout(() => {
       setIsAddingToCart(false);
     }, 1500);
+  };
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Não navega se o clique foi em um botão
+    if ((e.target as HTMLElement).closest('button')) {
+      return;
+    }
+    navigate(`/produto/${product.id}`);
   };
 
   const buttonBaseClasses = `
@@ -30,7 +40,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   `;
 
   return (
-    <div className="group bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-xl transition-all duration-500 flex flex-col h-full transform hover:-translate-y-1">
+    <div 
+      className="group bg-white dark:bg-slate-800 rounded-lg shadow-md hover:shadow-xl transition-all duration-500 flex flex-col h-full transform hover:-translate-y-1 cursor-pointer"
+      onClick={handleCardClick}
+    >
       {/* Imagem e Badge de Desconto */}
       <div className="relative aspect-[4/3] overflow-hidden rounded-t-lg">
         <img
@@ -101,6 +114,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="grid grid-cols-2 gap-2 mt-auto">
           {/* Ver Produto */}
           <button
+            onClick={() => navigate(`/produto/${product.id}`)}
             className={`${buttonBaseClasses}
               text-indigo-600 dark:text-indigo-400
               bg-indigo-50 dark:bg-indigo-900/30 
