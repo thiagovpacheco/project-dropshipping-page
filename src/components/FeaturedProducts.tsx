@@ -9,9 +9,10 @@ interface Product {
   image: string;
   category: string;
   subcategory: string;
+  brand: string;
   discount?: number;
   isNew?: boolean;
-  description?: string;
+  description: string;
 }
 
 // Definindo as categorias principais e suas subcategorias
@@ -47,16 +48,18 @@ const products: Product[] = [
   {
     id: 1,
     name: 'MacBook Pro M2',
+    brand: 'Apple',
     price: 12999.90,
     image: 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&q=80',
     category: 'Eletrônicos',
     subcategory: 'Notebooks',
-    isNew: true,
-    description: 'O notebook mais poderoso da Apple'
+    description: 'O notebook mais poderoso da Apple',
+    isNew: true
   },
   {
     id: 2,
     name: 'iPad Pro 12.9"',
+    brand: 'Apple',
     price: 9499.90,
     image: 'https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?auto=format&fit=crop&q=80',
     category: 'Eletrônicos',
@@ -67,6 +70,7 @@ const products: Product[] = [
   {
     id: 3,
     name: 'Dell XPS 15',
+    brand: 'Dell',
     price: 11999.90,
     image: 'https://images.unsplash.com/photo-1593642632823-797f1c22a38e?auto=format&fit=crop&q=80',
     category: 'Eletrônicos',
@@ -77,6 +81,7 @@ const products: Product[] = [
   {
     id: 4,
     name: 'Samsung Galaxy Tab S9',
+    brand: 'Samsung',
     price: 5999.90,
     image: 'https://images.unsplash.com/photo-1561154464-82e9adf32764?auto=format&fit=crop&q=80',
     category: 'Eletrônicos',
@@ -89,6 +94,7 @@ const products: Product[] = [
   {
     id: 5,
     name: 'iPhone 14 Pro Max',
+    brand: 'Apple',
     price: 7999.90,
     image: 'https://images.unsplash.com/photo-1678469816711-11d75dd4c1c1?auto=format&fit=crop&q=80',
     category: 'Smartphones',
@@ -99,6 +105,7 @@ const products: Product[] = [
   {
     id: 6,
     name: 'Samsung Galaxy S23 Ultra',
+    brand: 'Samsung',
     price: 6999.90,
     image: 'https://images.unsplash.com/photo-1610945265064-0a8c4e0e7b1c?auto=format&fit=crop&q=80',
     category: 'Smartphones',
@@ -109,6 +116,7 @@ const products: Product[] = [
   {
     id: 7,
     name: 'Xiaomi 13 Pro',
+    brand: 'Xiaomi',
     price: 5999.90,
     image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80',
     category: 'Smartphones',
@@ -119,6 +127,7 @@ const products: Product[] = [
   {
     id: 8,
     name: 'iPhone 13',
+    brand: 'Apple',
     price: 4999.90,
     image: 'https://images.unsplash.com/photo-1632661674596-618d8b64d641?auto=format&fit=crop&q=80',
     category: 'Smartphones',
@@ -131,6 +140,7 @@ const products: Product[] = [
   {
     id: 9,
     name: 'Sony WH-1000XM5',
+    brand: 'Sony',
     price: 2499.90,
     image: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&q=80',
     category: 'Áudio',
@@ -141,6 +151,7 @@ const products: Product[] = [
   {
     id: 10,
     name: 'AirPods Pro 2',
+    brand: 'Apple',
     price: 1899.90,
     image: 'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&q=80',
     category: 'Áudio',
@@ -151,6 +162,7 @@ const products: Product[] = [
   {
     id: 11,
     name: 'JBL Boombox 3',
+    brand: 'JBL',
     price: 2199.90,
     image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&q=80',
     category: 'Áudio',
@@ -161,6 +173,7 @@ const products: Product[] = [
   {
     id: 12,
     name: 'Marshall Stanmore II',
+    brand: 'Marshall',
     price: 2799.90,
     image: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&q=80',
     category: 'Áudio',
@@ -173,6 +186,7 @@ const products: Product[] = [
   {
     id: 13,
     name: 'Sony A7 IV',
+    brand: 'Sony',
     price: 12999.90,
     image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80',
     category: 'Fotografia',
@@ -183,6 +197,7 @@ const products: Product[] = [
   {
     id: 14,
     name: 'Canon EOS R6',
+    brand: 'Canon',
     price: 14999.90,
     image: 'https://images.unsplash.com/photo-1502920917128-a205069470b6?auto=format&fit=crop&q=80',
     category: 'Fotografia',
@@ -193,6 +208,7 @@ const products: Product[] = [
   {
     id: 15,
     name: 'Sony 24-70mm f/2.8',
+    brand: 'Sony',
     price: 8999.90,
     image: 'https://images.unsplash.com/photo-1617005082133-548c4dd27f35?auto=format&fit=crop&q=80',
     category: 'Fotografia',
@@ -203,6 +219,7 @@ const products: Product[] = [
   {
     id: 16,
     name: 'Canon RF 50mm f/1.2',
+    brand: 'Canon',
     price: 9999.90,
     image: 'https://images.unsplash.com/photo-1617005082337-35b6e88bd2c6?auto=format&fit=crop&q=80',
     category: 'Fotografia',
@@ -215,6 +232,7 @@ const products: Product[] = [
   {
     id: 17,
     name: 'PlayStation 5 Digital',
+    brand: 'Sony',
     price: 3999.90,
     image: 'https://images.unsplash.com/photo-1607853202273-797f1c22a38e?auto=format&fit=crop&q=80',
     category: 'Games',
@@ -225,6 +243,7 @@ const products: Product[] = [
   {
     id: 18,
     name: 'Xbox Series X',
+    brand: 'Microsoft',
     price: 4299.90,
     image: 'https://images.unsplash.com/photo-1621259182978-fbf433fd6eb7?auto=format&fit=crop&q=80',
     category: 'Games',
@@ -235,6 +254,7 @@ const products: Product[] = [
   {
     id: 19,
     name: 'God of War Ragnarök',
+    brand: 'Sony',
     price: 299.90,
     image: 'https://images.unsplash.com/photo-1621784563330-caee0b138a00?auto=format&fit=crop&q=80',
     category: 'Games',
@@ -245,6 +265,7 @@ const products: Product[] = [
   {
     id: 20,
     name: 'Starfield',
+    brand: 'Bethesda',
     price: 299.90,
     image: 'https://images.unsplash.com/photo-1616856769992-0a8c4e0e7b1c?auto=format&fit=crop&q=80',
     category: 'Games',
@@ -257,6 +278,7 @@ const products: Product[] = [
   {
     id: 21,
     name: 'Samsung Neo QLED 65"',
+    brand: 'Samsung',
     price: 8999.90,
     image: 'https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&q=80',
     category: 'TV & Home',
@@ -267,6 +289,7 @@ const products: Product[] = [
   {
     id: 22,
     name: 'LG OLED C2 55"',
+    brand: 'LG',
     price: 6999.90,
     image: 'https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&q=80',
     category: 'TV & Home',
@@ -277,6 +300,7 @@ const products: Product[] = [
   {
     id: 23,
     name: 'Sonos Arc',
+    brand: 'Sonos',
     price: 4999.90,
     image: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&q=80',
     category: 'TV & Home',
@@ -287,6 +311,7 @@ const products: Product[] = [
   {
     id: 24,
     name: 'Samsung HW-Q990C',
+    brand: 'Samsung',
     price: 5999.90,
     image: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&q=80',
     category: 'TV & Home',
@@ -342,7 +367,7 @@ export function FeaturedProducts() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {products.slice(0, 6).map((product) => (
             <div key={product.id} 
-                 className="group bg-white dark:bg-slate-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col border border-slate-100 dark:border-slate-700 min-h-[520px] w-full">
+                 className="group bg-white dark:bg-slate-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col border border-slate-100 dark:border-slate-700 min-h-[520px] w-full hover:scale-[1.02]">
               {/* Container da imagem com proporção fixa */}
               <div className="relative h-[300px] overflow-hidden">
                 <img
@@ -373,9 +398,14 @@ export function FeaturedProducts() {
                   <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
                     {product.category} • {product.subcategory}
                   </span>
-                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                    {product.name}
-                  </h3>
+                  <div className="space-y-1">
+                    <span className="text-sm text-slate-900 dark:text-slate-100 font-medium mb-1 transition-colors duration-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
+                      {product.brand}
+                    </span>
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                      {product.name}
+                    </h3>
+                  </div>
                   <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
                     {product.description}
                   </p>
@@ -384,19 +414,19 @@ export function FeaturedProducts() {
                 {/* Preços e botões */}
                 <div className="mt-auto pt-4">
                   <div className="min-h-[60px]">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-bold text-slate-900 dark:text-white">
+                    <div className="flex items-baseline gap-2 group-hover:translate-x-2 transition-transform duration-300">
+                      <span className="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                         {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
                       </span>
                       {product.discount && (
-                        <span className="text-sm text-slate-500 dark:text-slate-400 line-through">
+                        <span className="text-sm text-slate-500 dark:text-slate-400 line-through group-hover:text-rose-500 dark:group-hover:text-rose-400 transition-colors">
                           {formatPrice(product.price)}
                         </span>
                       )}
                     </div>
                     {product.discount && (
-                      <div className="flex items-center mt-1">
-                        <span className="text-sm font-medium text-green-600 dark:text-green-400">
+                      <div className="flex items-center mt-1 group-hover:translate-x-2 transition-transform duration-300">
+                        <span className="text-sm font-medium text-green-600 dark:text-green-400 group-hover:text-green-500 dark:group-hover:text-green-300 transition-colors">
                           Economize {formatPrice(product.price - calculateDiscountedPrice(product.price, product.discount))}
                         </span>
                       </div>

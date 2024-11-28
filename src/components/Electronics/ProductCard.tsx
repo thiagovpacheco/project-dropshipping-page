@@ -51,16 +51,21 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           alt={product.name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
-        {discountPercentage > 0 && (
-          <div className="absolute top-3 right-3 z-10">
-            <div className="relative">
-              <div className="absolute inset-0 bg-red-500 rounded-lg transform rotate-12 transition-transform duration-300 group-hover:rotate-0" />
-              <div className="relative px-2 py-1 text-sm font-bold text-white transition-transform duration-300 group-hover:scale-110">
-                -{discountPercentage}%
-              </div>
-            </div>
-          </div>
-        )}
+        {/* Badges de desconto e novidade */}
+        <div className="absolute top-4 left-4 flex flex-col gap-2">
+          {product.isNew && (
+            <span className="bg-indigo-600 dark:bg-indigo-500 text-white text-sm font-semibold px-3 py-1 rounded-full
+                           shadow-lg transform transition-transform duration-300 hover:scale-105">
+              Novo
+            </span>
+          )}
+          {discountPercentage > 0 && (
+            <span className="bg-rose-600 dark:bg-rose-500 text-white text-sm font-semibold px-3 py-1 rounded-full
+                           shadow-lg transform transition-transform duration-300 hover:scale-105">
+              -{discountPercentage}%
+            </span>
+          )}
+        </div>
         {/* Overlay escuro no hover */}
         <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
       </div>
@@ -92,7 +97,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               })}
             </span>
             {product.originalPrice && (
-              <span className="text-sm text-slate-500 dark:text-slate-400 line-through">
+              <span className="text-sm text-slate-500 dark:text-slate-400 line-through group-hover:text-rose-500 dark:group-hover:text-rose-400 transition-colors">
                 {product.originalPrice.toLocaleString('pt-BR', {
                   style: 'currency',
                   currency: 'BRL',
@@ -112,7 +117,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Botões */}
         <div className="grid grid-cols-2 gap-2 mt-auto">
-          {/* Ver Produto */}
+          {/* Ver Detalhes */}
           <button
             onClick={() => navigate(`/produto/${product.id}`)}
             className={`${buttonBaseClasses}
@@ -124,33 +129,32 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             `}
           >
             <Eye className="w-[18px] h-[18px] flex-shrink-0" />
-            <span className="flex-shrink-0">Ver Produto</span>
+            <span className="flex-shrink-0">Ver Detalhes</span>
           </button>
 
           {/* Adicionar ao Carrinho */}
           <button
             onClick={handleAddToCart}
-            disabled={isAddingToCart}
             className={`${buttonBaseClasses}
-              text-white relative overflow-hidden
-              transform transition-all duration-300 hover:scale-[1.02]
-              ${isAddingToCart 
-                ? 'bg-green-500 dark:bg-green-600' 
-                : 'bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 active:bg-indigo-800 dark:active:bg-indigo-700'}
+              text-white
+              bg-indigo-600 dark:bg-indigo-500
+              hover:bg-indigo-700 dark:hover:bg-indigo-600
+              active:bg-indigo-800 dark:active:bg-indigo-700
+              transform transition-transform duration-300 hover:scale-[1.02]
             `}
+            disabled={isAddingToCart}
           >
-            <div className={`absolute inset-0 flex items-center justify-center gap-1.5 transform transition-transform duration-300 ${
-              isAddingToCart ? '-translate-y-10' : 'translate-y-0'
-            }`}>
-              <ShoppingCart className="w-[18px] h-[18px] flex-shrink-0" />
-              <span className="flex-shrink-0">Carrinho</span>
-            </div>
-            <div className={`absolute inset-0 flex items-center justify-center gap-1.5 transform transition-transform duration-300 ${
-              isAddingToCart ? 'translate-y-0' : 'translate-y-10'
-            }`}>
-              <Check className="w-[18px] h-[18px] flex-shrink-0" />
-              <span className="flex-shrink-0">Adicionado!</span>
-            </div>
+            {isAddingToCart ? (
+              <>
+                <Check className="w-[18px] h-[18px] flex-shrink-0" />
+                <span className="flex-shrink-0">Adicionado</span>
+              </>
+            ) : (
+              <>
+                <ShoppingCart className="w-[18px] h-[18px] flex-shrink-0" />
+                <span className="flex-shrink-0">Add Carrinho</span>
+              </>
+            )}
           </button>
         </div>
       </div>
