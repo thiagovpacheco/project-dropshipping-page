@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigation } from '../contexts/NavigationContext';
-import { ChevronRight, Smartphone, Laptop, Gamepad, Headphones, Camera, Watch, Tv, Speaker, ArrowRight, Eye } from 'lucide-react';
+import { ChevronRight, Smartphone, Laptop, Gamepad, Headphones, Camera, Watch, Tv, Speaker, ArrowRight, Eye, ShoppingCart } from 'lucide-react';
 
 interface Product {
   id: number;
@@ -68,7 +68,7 @@ const products: Product[] = [
     id: 3,
     name: 'Dell XPS 15',
     price: 11999.90,
-    image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1593642632823-797f1c22a38e?auto=format&fit=crop&q=80',
     category: 'Eletrônicos',
     subcategory: 'Notebooks',
     discount: 15,
@@ -298,6 +298,7 @@ const products: Product[] = [
 
 export function FeaturedProducts() {
   const { navigateTo } = useNavigation();
+  const [isAddingToCart, setIsAddingToCart] = useState<{ [key: number]: boolean }>({});
 
   const formatPrice = (price: number) => {
     return price.toLocaleString('pt-BR', {
@@ -309,6 +310,13 @@ export function FeaturedProducts() {
   const calculateDiscountedPrice = (price: number, discount?: number) => {
     if (!discount) return price;
     return price * (1 - discount / 100);
+  };
+
+  const handleAddToCart = (productId: number) => {
+    setIsAddingToCart(prev => ({ ...prev, [productId]: true }));
+    setTimeout(() => {
+      setIsAddingToCart(prev => ({ ...prev, [productId]: false }));
+    }, 1500);
   };
 
   return (
@@ -331,27 +339,27 @@ export function FeaturedProducts() {
         </div>
 
         {/* Grid responsivo de produtos */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-          {products.slice(0, 8).map((product) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          {products.slice(0, 6).map((product) => (
             <div key={product.id} 
-                 className="group bg-white dark:bg-slate-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-auto sm:h-[520px] flex flex-col border border-slate-100 dark:border-slate-700">
+                 className="group bg-white dark:bg-slate-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col border border-slate-100 dark:border-slate-700 min-h-[520px] w-full">
               {/* Container da imagem com proporção fixa */}
-              <div className="relative h-[200px] sm:h-[280px] overflow-hidden">
+              <div className="relative h-[300px] overflow-hidden">
                 <img
                   src={product.image}
                   alt={product.name}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 {/* Badges de desconto e novidade */}
-                <div className="absolute top-2 sm:top-4 left-2 sm:left-4 flex flex-col gap-1 sm:gap-2">
+                <div className="absolute top-4 left-4 flex flex-col gap-2">
                   {product.isNew && (
-                    <span className="bg-indigo-600 dark:bg-indigo-500 text-white text-xs sm:text-sm font-semibold px-2 sm:px-3 py-1 rounded-full
+                    <span className="bg-indigo-600 dark:bg-indigo-500 text-white text-sm font-semibold px-3 py-1 rounded-full
                                    shadow-lg transform transition-transform duration-300 hover:scale-105">
                       Novo
                     </span>
                   )}
                   {product.discount && (
-                    <span className="bg-rose-600 dark:bg-rose-500 text-white text-xs sm:text-sm font-semibold px-2 sm:px-3 py-1 rounded-full
+                    <span className="bg-rose-600 dark:bg-rose-500 text-white text-sm font-semibold px-3 py-1 rounded-full
                                    shadow-lg transform transition-transform duration-300 hover:scale-105">
                       -{product.discount}%
                     </span>
@@ -360,44 +368,84 @@ export function FeaturedProducts() {
               </div>
 
               {/* Informações do produto */}
-              <div className="flex flex-col flex-grow p-4 sm:p-6">
-                <div className="mb-3 sm:mb-4">
-                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 dark:text-white mb-1 sm:mb-2 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+              <div className="flex flex-col p-5">
+                <div className="flex flex-col space-y-1.5">
+                  <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                    {product.category} • {product.subcategory}
+                  </span>
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                     {product.name}
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
+                  <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
                     {product.description}
                   </p>
                 </div>
 
-                {/* Preços e botão de compra */}
-                <div className="mt-auto space-y-3 sm:space-y-4">
-                  <div className="flex flex-col">
-                    <span className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
-                      {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
-                    </span>
-                    {product.discount && (
-                      <span className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-through">
-                        {formatPrice(product.price)}
+                {/* Preços e botões */}
+                <div className="mt-auto pt-4">
+                  <div className="min-h-[60px]">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-bold text-slate-900 dark:text-white">
+                        {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
                       </span>
-                    )}
-                    <div className="flex justify-center mt-3">
-                    <button 
-                        onClick={() => navigateTo('product')}
-                        className="inline-flex items-center justify-center gap-2
-                                 text-indigo-600 dark:text-indigo-400
-                                 bg-indigo-50 dark:bg-indigo-900/30 
-                                 hover:bg-indigo-100 dark:hover:bg-indigo-900/50
-                                 active:bg-indigo-200 dark:active:bg-indigo-900/70
-                                 px-8 py-3 rounded-xl
-                                 text-base font-medium
-                                 transform transition-all duration-200 ease-in-out
-                                 hover:scale-[1.02]"
-                      >
-                        Ver Produto
-                        <Eye className="w-5 h-5" />
-                      </button>
+                      {product.discount && (
+                        <span className="text-sm text-slate-500 dark:text-slate-400 line-through">
+                          {formatPrice(product.price)}
+                        </span>
+                      )}
                     </div>
+                    {product.discount && (
+                      <div className="flex items-center mt-1">
+                        <span className="text-sm font-medium text-green-600 dark:text-green-400">
+                          Economize {formatPrice(product.price - calculateDiscountedPrice(product.price, product.discount))}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2 mt-2">
+                    <button 
+                      onClick={() => navigateTo('product')}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5
+                               text-indigo-600 dark:text-indigo-400
+                               bg-indigo-50 dark:bg-indigo-900/30 
+                               hover:bg-indigo-100 dark:hover:bg-indigo-900/50
+                               active:bg-indigo-200 dark:active:bg-indigo-900/70
+                               px-3 py-2 rounded-lg
+                               text-sm font-medium
+                               transform transition-all duration-200 ease-in-out
+                               hover:scale-[1.02]
+                               min-w-[120px] h-[38px]"
+                    >
+                      Ver Detalhes
+                      <Eye className="w-4 h-4 flex-shrink-0" />
+                    </button>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAddToCart(product.id);
+                      }}
+                      disabled={isAddingToCart[product.id]}
+                      className={`flex-1 inline-flex items-center justify-center gap-1.5
+                               ${isAddingToCart[product.id]
+                                 ? 'bg-green-500 text-white'
+                                 : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                               }
+                               px-3 py-2 rounded-lg
+                               text-sm font-medium
+                               transform transition-all duration-200 ease-in-out
+                               hover:scale-[1.02]
+                               min-w-[120px] h-[38px]
+                               disabled:cursor-not-allowed`}
+                    >
+                      {isAddingToCart[product.id] ? (
+                        'Adicionado!'
+                      ) : (
+                        <>
+                          Add Carrinho
+                          <ShoppingCart className="w-4 h-4 flex-shrink-0" />
+                        </>
+                      )}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -455,7 +503,7 @@ export function FeaturedProducts() {
                     fill="currentColor" 
                     viewBox="0 0 20 20"
                   >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
                 ))}
               </div>
@@ -476,7 +524,7 @@ export function FeaturedProducts() {
                       fill="currentColor" 
                       viewBox="0 0 20 20"
                     >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
                 </div>
@@ -504,7 +552,7 @@ export function FeaturedProducts() {
                       fill="currentColor" 
                       viewBox="0 0 20 20"
                     >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
                 </div>
@@ -532,7 +580,7 @@ export function FeaturedProducts() {
                       fill="currentColor" 
                       viewBox="0 0 20 20"
                     >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
                 </div>
