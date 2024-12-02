@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Minus, Plus, ShoppingCart, Heart, ArrowLeft, Star, Truck, Shield, Clock, ChevronDown, FileText, Settings2, RefreshCcw, ShieldCheck, CheckCircle2, Percent, Zap, MessageSquare } from 'lucide-react';
+import { Minus, Plus, ShoppingCart, Heart, ArrowLeft, Star, Truck, Shield, Clock, ChevronDown, FileText, Settings2, RefreshCcw, ShieldCheck, CheckCircle2, Percent, Zap, MessageSquare, ZoomIn, X, ChevronLeft, ChevronRight, ThumbsUp, ThumbsDown, Filter } from 'lucide-react';
 import type { Product } from '../types/product';
 import { useCart } from '../contexts/CartContext';
 
@@ -64,25 +64,69 @@ const mockProduct: Product = {
   `,
 };
 
+// Mock reviews data
+const mockReviews = [
+  {
+    id: 1,
+    author: "Carlos Silva",
+    rating: 5,
+    date: "2024-01-15",
+    comment: "Comprei essa TV após muita pesquisa e não me arrependi. A qualidade de imagem é impressionante, especialmente em conteúdo 4K.",
+    verified: true,
+    helpful: 45
+  },
+  {
+    id: 2,
+    author: "Ana Beatriz",
+    rating: 4,
+    date: "2024-01-10",
+    comment: "A qualidade de imagem é realmente impressionante e os recursos smart são muito bons. O único ponto que poderia melhorar é o controle remoto.",
+    verified: true,
+    helpful: 32
+  },
+  {
+    id: 3,
+    author: "Roberto Martins",
+    rating: 5,
+    date: "2024-01-05",
+    comment: "Perfeita para games! Tempo de resposta baixíssimo e suporte a 4K 120Hz funcionando perfeitamente com meu PS5.",
+    verified: true,
+    helpful: 28
+  }
+];
+
 const ProductOffer = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [showGallery, setShowGallery] = useState(false);
   const { addToCart } = useCart();
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [reviewsSort, setReviewsSort] = useState<'recent' | 'helpful'>('helpful');
 
   // Array de imagens do produto (mock)
   const productImages = [
-    mockProduct.image,
+    '/placeholder-product.jpg',
     '/placeholder-product-2.jpg',
     '/placeholder-product-3.jpg',
-    '/placeholder-product-4.jpg'
+    '/placeholder-product-4.jpg',
+    '/placeholder-product-5.jpg',
+    '/placeholder-product-6.jpg',
   ];
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [productId]);
+
+  const handleNextImage = () => {
+    setSelectedImage((prev) => (prev + 1) % productImages.length);
+  };
+
+  const handlePrevImage = () => {
+    setSelectedImage((prev) => (prev - 1 + productImages.length) % productImages.length);
+  };
 
   const product = mockProduct;
 
@@ -117,44 +161,93 @@ const ProductOffer = () => {
     return formatPrice(installmentValue);
   };
 
+  // Calcular média das avaliações
+  const averageRating = mockReviews.reduce((acc, review) => acc + review.rating, 0) / mockReviews.length;
+  const totalReviews = mockReviews.length;
+
+  // Ordenar reviews
+  const sortedReviews = [...mockReviews].sort((a, b) => {
+    if (reviewsSort === 'helpful') {
+      return b.helpful - a.helpful;
+    }
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Breadcrumb e Botão Voltar */}
       <div className="max-w-7xl mx-auto px-4 py-4">
         <button
           onClick={() => navigate(-1)}
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-all font-medium shadow-sm hover:shadow border border-gray-100 dark:border-gray-600"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="h-5 w-5" />
           <span>Voltar</span>
         </button>
       </div>
 
       {/* Container Principal */}
       <main className="max-w-7xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-600">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6">
             {/* Seção de Imagens */}
             <div className="space-y-4">
-              <div className="aspect-square rounded-xl overflow-hidden bg-gray-100">
+              {/* Imagem Principal */}
+              <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800 group border border-gray-100 dark:border-gray-600 shadow-sm">
                 <img
                   key={selectedImage}
                   src={productImages[selectedImage]}
-                  alt={product.name}
-                  className="w-full h-full object-contain transition-opacity duration-300"
+                  alt={`${product.name} - Imagem ${selectedImage + 1}`}
+                  className={`w-full h-full object-contain transition-transform duration-300 ${isZoomed ? 'scale-150 cursor-zoom-out' : 'cursor-zoom-in'}`}
+                  onClick={() => setIsZoomed(!isZoomed)}
                 />
+                
+                {/* Controles de navegação */}
+                <div className="absolute inset-0 flex items-center justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handlePrevImage(); }}
+                    className="p-2 rounded-full bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-800 transition-colors shadow-lg"
+                  >
+                    <ChevronLeft className="h-6 w-6" />
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleNextImage(); }}
+                    className="p-2 rounded-full bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-800 transition-colors shadow-lg"
+                  >
+                    <ChevronRight className="h-6 w-6" />
+                  </button>
+                </div>
+
+                {/* Botão de Galeria */}
+                <button
+                  onClick={(e) => { e.stopPropagation(); setShowGallery(true); }}
+                  className="absolute bottom-4 right-4 px-4 py-2 bg-white/80 dark:bg-gray-800/80 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-800 transition-colors shadow-lg opacity-0 group-hover:opacity-100"
+                >
+                  Ver Galeria
+                </button>
+
+                {/* Contador de imagens */}
+                <div className="absolute bottom-4 left-4 px-3 py-1.5 bg-white/80 dark:bg-gray-800/80 rounded-lg text-sm font-medium text-gray-800 dark:text-gray-200 opacity-0 group-hover:opacity-100">
+                  {selectedImage + 1} / {productImages.length}
+                </div>
               </div>
-              <div className="grid grid-cols-4 gap-4">
+
+              {/* Thumbnails */}
+              <div className="grid grid-cols-6 gap-4">
                 {productImages.map((image, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`aspect-square rounded-lg overflow-hidden bg-gray-100 hover:ring-2 hover:ring-indigo-500 transition-all ${selectedImage === index ? 'ring-2 ring-indigo-500' : 'ring-1 ring-gray-200'}`}
+                    className={`aspect-square rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800 hover:ring-2 hover:ring-indigo-500 dark:hover:ring-indigo-400 transition-all border ${
+                      selectedImage === index
+                        ? 'ring-2 ring-indigo-500 dark:ring-indigo-400 border-indigo-100 dark:border-indigo-900'
+                        : 'border-gray-100 dark:border-gray-600'
+                    }`}
                   >
                     <img
                       src={image}
-                      alt={`${product.name} - Imagem ${index + 1}`}
-                      className="w-full h-full object-contain"
+                      alt={`${product.name} - Miniatura ${index + 1}`}
+                      className="w-full h-full object-cover"
                     />
                   </button>
                 ))}
@@ -162,76 +255,79 @@ const ProductOffer = () => {
             </div>
 
             {/* Seção de Informações do Produto */}
-            <div className="space-y-6">
+            <div className="space-y-6 p-4 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-800/95 rounded-xl border border-gray-100 dark:border-gray-700">
               {/* Cabeçalho do Produto */}
               <div className="space-y-6">
                 {/* Status e Tags */}
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-100 text-green-700 text-sm font-medium">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-100 text-sm font-medium">
                     <CheckCircle2 className="h-4 w-4" />
                     Em Estoque
                   </span>
                   {product.isPromotion && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-100 text-red-700 text-sm font-medium">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-100 text-sm font-medium">
                       <Percent className="h-4 w-4" />
                       {calculateDiscount(product.originalPrice, product.price)}% OFF
                     </span>
                   )}
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-100 text-blue-700 text-sm font-medium">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-100 text-sm font-medium">
                     <Zap className="h-4 w-4" />
                     Frete Grátis
                   </span>
                 </div>
 
-                {/* Nome do Produto */}
+                {/* Nome e Avaliações */}
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900 tracking-tight">{product.name}</h1>
-                  <p className="mt-1 text-lg text-gray-500">Marca: {product.brand}</p>
+                  <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                    {product.name}
+                  </h1>
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                      <div className="flex gap-0.5">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            className={`h-5 w-5 ${
+                              star <= averageRating
+                                ? 'text-yellow-400 fill-yellow-400'
+                                : 'text-gray-300 dark:text-gray-600'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {averageRating.toFixed(1)}
+                      </span>
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                      {totalReviews} avaliações
+                    </div>
+                  </div>
+                  <p className="mt-2 text-gray-600 dark:text-gray-400">
+                    Marca: {product.brand}
+                  </p>
                 </div>
                 
-                {/* Avaliações */}
-                <div className="flex items-center gap-6 py-3 border-y border-gray-100">
-                  <div className="flex items-center gap-2">
-                    <div className="flex">
-                      {[...Array(5)].map((_, index) => (
-                        <Star
-                          key={index}
-                          className={`h-5 w-5 ${
-                            index < Math.floor(product.rating)
-                              ? 'text-yellow-400 fill-yellow-400'
-                              : 'text-gray-200'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                    <span className="font-semibold text-gray-900">{product.rating}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <MessageSquare className="h-5 w-5" />
-                    <span>{product.reviewCount} avaliações</span>
-                  </div>
-                </div>
-
                 {/* Preços */}
                 <div className="space-y-2">
                   <div className="flex items-baseline gap-3">
                     {product.isPromotion && (
-                      <span className="text-lg text-gray-400 line-through">
+                      <span className="text-lg text-gray-400 dark:text-gray-500 line-through">
                         {formatPrice(product.originalPrice)}
                       </span>
                     )}
                     <div className="flex items-baseline gap-2">
-                      <span className="text-4xl font-bold text-gray-900">
+                      <span className="text-4xl font-bold text-gray-900 dark:text-gray-100">
                         {formatPrice(product.price)}
                       </span>
-                      <span className="text-gray-600">à vista</span>
+                      <span className="text-gray-600 dark:text-gray-400">à vista</span>
                     </div>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-lg text-gray-900 font-medium">
+                    <p className="text-lg text-gray-900 dark:text-gray-100 font-medium">
                       ou em até 12x de {calculateInstallments(product.price)}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       Parcele em até 24x no cartão de crédito
                     </p>
                   </div>
@@ -240,28 +336,28 @@ const ProductOffer = () => {
                 {/* Quantidade */}
                 <div className="flex items-center gap-6 py-4">
                   <div className="flex items-center gap-3">
-                    <label className="font-medium text-gray-700">Quantidade:</label>
+                    <label className="font-medium text-gray-700 dark:text-gray-300">Quantidade:</label>
                     <div className="flex items-stretch">
                       <button
                         onClick={() => handleQuantityChange('decrease')}
                         disabled={quantity <= 1}
-                        className="px-3 py-2 rounded-l-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-50 transition-colors"
+                        className="px-3 py-2 rounded-l-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-50 dark:disabled:hover:bg-gray-800 transition-colors"
                       >
-                        <Minus className="h-4 w-4 text-gray-600" />
+                        <Minus className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                       </button>
-                      <div className="w-16 text-center py-2 border-y border-gray-300 font-medium text-gray-900">
+                      <div className="w-16 text-center py-2 border-y border-gray-300 dark:border-gray-600 font-medium text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800">
                         {quantity}
                       </div>
                       <button
                         onClick={() => handleQuantityChange('increase')}
                         disabled={quantity >= product.stock}
-                        className="px-3 py-2 rounded-r-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-50 transition-colors"
+                        className="px-3 py-2 rounded-r-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-50 dark:disabled:hover:bg-gray-800 transition-colors"
                       >
-                        <Plus className="h-4 w-4 text-gray-600" />
+                        <Plus className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                       </button>
                     </div>
                   </div>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">
                     ({product.stock} unidades disponíveis)
                   </span>
                 </div>
@@ -286,89 +382,175 @@ const ProductOffer = () => {
                   Adicionar ao Carrinho
                 </button>
               </div>
-
-              {/* Descrição do Produto */}
-              <div className="mt-8 space-y-6">
-                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                  <div className="flex items-center gap-2 mb-4">
-                    <FileText className="h-5 w-5 text-indigo-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">Descrição do Produto</h3>
-                  </div>
-                  <div className={`prose prose-indigo max-w-none ${!isDescriptionExpanded ? 'line-clamp-4' : ''}`}>
-                    <p className="whitespace-pre-line text-gray-600 leading-relaxed">{product.description}</p>
-                  </div>
-                  <button
-                    onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
-                    className="mt-4 flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium"
-                  >
-                    <span>{isDescriptionExpanded ? 'Ver menos' : 'Ver descrição completa'}</span>
-                    <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isDescriptionExpanded ? 'rotate-180' : ''}`} />
-                  </button>
-                </div>
-
-                {/* Especificações Técnicas */}
-                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                  <div className="flex items-center gap-2 mb-6">
-                    <Settings2 className="h-5 w-5 text-indigo-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">Especificações Técnicas</h3>
-                  </div>
-                  <div className="grid grid-cols-1 gap-4">
-                    {Object.entries(product.specifications).map(([key, value]) => (
-                      <div
-                        key={key}
-                        className="flex items-start py-4 px-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors duration-200"
-                      >
-                        <dt className="w-1/3 text-sm font-medium text-gray-500 capitalize">
-                          {key.replace(/([A-Z])/g, ' $1').trim()}
-                        </dt>
-                        <dd className="w-2/3 text-sm text-gray-900">{value}</dd>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Benefícios e Garantias */}
-                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                  <div className="flex items-center gap-2 mb-6">
-                    <Shield className="h-5 w-5 text-indigo-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">Benefícios e Garantias</h3>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex items-start gap-3 p-4 rounded-xl bg-green-50">
-                      <Truck className="h-5 w-5 text-green-600 mt-1" />
-                      <div>
-                        <p className="font-medium text-green-900">Frete Grátis</p>
-                        <p className="text-sm text-green-700">Entrega em até 3 dias úteis</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 p-4 rounded-xl bg-blue-50">
-                      <Shield className="h-5 w-5 text-blue-600 mt-1" />
-                      <div>
-                        <p className="font-medium text-blue-900">Garantia Estendida</p>
-                        <p className="text-sm text-blue-700">12 meses de garantia</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 p-4 rounded-xl bg-purple-50">
-                      <RefreshCcw className="h-5 w-5 text-purple-600 mt-1" />
-                      <div>
-                        <p className="font-medium text-purple-900">Devolução Grátis</p>
-                        <p className="text-sm text-purple-700">30 dias para devolver</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 p-4 rounded-xl bg-orange-50">
-                      <ShieldCheck className="h-5 w-5 text-orange-600 mt-1" />
-                      <div>
-                        <p className="font-medium text-orange-900">Compra Segura</p>
-                        <p className="text-sm text-orange-700">Seus dados protegidos</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </main>
+
+      {/* Seção de Detalhes do Produto */}
+      <section className="max-w-5xl mx-auto px-4 py-12">
+        <div className="space-y-8">
+          {/* Descrição do Produto */}
+          <div className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-800/95 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
+            <div className="flex items-center gap-3 border-b border-gray-200 dark:border-gray-700 pb-4">
+              <FileText className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Descrição do Produto</h2>
+            </div>
+            <div className="space-y-4">
+              <div className={`prose dark:prose-invert max-w-none ${!isDescriptionExpanded && 'line-clamp-6'}`}>
+                <div className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed whitespace-pre-line">
+                  {product.description}
+                </div>
+              </div>
+              <button
+                onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                className="inline-flex items-center gap-2 px-4 py-2 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
+              >
+                <span>{isDescriptionExpanded ? 'Ver menos' : 'Ver descrição completa'}</span>
+                <ChevronDown className={`h-5 w-5 transform transition-transform ${isDescriptionExpanded ? 'rotate-180' : ''}`} />
+              </button>
+            </div>
+          </div>
+
+          {/* Especificações Técnicas */}
+          <div className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-800/95 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
+            <div className="flex items-center gap-3 border-b border-gray-200 dark:border-gray-700 pb-4">
+              <Settings2 className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Especificações Técnicas</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {Object.entries(product.specifications).map(([key, value]) => (
+                <div
+                  key={key}
+                  className="bg-white dark:bg-gray-700/50 p-6 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border border-gray-100 dark:border-gray-600 shadow-sm"
+                >
+                  <p className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+                    {key.replace(/([A-Z])/g, ' $1').trim()}
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-400">{value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Avaliações dos Clientes */}
+          <div className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-800/95 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
+            {/* Cabeçalho e Resumo */}
+            <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-6">
+              <div className="flex items-center gap-6">
+                <div className="text-center px-6 py-4 bg-white dark:bg-gray-700/50 rounded-xl border border-gray-100 dark:border-gray-600 shadow-sm">
+                  <div className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                    {averageRating.toFixed(1)}
+                  </div>
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        className={`h-5 w-5 ${
+                          star <= averageRating
+                            ? 'text-yellow-400 fill-yellow-400'
+                            : 'text-gray-300 dark:text-gray-600'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    {mockReviews.length} avaliações
+                  </p>
+                </div>
+                <div className="h-12 w-px bg-gray-200 dark:bg-gray-700" />
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-1">
+                    Avaliações dos Clientes
+                  </h2>
+                  <select
+                    value={reviewsSort}
+                    onChange={(e) => setReviewsSort(e.target.value as 'recent' | 'helpful')}
+                    className="text-sm text-gray-600 dark:text-gray-400 bg-transparent border-none focus:ring-0 cursor-pointer p-0"
+                  >
+                    <option value="helpful">Mais úteis primeiro</option>
+                    <option value="recent">Mais recentes primeiro</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Lista de Avaliações */}
+            <div className="space-y-6 mt-6">
+              {sortedReviews.map((review) => (
+                <div
+                  key={review.id}
+                  className="border-b border-gray-200 dark:border-gray-700 last:border-0 pb-6 last:pb-0 hover:bg-white dark:hover:bg-gray-700/50 rounded-xl p-4 -mx-4 transition-colors"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="flex items-center gap-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          className={`h-4 w-4 ${
+                            star <= review.rating
+                              ? 'text-yellow-400 fill-yellow-400'
+                              : 'text-gray-300 dark:text-gray-600'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400">•</div>
+                    <time className="text-sm text-gray-600 dark:text-gray-400">
+                      {new Date(review.date).toLocaleDateString('pt-BR')}
+                    </time>
+                  </div>
+
+                  <div className="flex items-center gap-2 mb-2">
+                    <h3 className="font-medium text-gray-900 dark:text-gray-100">
+                      {review.author}
+                    </h3>
+                    {review.verified && (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium">
+                        <CheckCircle2 className="h-3 w-3" />
+                        Verificada
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="text-gray-700 dark:text-gray-300">
+                    {review.comment}
+                  </p>
+
+                  <button className="mt-3 inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">
+                    <ThumbsUp className="h-4 w-4" />
+                    <span>{review.helpful} pessoas acharam útil</span>
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Benefícios e Garantias */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="bg-gradient-to-br from-green-50 to-green-50/50 dark:from-green-900/30 dark:to-green-900/20 p-4 rounded-xl border border-green-100 dark:border-green-900/30 shadow-sm">
+              <Truck className="h-6 w-6 text-green-600 dark:text-green-400 mb-2" />
+              <h3 className="font-medium text-green-900 dark:text-green-100">Frete Grátis</h3>
+              <p className="text-sm text-green-600 dark:text-green-300">Entrega em todo Brasil</p>
+            </div>
+            <div className="bg-gradient-to-br from-blue-50 to-blue-50/50 dark:from-blue-900/30 dark:to-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-900/30 shadow-sm">
+              <Shield className="h-6 w-6 text-blue-600 dark:text-blue-400 mb-2" />
+              <h3 className="font-medium text-blue-900 dark:text-blue-100">Garantia Estendida</h3>
+              <p className="text-sm text-blue-600 dark:text-blue-300">12 meses de garantia</p>
+            </div>
+            <div className="bg-gradient-to-br from-purple-50 to-purple-50/50 dark:from-purple-900/30 dark:to-purple-900/20 p-4 rounded-xl border border-purple-100 dark:border-purple-900/30 shadow-sm">
+              <RefreshCcw className="h-6 w-6 text-purple-600 dark:text-purple-400 mb-2" />
+              <h3 className="font-medium text-purple-900 dark:text-purple-100">Devolução Grátis</h3>
+              <p className="text-sm text-purple-600 dark:text-purple-300">30 dias para devolver</p>
+            </div>
+            <div className="bg-gradient-to-br from-orange-50 to-orange-50/50 dark:from-orange-900/30 dark:to-orange-900/20 p-4 rounded-xl border border-orange-100 dark:border-orange-900/30 shadow-sm">
+              <ShieldCheck className="h-6 w-6 text-orange-600 dark:text-orange-400 mb-2" />
+              <h3 className="font-medium text-orange-900 dark:text-orange-100">Compra Segura</h3>
+              <p className="text-sm text-orange-600 dark:text-orange-300">Pagamento protegido</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

@@ -5,9 +5,10 @@ import type { Product } from '../types/product';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, Smartphone, Laptop, Gamepad, Headphones, Camera, Watch, Tv, Speaker, ArrowRight, Eye, ShoppingCart } from 'lucide-react';
 import { FiShoppingCart, FiEye } from 'react-icons/fi';
+import { mockProducts } from './Electronics/mockData';
 
 interface Product {
-  id: number;
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -17,6 +18,8 @@ interface Product {
   discount?: number;
   isNew?: boolean;
   description: string;
+  isPromotion?: boolean;
+  originalPrice?: number;
 }
 
 // Definindo as categorias principais e suas subcategorias
@@ -47,283 +50,17 @@ const categories = {
   }
 };
 
-const products: Product[] = [
-  // Eletrônicos
-  {
-    id: 1,
-    name: 'MacBook Pro M2',
-    brand: 'Apple',
-    price: 12999.90,
-    image: 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&q=80',
-    category: 'Eletrônicos',
-    subcategory: 'Notebooks',
-    description: 'O notebook mais poderoso da Apple',
-    isNew: true
-  },
-  {
-    id: 2,
-    name: 'iPad Pro 12.9"',
-    brand: 'Apple',
-    price: 9499.90,
-    image: 'https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?auto=format&fit=crop&q=80',
-    category: 'Eletrônicos',
-    subcategory: 'Tablets',
-    discount: 10,
-    description: 'A experiência definitiva em tablet'
-  },
-  {
-    id: 3,
-    name: 'Dell XPS 15',
-    brand: 'Dell',
-    price: 11999.90,
-    image: 'https://images.unsplash.com/photo-1593642632823-797f1c22a38e?auto=format&fit=crop&q=80',
-    category: 'Eletrônicos',
-    subcategory: 'Notebooks',
-    discount: 15,
-    description: 'Performance excepcional para profissionais'
-  },
-  {
-    id: 4,
-    name: 'Samsung Galaxy Tab S9',
-    brand: 'Samsung',
-    price: 5999.90,
-    image: 'https://images.unsplash.com/photo-1561154464-82e9adf32764?auto=format&fit=crop&q=80',
-    category: 'Eletrônicos',
-    subcategory: 'Tablets',
-    isNew: true,
-    description: 'O tablet Android mais avançado'
-  },
-
-  // Smartphones
-  {
-    id: 5,
-    name: 'iPhone 14 Pro Max',
-    brand: 'Apple',
-    price: 7999.90,
-    image: 'https://images.unsplash.com/photo-1678469816711-11d75dd4c1c1?auto=format&fit=crop&q=80',
-    category: 'Smartphones',
-    subcategory: 'Apple',
-    isNew: true,
-    description: 'O iPhone mais avançado já criado'
-  },
-  {
-    id: 6,
-    name: 'Samsung Galaxy S23 Ultra',
-    brand: 'Samsung',
-    price: 6999.90,
-    image: 'https://images.unsplash.com/photo-1610945265064-0a8c4e0e7b1c?auto=format&fit=crop&q=80',
-    category: 'Smartphones',
-    subcategory: 'Samsung',
-    discount: 15,
-    description: 'Câmera de 200MP e S Pen incluída'
-  },
-  {
-    id: 7,
-    name: 'Xiaomi 13 Pro',
-    brand: 'Xiaomi',
-    price: 5999.90,
-    image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80',
-    category: 'Smartphones',
-    subcategory: 'Xiaomi',
-    isNew: true,
-    description: 'Tecnologia de ponta por menos'
-  },
-  {
-    id: 8,
-    name: 'iPhone 13',
-    brand: 'Apple',
-    price: 4999.90,
-    image: 'https://images.unsplash.com/photo-1632661674596-618d8b64d641?auto=format&fit=crop&q=80',
-    category: 'Smartphones',
-    subcategory: 'Apple',
-    discount: 20,
-    description: 'Ainda um excelente smartphone'
-  },
-
-  // Áudio
-  {
-    id: 9,
-    name: 'Sony WH-1000XM5',
-    brand: 'Sony',
-    price: 2499.90,
-    image: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&q=80',
-    category: 'Áudio',
-    subcategory: 'Fones',
-    discount: 10,
-    description: 'O melhor fone Bluetooth premium'
-  },
-  {
-    id: 10,
-    name: 'AirPods Pro 2',
-    brand: 'Apple',
-    price: 1899.90,
-    image: 'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&q=80',
-    category: 'Áudio',
-    subcategory: 'Fones',
-    isNew: true,
-    description: 'Cancelamento de ruído adaptativo'
-  },
-  {
-    id: 11,
-    name: 'JBL Boombox 3',
-    brand: 'JBL',
-    price: 2199.90,
-    image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&q=80',
-    category: 'Áudio',
-    subcategory: 'Caixas de Som',
-    isNew: true,
-    description: 'Som potente e bateria duradoura'
-  },
-  {
-    id: 12,
-    name: 'Marshall Stanmore II',
-    brand: 'Marshall',
-    price: 2799.90,
-    image: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&q=80',
-    category: 'Áudio',
-    subcategory: 'Caixas de Som',
-    discount: 15,
-    description: 'Som vintage com tecnologia moderna'
-  },
-
-  // Fotografia
-  {
-    id: 13,
-    name: 'Sony A7 IV',
-    brand: 'Sony',
-    price: 12999.90,
-    image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80',
-    category: 'Fotografia',
-    subcategory: 'Câmeras',
-    isNew: true,
-    description: 'Câmera mirrorless full-frame profissional'
-  },
-  {
-    id: 14,
-    name: 'Canon EOS R6',
-    brand: 'Canon',
-    price: 14999.90,
-    image: 'https://images.unsplash.com/photo-1502920917128-a205069470b6?auto=format&fit=crop&q=80',
-    category: 'Fotografia',
-    subcategory: 'Câmeras',
-    discount: 15,
-    description: 'Alta performance para foto e vídeo'
-  },
-  {
-    id: 15,
-    name: 'Sony 24-70mm f/2.8',
-    brand: 'Sony',
-    price: 8999.90,
-    image: 'https://images.unsplash.com/photo-1617005082133-548c4dd27f35?auto=format&fit=crop&q=80',
-    category: 'Fotografia',
-    subcategory: 'Lentes',
-    isNew: true,
-    description: 'A lente zoom padrão profissional'
-  },
-  {
-    id: 16,
-    name: 'Canon RF 50mm f/1.2',
-    brand: 'Canon',
-    price: 9999.90,
-    image: 'https://images.unsplash.com/photo-1617005082337-35b6e88bd2c6?auto=format&fit=crop&q=80',
-    category: 'Fotografia',
-    subcategory: 'Lentes',
-    discount: 10,
-    description: 'Bokeh perfeito e nitidez excepcional'
-  },
-
-  // Games
-  {
-    id: 17,
-    name: 'PlayStation 5 Digital',
-    brand: 'Sony',
-    price: 3999.90,
-    image: 'https://images.unsplash.com/photo-1607853202273-797f1c22a38e?auto=format&fit=crop&q=80',
-    category: 'Games',
-    subcategory: 'Consoles',
-    discount: 20,
-    description: 'Nova geração de jogos em 4K'
-  },
-  {
-    id: 18,
-    name: 'Xbox Series X',
-    brand: 'Microsoft',
-    price: 4299.90,
-    image: 'https://images.unsplash.com/photo-1621259182978-fbf433fd6eb7?auto=format&fit=crop&q=80',
-    category: 'Games',
-    subcategory: 'Consoles',
-    isNew: true,
-    description: 'O console mais poderoso da Microsoft'
-  },
-  {
-    id: 19,
-    name: 'God of War Ragnarök',
-    brand: 'Sony',
-    price: 299.90,
-    image: 'https://images.unsplash.com/photo-1621784563330-caee0b138a00?auto=format&fit=crop&q=80',
-    category: 'Games',
-    subcategory: 'Jogos',
-    isNew: true,
-    description: 'A continuação da saga nórdica'
-  },
-  {
-    id: 20,
-    name: 'Starfield',
-    brand: 'Bethesda',
-    price: 299.90,
-    image: 'https://images.unsplash.com/photo-1616856769992-0a8c4e0e7b1c?auto=format&fit=crop&q=80',
-    category: 'Games',
-    subcategory: 'Jogos',
-    discount: 10,
-    description: 'Explore o espaço em uma aventura épica'
-  },
-
-  // TV & Home
-  {
-    id: 21,
-    name: 'Samsung Neo QLED 65"',
-    brand: 'Samsung',
-    price: 8999.90,
-    image: 'https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&q=80',
-    category: 'TV & Home',
-    subcategory: 'Smart TVs',
-    isNew: true,
-    description: 'Qualidade de imagem extraordinária'
-  },
-  {
-    id: 22,
-    name: 'LG OLED C2 55"',
-    brand: 'LG',
-    price: 6999.90,
-    image: 'https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&q=80',
-    category: 'TV & Home',
-    subcategory: 'Smart TVs',
-    discount: 15,
-    description: 'Cores perfeitas e contraste infinito'
-  },
-  {
-    id: 23,
-    name: 'Sonos Arc',
-    brand: 'Sonos',
-    price: 4999.90,
-    image: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&q=80',
-    category: 'TV & Home',
-    subcategory: 'Home Theater',
-    isNew: true,
-    description: 'Som surround Dolby Atmos premium'
-  },
-  {
-    id: 24,
-    name: 'Samsung HW-Q990C',
-    brand: 'Samsung',
-    price: 5999.90,
-    image: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&q=80',
-    category: 'TV & Home',
-    subcategory: 'Home Theater',
-    discount: 20,
-    description: 'Sistema de som 11.1.4 canais'
-  }
+// Atualizar produtos em destaque
+const featuredProductIds = [
+  'ELEC-NOTE-001',
+  'ELEC-NOTE-002', 
+  'ELEC-TAB-001', 
+  'ELEC-ACC-003',
+  'ELEC-COMP-002',
+  'ELEC-COMP-001'
 ];
+
+const featuredProducts = mockProducts.filter(product => featuredProductIds.includes(product.id));
 
 export function FeaturedProducts() {
   const navigate = useNavigate();
@@ -337,23 +74,26 @@ export function FeaturedProducts() {
     });
   };
 
-  const calculateDiscountedPrice = (price: number, discount?: number) => {
-    if (!discount) return price;
-    return price * (1 - discount / 100);
+  const calculateDiscount = (price: number, originalPrice?: number) => {
+    if (!originalPrice) return 0;
+    return Math.round(((originalPrice - price) / originalPrice) * 100);
   };
 
-  const handleAddToCart = (productId: number) => {
-    const product = products.find(p => p.id === productId);
+  const handleAddToCart = (product: Product) => {
     if (product) {
       addToCart({
         id: product.id,
         name: product.name,
-        price: calculateDiscountedPrice(product.price, product.discount),
-        image: product.image
+        price: product.price,
+        image: product.image,
+        discount: product.discount,
+        brand: product.brand,
+        description: product.description,
+        isNew: product.isNew
       });
-      setIsAddingToCart(prev => ({ ...prev, [productId]: true }));
+      setIsAddingToCart(prev => ({ ...prev, [product.id]: true }));
       setTimeout(() => {
-        setIsAddingToCart(prev => ({ ...prev, [productId]: false }));
+        setIsAddingToCart(prev => ({ ...prev, [product.id]: false }));
       }, 1500);
     }
   };
@@ -387,7 +127,7 @@ export function FeaturedProducts() {
 
         {/* Grid responsivo de produtos */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
-          {products.slice(0, 6).map((product) => (
+          {featuredProducts.map((product) => (
             <div 
               key={product.id}
               onClick={() => handleProductClick(product.id)}
@@ -408,10 +148,10 @@ export function FeaturedProducts() {
                       Novo
                     </span>
                   )}
-                  {product.discount && (
+                  {product.isPromotion && product.originalPrice && (
                     <span className="bg-rose-600 dark:bg-rose-500 text-white text-sm font-semibold px-3 py-1 rounded-full
                                    shadow-lg transform transition-transform duration-300 hover:scale-105">
-                      -{product.discount}%
+                      -{calculateDiscount(product.price, product.originalPrice)}%
                     </span>
                   )}
                 </div>
@@ -441,18 +181,18 @@ export function FeaturedProducts() {
                   <div className="min-h-[50px] sm:min-h-[60px]">
                     <div className="flex items-baseline gap-2 group-hover:translate-x-2 transition-transform duration-300">
                       <span className="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                        {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
+                        {formatPrice(product.price)}
                       </span>
-                      {product.discount && (
+                      {product.isPromotion && product.originalPrice && (
                         <span className="text-sm text-slate-500 dark:text-slate-400 line-through group-hover:text-rose-500 dark:group-hover:text-rose-400 transition-colors">
-                          {formatPrice(product.price)}
+                          {formatPrice(product.originalPrice)}
                         </span>
                       )}
                     </div>
-                    {product.discount && (
+                    {product.isPromotion && product.originalPrice && (
                       <div className="flex items-center mt-1 group-hover:translate-x-2 transition-transform duration-300">
                         <span className="text-sm font-medium text-green-600 dark:text-green-400 group-hover:text-green-500 dark:group-hover:text-green-300 transition-colors">
-                          Economize {formatPrice(product.price - calculateDiscountedPrice(product.price, product.discount))}
+                          Economize {formatPrice(product.originalPrice - product.price)}
                         </span>
                       </div>
                     )}
@@ -485,7 +225,7 @@ export function FeaturedProducts() {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        handleAddToCart(product.id);
+                        handleAddToCart(product);
                       }}
                       disabled={isAddingToCart[product.id]}
                       className={`flex-1 inline-flex items-center justify-center gap-1.5
