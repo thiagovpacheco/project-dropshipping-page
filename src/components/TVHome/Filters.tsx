@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface FiltersProps {
   searchQuery: string;
@@ -53,6 +53,11 @@ export const Filters: React.FC<FiltersProps> = ({
 }) => {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [brandSearchQuery, setBrandSearchQuery] = useState('');
+
+  // Inicializa o preço máximo em 35.000
+  useEffect(() => {
+    setPriceRange([0, 35000]);
+  }, []);
 
   const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section);
@@ -164,31 +169,31 @@ export const Filters: React.FC<FiltersProps> = ({
               }`}
             >
               <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-600 dark:text-slate-300">
-                  R$ {priceRange[0]}
-                </span>
-                <span className="text-sm text-slate-600 dark:text-slate-300">
-                  R$ {priceRange[1]}
-                </span>
+                <div className="bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
+                  <span className="text-base text-gray-600 dark:text-gray-300">R$ {priceRange[0].toLocaleString('pt-BR')}</span>
+                </div>
+                <div className="h-[1px] w-4 bg-gray-300 dark:bg-gray-600" />
+                <div className="bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
+                  <span className="text-base text-gray-600 dark:text-gray-300">R$ {priceRange[1].toLocaleString('pt-BR')}</span>
+                </div>
               </div>
-              <input
-                type="range"
-                min={0}
-                max={10000}
-                step={100}
-                value={priceRange[0]}
-                onChange={(e) => setPriceRange([parseInt(e.target.value), priceRange[1]])}
-                className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer"
-              />
-              <input
-                type="range"
-                min={0}
-                max={10000}
-                step={100}
-                value={priceRange[1]}
-                onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-                className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer"
-              />
+              <div className="pt-1">
+                <input
+                  type="range"
+                  min="0"
+                  max="35000"
+                  step="100"
+                  value={priceRange[1]}
+                  onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
+                  className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer
+                           [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4
+                           [&::-webkit-slider-thumb]:bg-indigo-600 [&::-webkit-slider-thumb]:dark:bg-indigo-400
+                           [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer
+                           [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:duration-150
+                           [&::-webkit-slider-thumb]:hover:ring-2 [&::-webkit-slider-thumb]:hover:ring-indigo-200
+                           [&::-webkit-slider-thumb]:dark:hover:ring-indigo-900"
+                />
+              </div>
             </div>
           </div>
 
