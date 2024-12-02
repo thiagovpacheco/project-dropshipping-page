@@ -2,7 +2,7 @@ import { Product } from '../../types/product';
 
 export const mockProducts: Product[] = [
   {
-    id: '1',
+    id: 'FOTOG-CAM-001',
     name: 'Sony Alpha A7 IV',
     description: 'Câmera mirrorless full-frame de 33MP, gravação 4K 60p, estabilização de 5 eixos',
     price: 15999.99,
@@ -17,7 +17,7 @@ export const mockProducts: Product[] = [
     inStock: true
   },
   {
-    id: '2',
+    id: 'FOTOG-LEN-001',
     name: 'Canon RF 24-70mm f/2.8L',
     description: 'Lente zoom profissional para câmeras Canon RF, abertura f/2.8 constante',
     price: 12499.99,
@@ -30,7 +30,7 @@ export const mockProducts: Product[] = [
     inStock: true
   },
   {
-    id: '3',
+    id: 'FOTOG-TRI-001',
     name: 'Peak Design Travel Tripod',
     description: 'Tripé de viagem em fibra de carbono, compacto e leve, cabeça de bola',
     price: 3999.99,
@@ -43,7 +43,7 @@ export const mockProducts: Product[] = [
     inStock: true
   },
   {
-    id: '4',
+    id: 'FOTOG-LIG-001',
     name: 'Godox AD600Pro',
     description: 'Flash profissional 600W TTL com bateria, reciclagem rápida e controle sem fio',
     price: 5999.99,
@@ -56,7 +56,7 @@ export const mockProducts: Product[] = [
     inStock: true
   },
   {
-    id: '5',
+    id: 'FOTOG-CAM-002',
     name: 'Canon EOS R6 Mark II',
     description: 'Câmera mirrorless full-frame de 24MP, gravação 4K 60p, estabilização de 8 stops',
     price: 13999.99,
@@ -69,7 +69,7 @@ export const mockProducts: Product[] = [
     inStock: true
   },
   {
-    id: '6',
+    id: 'FOTOG-LEN-002',
     name: 'Sony FE 70-200mm f/2.8 GM II',
     description: 'Lente teleobjetiva zoom profissional, abertura f/2.8 constante',
     price: 14999.99,
@@ -82,7 +82,7 @@ export const mockProducts: Product[] = [
     inStock: true
   },
   {
-    id: '7',
+    id: 'FOTOG-TRI-002',
     name: 'Manfrotto MT055XPRO4',
     description: 'Tripé profissional em alumínio, coluna central horizontal, até 9kg',
     price: 2499.99,
@@ -95,7 +95,7 @@ export const mockProducts: Product[] = [
     inStock: true
   },
   {
-    id: '8',
+    id: 'FOTOG-LIG-002',
     name: 'Aputure LS 600x Pro',
     description: 'LED profissional bicolor 600W, controle DMX, Bowens Mount',
     price: 9999.99,
@@ -108,21 +108,7 @@ export const mockProducts: Product[] = [
     inStock: true
   },
   {
-    id: '9',
-    name: 'Nikon Z8',
-    description: 'Câmera mirrorless full-frame de 45.7MP, gravação 8K 60p, corpo em magnésio',
-    price: 24999.99,
-    originalPrice: 27999.99,
-    image: '/images/products/nikon-z8.jpg',
-    brand: 'Nikon',
-    category: 'cameras',
-    rating: 4.9,
-    reviews: 45,
-    isNew: true,
-    inStock: true
-  },
-  {
-    id: '10',
+    id: 'FOTOG-LIG-003',
     name: 'Profoto B10X Plus',
     description: 'Flash de estúdio portátil 500W, bateria integrada, luz de modelagem LED',
     price: 12999.99,

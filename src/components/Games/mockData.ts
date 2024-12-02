@@ -1,8 +1,9 @@
 import { Product } from '../../types/product';
 
 export const mockProducts: Product[] = [
+  // Consoles (CON)
   {
-    id: '1',
+    id: 'GAMES-CON-001',
     name: 'PlayStation 5',
     description: 'Console PlayStation 5 com leitor de disco, controle DualSense, 825GB SSD',
     price: 3999.99,
@@ -16,7 +17,7 @@ export const mockProducts: Product[] = [
     inStock: true
   },
   {
-    id: '2',
+    id: 'GAMES-CON-002',
     name: 'Xbox Series X',
     description: 'Console Xbox Series X 1TB, controle sem fio, suporte 4K 120fps',
     price: 3899.99,
@@ -29,7 +30,7 @@ export const mockProducts: Product[] = [
     inStock: true
   },
   {
-    id: '3',
+    id: 'GAMES-CON-003',
     name: 'Nintendo Switch OLED',
     description: 'Console Nintendo Switch modelo OLED com tela de 7 polegadas',
     price: 2499.99,
@@ -43,7 +44,22 @@ export const mockProducts: Product[] = [
     inStock: true
   },
   {
-    id: '4',
+    id: 'GAMES-CON-004',
+    name: 'Xbox Series S',
+    description: 'Console Xbox Series S digital, 512GB SSD, suporte 1440p 120fps',
+    price: 2199.99,
+    originalPrice: 2499.99,
+    image: '/images/products/xbox-series-s.jpg',
+    brand: 'Microsoft',
+    category: 'consoles',
+    rating: 4.7,
+    reviews: 456,
+    inStock: true
+  },
+
+  // Jogos (JOG)
+  {
+    id: 'GAMES-JOG-001',
     name: 'God of War Ragnarök',
     description: 'Jogo God of War Ragnarök para PS5, mídia física, dublado em português',
     price: 249.99,
@@ -57,33 +73,7 @@ export const mockProducts: Product[] = [
     inStock: true
   },
   {
-    id: '5',
-    name: 'Controle DualSense',
-    description: 'Controle sem fio DualSense para PlayStation 5, cor branca',
-    price: 399.99,
-    originalPrice: 499.99,
-    image: '/images/products/dualsense.jpg',
-    brand: 'Sony',
-    category: 'acessorios',
-    rating: 4.7,
-    reviews: 234,
-    inStock: true
-  },
-  {
-    id: '6',
-    name: 'Cadeira Gamer ThunderX3',
-    description: 'Cadeira Gamer profissional, reclinável 180°, almofadas inclusas',
-    price: 1499.99,
-    originalPrice: 1799.99,
-    image: '/images/products/thunderx3.jpg',
-    brand: 'ThunderX3',
-    category: 'cadeiras',
-    rating: 4.6,
-    reviews: 167,
-    inStock: true
-  },
-  {
-    id: '7',
+    id: 'GAMES-JOG-002',
     name: 'The Legend of Zelda: Tears of the Kingdom',
     description: 'A nova aventura de Link para Nintendo Switch',
     price: 299.99,
@@ -96,8 +86,23 @@ export const mockProducts: Product[] = [
     isNew: true,
     inStock: true
   },
+
+  // Acessórios (ACS)
   {
-    id: '8',
+    id: 'GAMES-ACS-001',
+    name: 'Controle DualSense',
+    description: 'Controle sem fio DualSense para PlayStation 5, cor branca',
+    price: 399.99,
+    originalPrice: 499.99,
+    image: '/images/products/dualsense.jpg',
+    brand: 'Sony',
+    category: 'acessorios',
+    rating: 4.7,
+    reviews: 234,
+    inStock: true
+  },
+  {
+    id: 'GAMES-ACS-002',
     name: 'Headset Razer BlackShark V2 Pro',
     description: 'Headset gamer sem fio com som surround THX e microfone destacável',
     price: 999.99,
@@ -109,8 +114,23 @@ export const mockProducts: Product[] = [
     reviews: 345,
     inStock: true
   },
+
+  // Cadeiras (CAD)
   {
-    id: '9',
+    id: 'GAMES-CAD-001',
+    name: 'Cadeira Gamer ThunderX3',
+    description: 'Cadeira Gamer profissional, reclinável 180°, almofadas inclusas',
+    price: 1499.99,
+    originalPrice: 1799.99,
+    image: '/images/products/thunderx3.jpg',
+    brand: 'ThunderX3',
+    category: 'cadeiras',
+    rating: 4.6,
+    reviews: 167,
+    inStock: true
+  },
+  {
+    id: 'GAMES-CAD-002',
     name: 'Cadeira Gamer DXRacer Formula',
     description: 'Cadeira ergonômica premium, estrutura em aço, espuma de alta densidade',
     price: 2499.99,
@@ -120,19 +140,6 @@ export const mockProducts: Product[] = [
     category: 'cadeiras',
     rating: 4.8,
     reviews: 123,
-    inStock: true
-  },
-  {
-    id: '10',
-    name: 'Xbox Series S',
-    description: 'Console Xbox Series S digital, 512GB SSD, suporte 1440p 120fps',
-    price: 2199.99,
-    originalPrice: 2499.99,
-    image: '/images/products/xbox-series-s.jpg',
-    brand: 'Microsoft',
-    category: 'consoles',
-    rating: 4.7,
-    reviews: 456,
     inStock: true
   }
 ];

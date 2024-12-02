@@ -1,8 +1,9 @@
 import { Product } from '../../types/product';
 
 export const mockProducts: Product[] = [
+  // Smart TVs (STV)
   {
-    id: '1',
+    id: 'TVEHOME-STV-001',
     name: 'Smart TV Samsung Neo QLED 65"',
     description: 'TV Neo QLED 4K, 120Hz, HDR, Alexa built-in, Design slim',
     price: 6999.99,
@@ -16,7 +17,7 @@ export const mockProducts: Product[] = [
     inStock: true
   },
   {
-    id: '2',
+    id: 'TVEHOME-STV-002',
     name: 'LG OLED evo C3 55"',
     description: 'TV OLED 4K, 120Hz, Dolby Vision IQ, webOS 23, Processador α9 Gen6',
     price: 5999.99,
@@ -29,85 +30,7 @@ export const mockProducts: Product[] = [
     inStock: true
   },
   {
-    id: '3',
-    name: 'Samsung The Premiere LSP9T',
-    description: 'Projetor 4K Laser Ultra Curta Distância, 130", 2800 ANSI Lumens',
-    price: 29999.99,
-    originalPrice: 34999.99,
-    image: '/images/products/samsung-premiere.jpg',
-    brand: 'Samsung',
-    category: 'projetores',
-    rating: 4.7,
-    reviews: 45,
-    inStock: true
-  },
-  {
-    id: '4',
-    name: 'Epson EpiqVision Ultra LS800',
-    description: 'Projetor Laser 4K Ultra Curta Distância, 150", 4000 ANSI Lumens',
-    price: 24999.99,
-    originalPrice: 27999.99,
-    image: '/images/products/epson-ls800.jpg',
-    brand: 'Epson',
-    category: 'projetores',
-    rating: 4.8,
-    reviews: 34,
-    inStock: true
-  },
-  {
-    id: '5',
-    name: 'Sonos Arc',
-    description: 'Soundbar Premium com Dolby Atmos, 11 drivers, controle por voz',
-    price: 7499.99,
-    originalPrice: 8499.99,
-    image: '/images/products/sonos-arc.jpg',
-    brand: 'Sonos',
-    category: 'soundbars',
-    rating: 4.9,
-    reviews: 189,
-    inStock: true
-  },
-  {
-    id: '6',
-    name: 'Samsung HW-Q990C',
-    description: 'Soundbar 11.1.4 canais, Dolby Atmos, Q-Symphony, SpaceFit Sound Pro',
-    price: 5999.99,
-    originalPrice: 6999.99,
-    image: '/images/products/samsung-q990c.jpg',
-    brand: 'Samsung',
-    category: 'soundbars',
-    rating: 4.8,
-    reviews: 156,
-    inStock: true
-  },
-  {
-    id: '7',
-    name: 'Roku Ultra',
-    description: 'Player de streaming 4K HDR, Dolby Vision, Dolby Atmos, Wi-Fi 6',
-    price: 899.99,
-    originalPrice: 999.99,
-    image: '/images/products/roku-ultra.jpg',
-    brand: 'Roku',
-    category: 'streaming',
-    rating: 4.7,
-    reviews: 234,
-    inStock: true
-  },
-  {
-    id: '8',
-    name: 'NVIDIA Shield TV Pro',
-    description: 'Player de streaming 4K AI Upscaling, GeForce NOW, Google Assistant',
-    price: 1999.99,
-    originalPrice: 2299.99,
-    image: '/images/products/nvidia-shield.jpg',
-    brand: 'NVIDIA',
-    category: 'streaming',
-    rating: 4.8,
-    reviews: 167,
-    inStock: true
-  },
-  {
-    id: '9',
+    id: 'TVEHOME-STV-003',
     name: 'Sony XR-85X95L',
     description: 'TV Mini LED 4K 85", XR Cognitive Processor, Google TV',
     price: 19999.99,
@@ -120,8 +43,36 @@ export const mockProducts: Product[] = [
     isNew: true,
     inStock: true
   },
+
+  // Projetores (PRJ)
   {
-    id: '10',
+    id: 'TVEHOME-PRJ-001',
+    name: 'Samsung The Premiere LSP9T',
+    description: 'Projetor 4K Laser Ultra Curta Distância, 130", 2800 ANSI Lumens',
+    price: 29999.99,
+    originalPrice: 34999.99,
+    image: '/images/products/samsung-premiere.jpg',
+    brand: 'Samsung',
+    category: 'projetores',
+    rating: 4.7,
+    reviews: 45,
+    inStock: true
+  },
+  {
+    id: 'TVEHOME-PRJ-002',
+    name: 'Epson EpiqVision Ultra LS800',
+    description: 'Projetor Laser 4K Ultra Curta Distância, 150", 4000 ANSI Lumens',
+    price: 24999.99,
+    originalPrice: 27999.99,
+    image: '/images/products/epson-ls800.jpg',
+    brand: 'Epson',
+    category: 'projetores',
+    rating: 4.8,
+    reviews: 34,
+    inStock: true
+  },
+  {
+    id: 'TVEHOME-PRJ-003',
     name: 'BenQ X3000i',
     description: 'Projetor Gaming 4K LED, 3000 ANSI Lumens, 240Hz, HDR10',
     price: 12999.99,
@@ -131,6 +82,62 @@ export const mockProducts: Product[] = [
     category: 'projetores',
     rating: 4.7,
     reviews: 89,
+    inStock: true
+  },
+
+  // Soundbars (SBR)
+  {
+    id: 'TVEHOME-SBR-001',
+    name: 'Sonos Arc',
+    description: 'Soundbar Premium com Dolby Atmos, 11 drivers, controle por voz',
+    price: 7499.99,
+    originalPrice: 8499.99,
+    image: '/images/products/sonos-arc.jpg',
+    brand: 'Sonos',
+    category: 'soundbars',
+    rating: 4.9,
+    reviews: 189,
+    inStock: true
+  },
+  {
+    id: 'TVEHOME-SBR-002',
+    name: 'Samsung HW-Q990C',
+    description: 'Soundbar 11.1.4 canais, Dolby Atmos, Q-Symphony, SpaceFit Sound Pro',
+    price: 5999.99,
+    originalPrice: 6999.99,
+    image: '/images/products/samsung-q990c.jpg',
+    brand: 'Samsung',
+    category: 'soundbars',
+    rating: 4.8,
+    reviews: 156,
+    inStock: true
+  },
+
+  // Streaming (STR)
+  {
+    id: 'TVEHOME-STR-001',
+    name: 'Roku Ultra',
+    description: 'Player de streaming 4K HDR, Dolby Vision, Dolby Atmos, Wi-Fi 6',
+    price: 899.99,
+    originalPrice: 999.99,
+    image: '/images/products/roku-ultra.jpg',
+    brand: 'Roku',
+    category: 'streaming',
+    rating: 4.7,
+    reviews: 234,
+    inStock: true
+  },
+  {
+    id: 'TVEHOME-STR-002',
+    name: 'NVIDIA Shield TV Pro',
+    description: 'Player de streaming 4K AI Upscaling, GeForce NOW, Google Assistant',
+    price: 1999.99,
+    originalPrice: 2299.99,
+    image: '/images/products/nvidia-shield.jpg',
+    brand: 'NVIDIA',
+    category: 'streaming',
+    rating: 4.8,
+    reviews: 167,
     inStock: true
   }
 ];

@@ -1,0 +1,137 @@
+IDs dos produtos criados:
+Notebooks (NOTE)
+
+ELEC-NOTE-001: MacBook Pro M2 14"
+ELEC-NOTE-002: Dell XPS 13 Plus
+ELEC-NOTE-003: Lenovo Legion 5 Pro
+ELEC-NOTE-004: Notebook Lenovo Legion 5
+ELEC-NOTE-005: MacBook Air M1
+ELEC-NOTE-006: Notebook Dell XPS 13
+
+Tablets (TAB)
+
+ELEC-TAB-001: iPad Pro 12.9" (M2)
+ELEC-TAB-002: Samsung Galaxy Tab S9 Ultra
+ELEC-TAB-003: Samsung Galaxy Tab S8 Ultra
+ELEC-TAB-004: iPad Pro 12.9" (M1)
+
+Acessórios (ACC)
+
+ELEC-ACC-001: Mouse Logitech G Pro X Superlight 2
+ELEC-ACC-002: Mouse Logitech G Pro X Superlight
+ELEC-ACC-003: Teclado Razer BlackWidow V3
+ELEC-ACC-004: Headset Corsair Virtuoso RGB
+
+Componentes (COMP)
+
+ELEC-COMP-001: Placa de Vídeo ASUS RTX 3070 Ti
+ELEC-COMP-002: Processador AMD Ryzen 9 5900X
+ELEC-COMP-003: Memória RAM Corsair Vengeance RGB Pro
+ELEC-COMP-004: SSD Samsung 970 EVO Plus
+
+Smartphones principais (PHO):
+
+SMART-PHO-001: iPhone 14 Pro Max
+SMART-PHO-002: Samsung Galaxy S23 Ultra
+SMART-PHO-003: Xiaomi 13 Pro
+SMART-PHO-004: iPhone 13
+SMART-PHO-005: Motorola Edge 40 Pro
+
+Smartphones básicos (BAS): 
+
+SMART-BAS-001: Nokia 105 
+SMART-BAS-002: LG K22+
+
+Acessórios (ACC):
+ 
+SMART-ACC-001: Carregador iPhone 20W 
+SMART-ACC-002: Capa Protetora Galaxy S23 
+SMART-ACC-003: Película iPhone 14 Pro Max
+
+Fones de ouvido (FON):
+
+AUDIO-FON-001: Sony WH-1000XM4
+AUDIO-FON-002: Apple AirPods Pro
+AUDIO-FON-003: Sony WF-1000XM4
+
+Caixas de som (SPK):
+
+AUDIO-SPK-001: JBL Flip 6
+AUDIO-SPK-002: JBL PartyBox 310
+
+Microfones (MIC):
+
+AUDIO-MIC-001: Shure SM7B
+AUDIO-MIC-002: Blue Yeti X
+
+Home Theater Systems (HTS):
+
+AUDIO-HTS-001: Yamaha YHT-1840
+AUDIO-HTS-002: Samsung HW-Q990C
+AUDIO-HTS-003: Denon AVR-X3800H
+
+Câmeras (CAM):
+
+FOTOG-CAM-001: Sony Alpha A7 IV
+FOTOG-CAM-002: Canon EOS R6 Mark II
+FOTOG-CAM-003: Nikon Z8
+
+Lentes (LEN):
+
+FOTOG-LEN-001: Canon RF 24-70mm f/2.8L
+FOTOG-LEN-002: Sony FE 70-200mm f/2.8 GM II
+
+Tripés (TRI):
+
+FOTOG-TRI-001: Peak Design Travel Tripod
+FOTOG-TRI-002: Manfrotto MT055XPRO4
+
+Iluminação (LIG):
+
+FOTOG-LIG-001: Godox AD600Pro
+FOTOG-LIG-002: Aputure LS 600x Pro
+FOTOG-LIG-003: Profoto B10X Plus
+
+Consoles (CON):
+
+GAMES-CON-001: PlayStation 5
+GAMES-CON-002: Xbox Series X
+GAMES-CON-003: Nintendo Switch OLED
+GAMES-CON-004: Xbox Series S
+
+Jogos (JOG):
+
+GAMES-JOG-001: God of War Ragnarök
+GAMES-JOG-002: The Legend of Zelda: Tears of the Kingdom
+
+Acessórios (ACS):
+
+GAMES-ACS-001: Controle DualSense
+GAMES-ACS-002: Headset Razer BlackShark V2 Pro
+
+Cadeiras (CAD):
+
+GAMES-CAD-001: Cadeira Gamer ThunderX3
+GAMES-CAD-002: Cadeira Gamer DXRacer Formula
+
+Smart TVs (STV):
+
+TVEHOME-STV-001: Smart TV Samsung Neo QLED 65"
+TVEHOME-STV-002: LG OLED evo C3 55"
+TVEHOME-STV-003: Sony XR-85X95L
+
+Projetores (PRJ):
+
+TVEHOME-PRJ-001: Samsung The Premiere LSP9T
+TVEHOME-PRJ-002: Epson EpiqVision Ultra LS800
+TVEHOME-PRJ-003: BenQ X3000i
+
+Soundbars (SBR):
+
+TVEHOME-SBR-001: Sonos Arc
+TVEHOME-SBR-002: Samsung HW-Q990C
+
+Streaming (STR):
+
+TVEHOME-STR-001: Roku Ultra
+TVEHOME-STR-002: NVIDIA Shield TV Pro
