@@ -62,40 +62,53 @@ const SmartphonesPage: React.FC = () => {
     }, 100);
   };
 
-  // Effect to update category when URL changes
+  // Effect to update search and category from URL
   useEffect(() => {
     const categoryFromUrl = searchParams.get('categoria');
+    const searchFromUrl = searchParams.get('busca');
+    
     if (categoryFromUrl) {
       setSelectedCategory(categoryFromUrl);
     }
+    
+    if (searchFromUrl) {
+      setSearchQuery(searchFromUrl);
+    }
   }, [searchParams]);
 
-  // Update URL when category changes
+  // Update URL when filters change
   useEffect(() => {
     if (selectedCategory === 'todos') {
       searchParams.delete('categoria');
-    } else {
+    } else if (selectedCategory) {
       searchParams.set('categoria', selectedCategory);
     }
+
+    if (searchQuery) {
+      searchParams.set('busca', searchQuery);
+    } else {
+      searchParams.delete('busca');
+    }
+
     setSearchParams(searchParams);
-  }, [selectedCategory]);
+  }, [selectedCategory, searchQuery]);
 
   // Filter products based on all criteria
   useEffect(() => {
     let filtered = mockProducts;
 
-    // Category filter
-    if (selectedCategory !== 'todos') {
-      filtered = filtered.filter(product => product.category === selectedCategory);
-    }
-
-    // Search query filter
+    // Search query filter (now includes description)
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(product =>
         product.name.toLowerCase().includes(query) ||
         product.description.toLowerCase().includes(query)
       );
+    }
+
+    // Category filter
+    if (selectedCategory !== 'todos') {
+      filtered = filtered.filter(product => product.category === selectedCategory);
     }
 
     // Price range filter
@@ -108,21 +121,6 @@ const SmartphonesPage: React.FC = () => {
       filtered = filtered.filter(product =>
         selectedBrands.includes(product.brand)
       );
-    }
-
-    // Discount range filter
-    if (selectedDiscountRanges.length > 0) {
-      filtered = filtered.filter(product => {
-        // Considera em promoção se tiver originalPrice maior que price
-        if (!product.originalPrice || product.originalPrice <= product.price) return false;
-        
-        const discountPercentage = Math.floor(((product.originalPrice - product.price) / product.originalPrice) * 100);
-        
-        return selectedDiscountRanges.some(range => {
-          const [min, max] = range.split('-').map(Number);
-          return discountPercentage >= min && discountPercentage <= max;
-        });
-      });
     }
 
     // Sorting
@@ -146,7 +144,7 @@ const SmartphonesPage: React.FC = () => {
     }
 
     setFilteredProducts(filtered);
-  }, [searchQuery, selectedCategory, priceRange, selectedBrands, selectedDiscountRanges, sortBy]);
+  }, [searchQuery, selectedCategory, priceRange, selectedBrands, sortBy]);
 
   return (
     <div className="container mx-auto px-4 py-8">

@@ -29,6 +29,14 @@
     @apply transition-all duration-300;
   }
 
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
   @media (hover: hover) {
     .nav-button:hover {
       @apply bg-[#4F46E5]/80 opacity-100 scale-110;

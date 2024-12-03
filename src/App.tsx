@@ -25,6 +25,7 @@ import GamesPage from './pages/GamesPage';
 import TVHomePage from './pages/TVHomePage';
 import { AccountData } from './pages/AccountData';
 import RegisterPage from './pages/RegisterPage';
+import SearchResults from './pages/SearchResults';
 
 // Home page component
 const HomePage = () => (
@@ -60,6 +61,7 @@ function App() {
                         <Route path="/games/*" element={<GamesPage />} />
                         <Route path="/tv-home/*" element={<TVHomePage />} />
                         <Route path="/conta" element={<AccountData />} />
+                        <Route path="/search" element={<SearchResults />} />
                       </Routes>
                     </main>
                     <Footer />

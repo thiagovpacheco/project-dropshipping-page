@@ -59,32 +59,50 @@ const ElectronicsPage: React.FC = () => {
     }, 100);
   };
 
-  // Effect to update category when URL changes
+  // Effect to update search and category from URL
   useEffect(() => {
     const categoryFromUrl = searchParams.get('categoria');
+    const searchFromUrl = searchParams.get('busca');
+    
     if (categoryFromUrl) {
       setSelectedCategory(categoryFromUrl);
     }
+    
+    if (searchFromUrl) {
+      setSearchQuery(searchFromUrl);
+    }
   }, [searchParams]);
 
-  // Update URL when category changes
+  // Update URL when filters change
   useEffect(() => {
     if (selectedCategory === 'todos') {
       searchParams.delete('categoria');
-    } else {
+    } else if (selectedCategory) {
       searchParams.set('categoria', selectedCategory);
     }
+
+    if (searchQuery) {
+      searchParams.set('busca', searchQuery);
+    } else {
+      searchParams.delete('busca');
+    }
+
     setSearchParams(searchParams);
-  }, [selectedCategory]);
+  }, [selectedCategory, searchQuery]);
 
   const filteredProducts = useMemo(() => {
     return mockProducts.filter(product => {
-      // Filtro de busca
-      if (searchQuery && !product.name.toLowerCase().includes(searchQuery.toLowerCase())) {
-        return false;
+      // Filtro de busca (agora procura também na descrição)
+      if (searchQuery) {
+        const searchLower = searchQuery.toLowerCase();
+        const nameMatch = product.name.toLowerCase().includes(searchLower);
+        const descriptionMatch = product.description.toLowerCase().includes(searchLower);
+        if (!nameMatch && !descriptionMatch) {
+          return false;
+        }
       }
 
-      // Filtro de categoria (ignora se for "todos" ou vazio)
+      // Filtro de categoria
       if (selectedCategory && selectedCategory !== 'todos' && product.category !== selectedCategory) {
         return false;
       }
@@ -97,22 +115,6 @@ const ElectronicsPage: React.FC = () => {
       // Filtro de preço
       if (product.price < priceRange[0] || product.price > priceRange[1]) {
         return false;
-      }
-
-      // Filtro de faixa de desconto
-      if (selectedDiscountRanges.length > 0) {
-        // Verifica se o produto tem preço original e está em promoção
-        if (!product.originalPrice || !product.isPromotion) return false;
-        
-        const discountPercentage = Math.floor(((product.originalPrice - product.price) / product.originalPrice) * 100);
-        
-        return selectedDiscountRanges.some(range => {
-          const [min, max] = range.split('-').map(Number);
-          if (max === 100) {
-            return discountPercentage >= 50;
-          }
-          return discountPercentage >= min && discountPercentage < max;
-        });
       }
 
       return true;
@@ -137,7 +139,7 @@ const ElectronicsPage: React.FC = () => {
           return 0;
       }
     });
-  }, [searchQuery, selectedCategory, selectedBrands, priceRange, selectedDiscountRanges, sortOption]);
+  }, [searchQuery, selectedCategory, selectedBrands, priceRange, sortOption]);
 
   return (
     <div className="container mx-auto px-4 py-8">

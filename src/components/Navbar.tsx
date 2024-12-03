@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
+import { MinimalSearchButton } from './Search/FinalMinimalButton';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu as HeadlessMenu, Transition } from '@headlessui/react';
 import { 
   Menu, X, ChevronDown, ShoppingCart, User, Search, Laptop,
   Smartphone, Headphones, Camera, Gamepad, Tv, LogOut, 
-  Settings, ShoppingBag, HeartIcon, UserCircle,
+  Settings, ShoppingBag, HeartIcon, UserCircle, UserCircle2,
   RefreshCw, MessageSquareMore, Package, HelpCircle,
   Plus, Minus
 } from 'lucide-react';
@@ -164,288 +165,224 @@ const Navbar: React.FC = () => {
   );
 
   const renderUserMenu = () => (
-    <div 
-      className="relative group"
-      ref={userMenuRef}
-    >
-      {!isAuthenticated ? (
-        <button
-          onClick={() => setIsAuthModalOpen(true)}
-          className="px-5 py-3 rounded-lg transition-colors duration-200 flex items-center gap-3 group"
-        >
-          <User className="h-7 w-7 text-slate-600 dark:text-gray-300 transition-colors duration-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
-          <span className="hidden 2xl:block text-slate-600 dark:text-gray-300 font-medium text-base transition-colors duration-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
-            Entrar
-          </span>
-        </button>
-      ) : (
+    <div className="relative group">
+      {isAuthenticated ? (
         <>
-          <HeadlessMenu as="div" className="relative group">
-            <HeadlessMenu.Button className="px-5 py-3 rounded-lg transition-colors duration-200 flex items-center gap-3">
-              <User className="h-7 w-7 text-slate-600 dark:text-gray-300" />
-              <span className="hidden 2xl:block text-slate-600 dark:text-gray-300 font-medium text-base">
-                <span className="flex items-center gap-1">
-                  Olá, <span className="text-indigo-600 dark:text-indigo-400">{getFirstName(user?.name)}</span>
-                </span>
+          <div className="flex items-center">
+            <button className="flex items-center gap-2 text-slate-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 py-2">
+              <UserCircle2 className="h-7 w-7" />
+              <span className="hidden lg:block font-medium">
+                Olá, {getFirstName(user?.name) || 'Usuário'}
               </span>
-              <ChevronDown className="hidden lg:block h-6 w-6 text-slate-600 dark:text-gray-300 transition-transform duration-200 group-hover:rotate-180" />
-            </HeadlessMenu.Button>
+              <ChevronDown className="h-5 w-5 transform transition-transform duration-200 lg:group-hover:rotate-180" />
+            </button>
+          </div>
 
-            {/* Menu para Desktop (hover) */}
-            <div className="hidden lg:block">
-              <div className="absolute right-0 mt-2 w-72 origin-top-right rounded-xl bg-white shadow-xl ring-1 ring-black/5 divide-y divide-gray-100 focus:outline-none transform opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out">
-                <div className="p-3">
-                  <button
-                    className="w-full flex items-center rounded-lg px-5 py-3.5 text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-150 ease-in-out hover:scale-[1.02]"
-                    onClick={() => navigate('/account')}
-                  >
-                    <User className="mr-4 h-6 w-6 text-gray-500 group-hover:text-indigo-600" />
-                    Dados da conta
-                  </button>
-                  <button
-                    className="w-full flex items-center rounded-lg px-5 py-3.5 text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-150 ease-in-out hover:scale-[1.02]"
-                    onClick={() => navigate('/orders')}
-                  >
-                    <Package className="mr-4 h-6 w-6 text-gray-500 group-hover:text-indigo-600" />
-                    Meus pedidos
-                  </button>
-                  <button
-                    className="w-full flex items-center rounded-lg px-5 py-3.5 text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-150 ease-in-out hover:scale-[1.02]"
-                    onClick={() => navigate('/returns')}
-                  >
-                    <RefreshCw className="mr-4 h-6 w-6 text-gray-500 group-hover:text-indigo-600" />
-                    Trocas e devoluções
-                  </button>
-                  <button
-                    className="w-full flex items-center rounded-lg px-5 py-3.5 text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-150 ease-in-out hover:scale-[1.02]"
-                    onClick={() => navigate('/support')}
-                  >
-                    <HelpCircle className="mr-4 h-6 w-6 text-gray-500 group-hover:text-indigo-600" />
-                    Atendimento
-                  </button>
-                </div>
-                <div className="p-3">
-                  <button
-                    className="w-full flex items-center rounded-lg px-5 py-3.5 text-base font-medium text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-150 ease-in-out hover:scale-[1.02]"
-                    onClick={() => {
-                      logout();
-                      navigate('/');
-                    }}
-                  >
-                    <LogOut className="mr-4 h-6 w-6 text-red-500 group-hover:text-red-600" />
-                    Sair da conta
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Menu para Mobile/Tablet (clique) */}
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-100"
-              enterFrom="transform opacity-0 scale-95"
-              enterTo="transform opacity-100 scale-100"
-              leave="transition ease-in duration-75"
-              leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95"
-              className="lg:hidden"
+          <div className="hidden lg:group-hover:block absolute right-0 w-64 rounded-2xl bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black/5 dark:ring-white/10 py-2 z-50">
+            <div className="absolute -top-2 left-0 right-0 h-4 bg-transparent"></div>
+            <Link
+              to="/conta"
+              className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200"
             >
-              <HeadlessMenu.Items className="absolute right-0 mt-2 w-72 origin-top-right rounded-xl bg-white shadow-xl ring-1 ring-black/5 divide-y divide-gray-100 focus:outline-none">
-                <div className="p-3">
-                  <HeadlessMenu.Item>
-                    {({ active }) => (
-                      <button
-                        className="w-full flex items-center rounded-lg px-5 py-3.5 text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-150 ease-in-out hover:scale-[1.02]"
-                        onClick={() => navigate('/account')}
-                      >
-                        <User className="mr-4 h-6 w-6 text-gray-500 group-hover:text-indigo-600" />
-                        Dados da conta
-                      </button>
-                    )}
-                  </HeadlessMenu.Item>
-                  <HeadlessMenu.Item>
-                    {({ active }) => (
-                      <button
-                        className="w-full flex items-center rounded-lg px-5 py-3.5 text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-150 ease-in-out hover:scale-[1.02]"
-                        onClick={() => navigate('/orders')}
-                      >
-                        <Package className="mr-4 h-6 w-6 text-gray-500 group-hover:text-indigo-600" />
-                        Meus pedidos
-                      </button>
-                    )}
-                  </HeadlessMenu.Item>
-                  <HeadlessMenu.Item>
-                    {({ active }) => (
-                      <button
-                        className="w-full flex items-center rounded-lg px-5 py-3.5 text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-150 ease-in-out hover:scale-[1.02]"
-                        onClick={() => navigate('/returns')}
-                      >
-                        <RefreshCw className="mr-4 h-6 w-6 text-gray-500 group-hover:text-indigo-600" />
-                        Trocas e devoluções
-                      </button>
-                    )}
-                  </HeadlessMenu.Item>
-                  <HeadlessMenu.Item>
-                    {({ active }) => (
-                      <button
-                        className="w-full flex items-center rounded-lg px-5 py-3.5 text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all duration-150 ease-in-out hover:scale-[1.02]"
-                        onClick={() => navigate('/support')}
-                      >
-                        <HelpCircle className="mr-4 h-6 w-6 text-gray-500 group-hover:text-indigo-600" />
-                        Atendimento
-                      </button>
-                    )}
-                  </HeadlessMenu.Item>
-                </div>
-                <div className="p-3">
-                  <HeadlessMenu.Item>
-                    {({ active }) => (
-                      <button
-                        className="w-full flex items-center rounded-lg px-5 py-3.5 text-base font-medium text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-150 ease-in-out hover:scale-[1.02]"
-                        onClick={() => {
-                          logout();
-                          navigate('/');
-                        }}
-                      >
-                        <LogOut className="mr-4 h-6 w-6 text-red-500 group-hover:text-red-600" />
-                        Sair da conta
-                      </button>
-                    )}
-                  </HeadlessMenu.Item>
-                </div>
-              </HeadlessMenu.Items>
-            </Transition>
-          </HeadlessMenu>
+              <User className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+              <span className="text-gray-700 dark:text-gray-200">
+                Dados da conta
+              </span>
+            </Link>
+
+            <Link
+              to="/orders"
+              className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200"
+            >
+              <Package className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+              <span className="text-gray-700 dark:text-gray-200">
+                Meus pedidos
+              </span>
+            </Link>
+
+            <Link
+              to="/returns"
+              className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200"
+            >
+              <RefreshCw className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+              <span className="text-gray-700 dark:text-gray-200">
+                Trocas e devoluções
+              </span>
+            </Link>
+
+            <Link
+              to="/support"
+              className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200"
+            >
+              <HelpCircle className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+              <span className="text-gray-700 dark:text-gray-200">
+                Atendimento
+              </span>
+            </Link>
+
+            <div className="border-t border-gray-100 dark:border-gray-700 mt-1"></div>
+
+            <button
+              onClick={logout}
+              className="flex items-center gap-3 px-4 py-3 w-full hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200 text-red-600 dark:text-red-400"
+            >
+              <LogOut className="h-5 w-5" />
+              <span>Sair da conta</span>
+            </button>
+          </div>
         </>
+      ) : (
+        <Link
+          to="/login"
+          className="flex items-center gap-2 text-slate-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+        >
+          <UserCircle2 className="h-7 w-7" />
+          <span className="hidden lg:block font-medium">Entrar</span>
+        </Link>
       )}
     </div>
   );
 
   return (
-    <>
-      <div className="sticky top-0 z-50 w-full bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-        <nav className="bg-white dark:bg-slate-950 shadow-lg relative z-10 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-gray-200 dark:after:via-gray-800 after:to-transparent">
-          <div className="max-w-[2000px] mx-auto px-4 sm:px-6">
-            <div className="flex h-16 sm:h-20 items-center">
+    <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+      <nav className="relative">
+        <div className="container mx-auto px-4 min-w-[320px] max-w-[1920px]">
+          {/* Top Bar */}
+          <div className="flex items-center justify-between h-16 sm:h-20">
+            {/* Left Section */}
+            <div className="flex items-center flex-shrink-0">
               {/* Logo */}
               <Link to="/" className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 transition-all duration-300 whitespace-nowrap">
                   NEXUS
                 </span>
               </Link>
+            </div>
 
-              {/* Categories - Desktop */}
-              <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8 ml-12 xl:ml-16">
-                {categories.map((category) => (
-                  <div
-                    key={category.name}
-                    className="relative group flex-shrink-0"
-                    onMouseEnter={() => setOpenDropdown(category.name)}
-                    onMouseLeave={() => setOpenDropdown(null)}
-                  >
-                    <Link
-                      to={category.route + '?categoria=todos'}
-                      className="flex items-center space-x-3 text-slate-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 py-3 whitespace-nowrap"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleNavigation(category.route + '?categoria=todos');
-                      }}
-                    >
-                      <span className="text-gray-400">{category.icon}</span>
-                      <span className="text-lg">{category.name}</span>
-                      <ChevronDown className="w-5 h-5 transform group-hover:rotate-180 transition-transform duration-200" />
-                    </Link>
+            {/* Center Section */}
+            <div className="flex-1 flex items-center justify-center max-w-4xl mx-4">
+              {/* Search Bar */}
+              <form
+                onSubmit={handleSearch}
+                className="hidden lg:flex flex-1 max-w-3xl relative"
+              >
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Encontre produtos..."
+                  className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 
+                          bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 
+                          focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400
+                          placeholder-gray-500 dark:placeholder-gray-400"
+                />
+                <button
+                  type="submit"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                >
+                  <Search className="h-5 w-5 text-gray-400" />
+                </button>
+              </form>
+            </div>
 
-                    <div className={`absolute left-0 mt-2 w-56 rounded-lg bg-white dark:bg-gray-800 shadow-lg
-                                  ring-1 ring-black ring-opacity-5 dark:ring-gray-700 focus:outline-none
-                                  transition-all duration-200 transform origin-top-left
-                                  ${openDropdown === category.name 
-                                    ? 'opacity-100 visible translate-y-0' 
-                                    : 'opacity-0 invisible -translate-y-2'}
-                                  z-[60]`}>
-                      <div className="py-1">
-                        {category.subcategories.map((sub) => (
-                          <Link
-                            key={sub.name}
-                            to={sub.route}
-                            className="group/item relative flex items-center px-4 py-2.5 hover:bg-slate-50 dark:hover:bg-gray-700"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleNavigation(sub.route);
-                            }}
-                          >
-                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-indigo-500 to-violet-500 transform scale-y-0 group-hover/item:scale-y-100 transition-transform duration-200 origin-top"></div>
-                            <p className="flex-1 text-base font-medium text-slate-700 dark:text-gray-300 group-hover/item:text-indigo-600 dark:group-hover/item:text-indigo-400 transition-colors duration-200">
-                              {sub.name}
-                            </p>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </nav>
+            {/* Right Section */}
+            <div className="flex items-center space-x-4 flex-shrink-0">
+              <button
+                onClick={() => setIsMenuOpen(true)}
+                className="lg:hidden p-2 rounded-lg transition-colors duration-200"
+              >
+                <Search className="h-5 w-5 sm:h-6 sm:w-6 text-slate-600 dark:text-gray-300" />
+              </button>
 
-              {/* Right Section */}
-              <div className="flex items-center ml-auto">
-                {/* Search, Account and Cart Section */}
-                <div className="flex items-center gap-2 sm:gap-3">
-                  {/* Search - Desktop */}
-                  <div className="hidden 2xl:block w-[480px] mr-2">
-                    {renderSearchBar()}
-                  </div>
-
-                  {/* Search - Mobile */}
-                  <button
-                    onClick={() => {
-                      if (isMenuOpen) {
-                        setIsMenuOpen(false);
-                      } else {
-                        setIsMenuOpen(true);
-                      }
-                    }}
-                    className="2xl:hidden p-2 rounded-lg transition-colors duration-200"
-                  >
-                    <Search className="h-6 w-6 text-slate-600 dark:text-gray-300" />
-                  </button>
-
-                  {/* User Menu */}
-                  <div className="relative group">
-                    {renderUserMenu()}
-                  </div>
-
-                  {/* Cart */}
-                  <div className="flex items-center gap-2">
-                    <Link
-                      to="/cart"
-                      className="relative p-3 transition-colors duration-200"
-                    >
-                      <ShoppingCart className="h-6 w-6 text-gray-600 hover:text-indigo-600" />
-                      {items.length > 0 && (
-                        <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs font-medium px-2 py-0.5 rounded-full">
-                          {items.reduce((total, item) => total + item.quantity, 0)}
-                        </span>
-                      )}
-                    </Link>
-                  </div>
-
-                  {/* Menu Hamburguer - Mobile */}
-                  <button
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="lg:hidden p-2 rounded-lg transition-colors duration-200"
-                  >
-                    {isMenuOpen ? (
-                      <X className="h-6 w-6 text-slate-600 dark:text-gray-300" />
-                    ) : (
-                      <Menu className="h-6 w-6 text-slate-600 dark:text-gray-300" />
-                    )}
-                  </button>
-                </div>
+              <div className="relative z-[999]">
+                {renderUserMenu()}
               </div>
+
+              <Link
+                to="/cart"
+                className="relative p-2 sm:p-3 transition-colors duration-200"
+              >
+                <ShoppingCart className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400" />
+                {items.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs font-medium px-2 py-0.5 rounded-full">
+                    {items.reduce((total, item) => total + item.quantity, 0)}
+                  </span>
+                )}
+              </Link>
+
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="lg:hidden p-2 rounded-lg transition-colors duration-200"
+              >
+                <Menu className="h-5 w-5 sm:h-6 sm:w-6 text-slate-600 dark:text-gray-300" />
+              </button>
             </div>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Categories Desktop */}
+          <div className="hidden lg:block border-t border-gray-100 dark:border-gray-800">
+            <div className="container mx-auto px-4">
+              <nav className="flex items-center justify-between py-4">
+                <div className="flex items-center justify-between w-full gap-2">
+                  {categories.map((category) => (
+                    <div
+                      key={category.name}
+                      className="relative group"
+                      onMouseEnter={() => setOpenDropdown(category.name)}
+                      onMouseLeave={() => setOpenDropdown(null)}
+                    >
+                      <Link
+                        to={category.route + '?categoria=todos'}
+                        className="flex items-center gap-2 text-slate-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 py-2 px-2 rounded-lg whitespace-nowrap"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleNavigation(category.route + '?categoria=todos');
+                        }}
+                      >
+                        <span className="text-gray-400 transition-colors duration-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
+                          {category.icon}
+                        </span>
+                        <span className="font-medium text-base">{category.name}</span>
+                        <ChevronDown className="w-5 h-5 transform transition-transform duration-200 group-hover:rotate-180" />
+                      </Link>
+
+                      {/* Category Dropdown */}
+                      <div 
+                        className={`absolute left-0 mt-2 w-56 rounded-lg bg-white dark:bg-gray-800 shadow-lg
+                                  ring-1 ring-black ring-opacity-5 dark:ring-gray-700 focus:outline-none
+                                  transition-all duration-200 transform origin-top-left
+                                  ${openDropdown === category.name 
+                                    ? 'opacity-100 scale-100 visible' 
+                                    : 'opacity-0 scale-95 invisible'}
+                                  z-[60]`}
+                      >
+                        <div className="py-1">
+                          {category.subcategories.map((sub) => (
+                            <Link
+                              key={sub.name}
+                              to={sub.route}
+                              className="group/item relative flex items-center px-4 py-2.5 hover:bg-slate-50 dark:hover:bg-gray-700"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleNavigation(sub.route);
+                              }}
+                            >
+                              <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-indigo-500 to-violet-500 transform scale-y-0 group-hover/item:scale-y-100 transition-transform duration-200 origin-top"></div>
+                              <p className="flex-1 text-base font-medium text-slate-700 dark:text-gray-300 group-hover/item:text-indigo-600 dark:group-hover/item:text-indigo-400 transition-colors duration-200">
+                                {sub.name}
+                              </p>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </nav>
+            </div>
+          </div>
+
+          {/* Categories Mobile */}
           <Transition
             show={isMenuOpen}
             enter="transition duration-200 ease-out"
@@ -457,7 +394,6 @@ const Navbar: React.FC = () => {
             className="absolute inset-x-0 top-full mt-2 transform origin-top 2xl:hidden"
           >
             <div className="bg-white dark:bg-gray-900 shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-gray-800 divide-y divide-gray-200 dark:divide-gray-800">
-              {/* Search Bar Mobile */}
               <div className="p-4">
                 <form onSubmit={handleSearch} className="relative">
                   <input
@@ -466,9 +402,9 @@ const Navbar: React.FC = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Buscar produtos..."
                     className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
-                            bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 
-                            focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400
-                            placeholder-gray-500 dark:placeholder-gray-400"
+                          bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 
+                          focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400
+                          placeholder-gray-500 dark:placeholder-gray-400"
                   />
                   <button
                     type="submit"
@@ -479,7 +415,6 @@ const Navbar: React.FC = () => {
                 </form>
               </div>
 
-              {/* Categories Mobile */}
               <div className="py-2">
                 {categories.map((category) => (
                   <HeadlessMenu key={category.name} as="div" className="relative">
@@ -532,13 +467,11 @@ const Navbar: React.FC = () => {
               </div>
             </div>
           </Transition>
-        </nav>
-      </div>
-      <AuthModal 
-        isOpen={isAuthModalOpen} 
-        onClose={() => setIsAuthModalOpen(false)} 
-      />
-    </>
+        </div>
+
+        <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+      </nav>
+    </header>
   );
 };
 
