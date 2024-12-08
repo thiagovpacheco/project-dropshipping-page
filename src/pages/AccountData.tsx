@@ -189,7 +189,7 @@ export function AccountData() {
   const [showPassword, setShowPassword] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
-  const [notificationType, setNotificationType] = useState('success');
+  const [notificationType, setNotificationType] = useState<'success' | 'error'>('success');
   const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
 
   const [editingData, setEditingData] = useState({
@@ -267,9 +267,9 @@ export function AccountData() {
 
     if (hasErrors) {
       setFieldErrors(errors);
-      setShowNotification(true);
       setNotificationMessage('Por favor, corrija os erros antes de salvar.');
       setNotificationType('error');
+      setShowNotification(true);
       return;
     }
 
@@ -296,15 +296,15 @@ export function AccountData() {
 
       setIsEditingData(false);
       setShowPassword(false);
-      setShowNotification(true);
       setNotificationMessage('Dados atualizados com sucesso!');
       setNotificationType('success');
+      setShowNotification(true);
       setFieldErrors({});
     } catch (error) {
       console.error('Erro ao atualizar dados:', error);
-      setShowNotification(true);
       setNotificationMessage('Erro ao atualizar dados.');
       setNotificationType('error');
+      setShowNotification(true);
     }
   };
 
@@ -348,9 +348,13 @@ export function AccountData() {
     const success = await updateFullAddress(editAddress);
     if (success) {
       setIsEditingAddress(false);
-      setShowNotification(true);
       setNotificationMessage('Endereço atualizado com sucesso!');
       setNotificationType('success');
+      setShowNotification(true);
+    } else {
+      setNotificationMessage('Erro ao atualizar o endereço. Tente novamente.');
+      setNotificationType('error');
+      setShowNotification(true);
     }
   };
 

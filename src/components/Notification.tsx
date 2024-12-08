@@ -1,56 +1,45 @@
 import React, { useEffect } from 'react';
+import { XMarkIcon, CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 
 interface NotificationProps {
-  isVisible: boolean;
   message: string;
   type?: 'success' | 'error';
-  onClose?: () => void;
+  onClose: () => void;
 }
 
-const Notification: React.FC<NotificationProps> = ({ isVisible, message, type = 'success', onClose }) => {
+const Notification: React.FC<NotificationProps> = ({ message, type = 'success', onClose }) => {
   useEffect(() => {
-    if (isVisible && onClose) {
-      const timer = setTimeout(() => {
-        onClose();
-      }, 3000); // Desaparece após 3 segundos
+    const timer = setTimeout(() => {
+      onClose();
+    }, 5000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [isVisible, onClose]);
+    return () => clearTimeout(timer);
+  }, [onClose]);
 
-  if (!isVisible) return null;
-
-  const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+  const bgColor = type === 'success' ? 'bg-green-50 dark:bg-green-900' : 'bg-red-50 dark:bg-red-900';
+  const textColor = type === 'success' ? 'text-green-800 dark:text-green-100' : 'text-red-800 dark:text-red-100';
+  const borderColor = type === 'success' ? 'border-green-200 dark:border-green-800' : 'border-red-200 dark:border-red-800';
+  const Icon = type === 'success' ? CheckCircleIcon : ExclamationCircleIcon;
 
   return (
-    <div className="fixed top-4 right-4 z-50">
-      <div className={`${bgColor} text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2 animate-fade-in`}>
-        {type === 'success' ? (
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+    <div className={`rounded-md ${bgColor} p-4 border ${borderColor} shadow-lg max-w-md`}>
+      <div className="flex items-start">
+        <div className="flex-shrink-0">
+          <Icon className={`h-5 w-5 ${textColor}`} aria-hidden="true" />
+        </div>
+        <div className="ml-3 flex-1">
+          <p className={`text-sm font-medium ${textColor}`}>{message}</p>
+        </div>
+        <div className="ml-4 flex-shrink-0">
+          <button
+            type="button"
+            className={`inline-flex rounded-md ${bgColor} ${textColor} hover:opacity-75 focus:outline-none`}
+            onClick={onClose}
           >
-            <path d="M5 13l4 4L19 7" />
-          </svg>
-        ) : (
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        )}
-        <span>{message}</span>
+            <span className="sr-only">Fechar</span>
+            <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
       </div>
     </div>
   );
