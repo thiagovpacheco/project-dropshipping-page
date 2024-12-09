@@ -124,7 +124,7 @@ const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
 
   const getFirstName = (fullName: string | undefined) => {
-    if (!fullName) return '';
+    if (!fullName || typeof fullName !== 'string') return '';
     return fullName.split(' ')[0];
   };
 
@@ -205,7 +205,7 @@ const Navbar = () => {
             <div className="flex items-center">
               <span className="text-lg">Olá, </span>
               <span className="text-lg text-indigo-600 dark:text-indigo-400 ml-1">
-                {getFirstName(user?.name)}
+                {getFirstName(user?.name || '')}
               </span>
               <ChevronDown className="w-5 h-5 ml-1" />
             </div>
@@ -227,10 +227,10 @@ const Navbar = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                    {user?.name}
+                    {user?.name || ''}
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
-                    {user?.email}
+                    {user?.email || ''}
                   </p>
                 </div>
               </div>
@@ -317,10 +317,10 @@ const Navbar = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                    {user?.name || 'Usuário Teste'}
+                    {user?.name || ''}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {user?.email || 'email@exemplo.com'}
+                    {user?.email || ''}
                   </p>
                 </div>
               </div>
@@ -689,7 +689,7 @@ const Navbar = () => {
                         <UserCircle className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />
                         <div>
                           <p className="text-lg font-medium text-gray-900 dark:text-white">
-                            {getFirstName(user?.name)}
+                            {getFirstName(user?.name || '')}
                           </p>
                           <button
                             onClick={() => {

@@ -58,6 +58,8 @@ const RegisterPage: React.FC = () => {
     hasSpecialChar: false
   });
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   // Pegar o email da URL
   const searchParams = new URLSearchParams(window.location.search);
@@ -97,6 +99,15 @@ const RegisterPage: React.FC = () => {
       navigate('/');
     }
   }, [emailFromURL, navigate]);
+
+  useEffect(() => {
+    if (isRedirecting) {
+      const timer = setTimeout(() => {
+        navigate('/');
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isRedirecting, navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -211,7 +222,7 @@ const RegisterPage: React.FC = () => {
     if (birthDate > today) return false;
     
     // Check if age is between 18 and 120 years
-    const age = today.getFullYear() - birthDate.getFullYear();
+    let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
       age--;
@@ -711,11 +722,11 @@ const RegisterPage: React.FC = () => {
           </ul>
         </div>
       </div>
-      <div>
+      <div className="mb-6">
         <label htmlFor="confirmPassword" className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-2">
           Confirmar Senha
         </label>
-        <div className="relative flex items-center">
+        <div className="relative">
           <input
             type={showConfirmPassword ? 'text' : 'password'}
             id="confirmPassword"
@@ -723,26 +734,23 @@ const RegisterPage: React.FC = () => {
             value={formData.confirmPassword}
             onChange={handleInputChange}
             className={`w-full h-12 px-4 text-base bg-white dark:bg-gray-800 border ${
-              fieldErrors.confirmPassword ? 'border-red-500' : 'border-gray-300 dark:border-gray-700'
-            } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent dark:text-white transition-colors duration-200 pr-10 [&::-ms-reveal]:hidden [&::-ms-clear]:hidden`}
+              formData.password !== formData.confirmPassword && formData.confirmPassword
+                ? 'border-red-500 dark:border-red-400'
+                : 'border-gray-300 dark:border-gray-700'
+            } rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent dark:text-white transition-colors duration-200`}
             required
           />
           <button
             type="button"
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            className="absolute right-3 p-1"
-            aria-label={showConfirmPassword ? 'Ocultar senha' : 'Mostrar senha'}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none"
           >
-            {showConfirmPassword ? (
-              <EyeOff className="h-5 w-5 text-gray-400" />
-            ) : (
-              <Eye className="h-5 w-5 text-gray-400" />
-            )}
+            {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
           </button>
         </div>
-        {fieldErrors.confirmPassword && (
-          <p className="mt-1 text-sm text-red-600 dark:text-red-400">
-            {fieldErrors.confirmPassword}
+        {formData.password !== formData.confirmPassword && formData.confirmPassword && (
+          <p className="mt-2 text-sm text-red-600 dark:text-red-400">
+            As senhas devem coincidir.
           </p>
         )}
       </div>
@@ -755,27 +763,18 @@ const RegisterPage: React.FC = () => {
     if (currentStep === 4) {
       if (validateStep(currentStep)) {
         try {
-          // Create FormData object with all user information
-          const userData = new FormData();
-          userData.append('firstName', formData.firstName);
-          userData.append('lastName', formData.lastName);
-          userData.append('email', formData.email);
-          userData.append('cpf', formData.cpf);
-          userData.append('phone', formData.phone);
-          userData.append('birthDate', formData.birthDate);
-          userData.append('street', formData.street);
-          userData.append('number', formData.number);
-          userData.append('complement', formData.complement);
-          userData.append('neighborhood', formData.neighborhood);
-          userData.append('city', formData.city);
-          userData.append('state', formData.state);
-          userData.append('zipCode', formData.zipCode);
-          userData.append('password', formData.password);
+          const formDataToSubmit = new FormData();
+          Object.entries(formData).forEach(([key, value]) => {
+            if (key !== 'confirmPassword') {
+              formDataToSubmit.append(key, value);
+            }
+          });
 
-          await register(userData);
-          navigate('/conta');
+          await register(formDataToSubmit);
+          setShowSuccessMessage(true);
+          setIsRedirecting(true);
         } catch (error) {
-          console.error('Erro ao registrar:', error);
+          console.error('Error during registration:', error);
         }
       }
     } else if (validateStep(currentStep)) {
@@ -826,12 +825,27 @@ const RegisterPage: React.FC = () => {
                   }`}
                 disabled={!validateStep(currentStep)}
               >
-                {currentStep < 4 ? 'Continuar' : 'Criar conta'}
+                {currentStep < 4 ? 'Continuar' : isRedirecting ? 'Criando conta...' : 'Criar conta'}
               </button>
             </div>
           </form>
         </div>
       </div>
+      {showSuccessMessage && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl max-w-sm w-full mx-4">
+            <div className="flex items-center justify-center mb-4">
+              <CheckCircle className="w-12 h-12 text-green-500" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white text-center mb-2">
+              Conta criada com sucesso!
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300 text-center">
+              Você será redirecionado para a página inicial em instantes...
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

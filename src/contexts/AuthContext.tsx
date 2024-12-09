@@ -35,7 +35,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Verificar se há um usuário salvo no localStorage
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
-      setUser(JSON.parse(savedUser));
+      try {
+        const parsedUser = JSON.parse(savedUser);
+        // Validar se o usuário tem os campos necessários
+        if (parsedUser && typeof parsedUser === 'object' && parsedUser.id && parsedUser.name && parsedUser.email) {
+          setUser(parsedUser);
+        } else {
+          localStorage.removeItem('user');
+        }
+      } catch (error) {
+        localStorage.removeItem('user');
+      }
     }
   }, []);
 
