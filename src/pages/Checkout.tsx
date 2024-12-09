@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import CreditCard from '../components/CreditCard';
 import PixIcon from '../components/PixIcon';
+import { useAuth } from '../contexts/AuthContext';
+import { useNavbar } from '../contexts/NavbarContext';
 
 interface CheckoutProduct {
   id: string;
@@ -15,11 +17,62 @@ interface CheckoutProduct {
 const Checkout = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const { setShowLoginModal } = useNavbar();
   const product = location.state?.product as CheckoutProduct;
 
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 space-y-6">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              Atenção
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              Para finalizar sua compra, você precisa estar logado na sua conta ou criar uma nova conta.
+            </p>
+          </div>
+          
+          <div className="space-y-4">
+            <button
+              onClick={() => {
+                setShowLoginModal(true);
+              }}
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200"
+            >
+              Fazer Login / Criar Conta
+            </button>
+            
+            <button
+              onClick={() => navigate(-1)}
+              className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white font-semibold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center gap-2"
+            >
+              <ArrowLeft size={20} />
+              Voltar para o Produto
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const returnUrl = encodeURIComponent(location.pathname + location.search);
+
+  useEffect(() => {
+    if (!user) {
+      navigate(`/conta?returnUrl=${returnUrl}`, { 
+        state: { 
+          message: 'Faça login para continuar com a compra',
+          returnUrl: location.pathname + location.search
+        }
+      });
+    }
+  }, [user, navigate, returnUrl]);
+
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
+    fullName: user.firstName + ' ' + user.lastName || '',
+    email: user.email || '',
     address: '',
     city: '',
     state: '',

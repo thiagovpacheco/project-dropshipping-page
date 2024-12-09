@@ -46,7 +46,7 @@ interface CepResponse {
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { register } = useAuth();
+  const { register, login } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -60,6 +60,15 @@ const RegisterPage: React.FC = () => {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const returnUrl = new URLSearchParams(location.search).get('returnUrl') || '/';
+  const message = location.state?.message;
+
+  useEffect(() => {
+    if (message) {
+      // TODO: Mostrar mensagem usando um sistema de toast/notificação
+      console.log(message);
+    }
+  }, [message]);
 
   // Pegar o email da URL
   const searchParams = new URLSearchParams(window.location.search);
@@ -103,7 +112,7 @@ const RegisterPage: React.FC = () => {
   useEffect(() => {
     if (isRedirecting) {
       const timer = setTimeout(() => {
-        navigate('/');
+        navigate(returnUrl);
       }, 3000);
       return () => clearTimeout(timer);
     }
@@ -779,6 +788,27 @@ const RegisterPage: React.FC = () => {
       }
     } else if (validateStep(currentStep)) {
       setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handleSuccessfulLogin = () => {
+    setShowSuccessMessage(true);
+    setIsRedirecting(true);
+    
+    setTimeout(() => {
+      navigate(returnUrl);
+    }, 3000);
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsRedirecting(true);
+
+    try {
+      await login(formData.email, formData.password);
+      handleSuccessfulLogin();
+    } catch (error) {
+      console.error('Error during login:', error);
     }
   };
 
