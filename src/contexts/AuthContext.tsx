@@ -50,11 +50,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const login = async (email: string, password: string) => {
-    // Simulação de login
-    const fakeUser = {
+    // Simulação de login com dados completos
+    const fakeUser: User = {
       id: '1',
-      name: 'Usuário Teste',
-      email: email
+      name: 'Thiago Velasco',
+      email: email,
+      cpf: '123.456.789-00',
+      phone: '(11) 98765-4321',
+      birthDate: '1990-01-01',
+      address: {
+        street: 'Rua das Flores',
+        number: '123',
+        complement: 'Apto 456',
+        neighborhood: 'Jardim das Acácias',
+        city: 'São Paulo',
+        state: 'SP',
+        zipCode: '01234-567'
+      }
     };
     
     setUser(fakeUser);
