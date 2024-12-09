@@ -70,6 +70,7 @@ const Checkout = () => {
     }
   }, [user, navigate, returnUrl]);
 
+  const [paymentMethod, setPaymentMethod] = useState<'credit' | 'pix' | 'boleto' | null>(null);
   const [formData, setFormData] = useState({
     cardNumber: '',
     cardHolder: '',
@@ -104,6 +105,10 @@ const Checkout = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!paymentMethod) {
+      alert('Por favor, selecione um método de pagamento');
+      return;
+    }
     // Aqui você implementaria a lógica de processamento do pagamento
     console.log('Processando pagamento:', formData);
   };
@@ -156,113 +161,135 @@ const Checkout = () => {
           </div>
         </div>
 
-        {/* Informações Pessoais */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Informações Pessoais</h2>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Nome Completo
-              </label>
-              <div className="text-gray-900 dark:text-white p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                {user?.name}
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Email
-              </label>
-              <div className="text-gray-900 dark:text-white p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                {user?.email}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Endereço de Entrega */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Endereço de Entrega</h2>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Endereço
-              </label>
-              <div className="text-gray-900 dark:text-white p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                {user?.address?.street}, {user?.address?.number}
-                {user?.address?.complement && ` - ${user.address.complement}`}
-                {user?.address?.neighborhood && ` - ${user.address.neighborhood}`}
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Cidade
-                </label>
-                <div className="text-gray-900 dark:text-white p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  {user?.address?.city}
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Estado
-                </label>
-                <div className="text-gray-900 dark:text-white p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  {user?.address?.state}
-                </div>
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                CEP
-              </label>
-              <div className="text-gray-900 dark:text-white p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                {user?.address?.zipCode}
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Informações de Pagamento */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Informações de Pagamento</h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Número do Cartão
-                </label>
-                <input
-                  type="text"
-                  name="cardNumber"
-                  value={formData.cardNumber}
-                  onChange={handleInputChange}
-                  onFocus={() => setIsCardFlipped(false)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
-                  placeholder="1234 5678 9012 3456"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Nome no Cartão
-                </label>
-                <input
-                  type="text"
-                  name="cardHolder"
-                  value={formData.cardHolder}
-                  onChange={handleInputChange}
-                  onFocus={() => setIsCardFlipped(false)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
-                  placeholder="NOME COMO ESTÁ NO CARTÃO"
-                  required
-                />
-              </div>
-
-              {/* Container para campos pequenos e cartão */}
-              <div className="flex flex-col md:flex-row gap-6 items-start mb-12">
-                {/* Campos pequenos */}
-                <div className="w-full md:w-1/3 space-y-4">
+          
+          {/* Seleção do método de pagamento */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+              Escolha como você quer pagar
+            </label>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <button
+                type="button"
+                onClick={() => setPaymentMethod('credit')}
+                className={`flex items-center justify-between p-4 rounded-lg border-2 transition-all ${
+                  paymentMethod === 'credit'
+                    ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20'
+                    : 'border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-500'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-white dark:bg-gray-700 rounded-lg">
+                    <svg className="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    </svg>
+                  </div>
                   <div>
+                    <p className="font-medium text-gray-900 dark:text-white">Cartão de Crédito</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Pagamento em até 12x</p>
+                  </div>
+                </div>
+                <div className={`w-5 h-5 rounded-full border-2 ${
+                  paymentMethod === 'credit'
+                    ? 'border-indigo-600 bg-indigo-600 dark:border-indigo-400 dark:bg-indigo-400'
+                    : 'border-gray-300 dark:border-gray-600'
+                }`} />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setPaymentMethod('pix')}
+                className={`flex items-center justify-between p-4 rounded-lg border-2 transition-all ${
+                  paymentMethod === 'pix'
+                    ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20'
+                    : 'border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-500'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-white dark:bg-gray-700 rounded-lg">
+                    <PixIcon className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900 dark:text-white">PIX</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">5% de desconto e aprovação imediata</p>
+                  </div>
+                </div>
+                <div className={`w-5 h-5 rounded-full border-2 ${
+                  paymentMethod === 'pix'
+                    ? 'border-indigo-600 bg-indigo-600 dark:border-indigo-400 dark:bg-indigo-400'
+                    : 'border-gray-300 dark:border-gray-600'
+                }`} />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setPaymentMethod('boleto')}
+                className={`flex items-center justify-between p-4 rounded-lg border-2 transition-all ${
+                  paymentMethod === 'boleto'
+                    ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20'
+                    : 'border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-500'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-white dark:bg-gray-700 rounded-lg">
+                    <svg className="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900 dark:text-white">Boleto Bancário</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Vencimento em 3 dias úteis</p>
+                  </div>
+                </div>
+                <div className={`w-5 h-5 rounded-full border-2 ${
+                  paymentMethod === 'boleto'
+                    ? 'border-indigo-600 bg-indigo-600 dark:border-indigo-400 dark:bg-indigo-400'
+                    : 'border-gray-300 dark:border-gray-600'
+                }`} />
+              </button>
+            </div>
+          </div>
+
+          {/* Formulário de Cartão de Crédito */}
+          {paymentMethod === 'credit' && (
+            <div className="mt-6 space-y-6">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Número do Cartão
+                  </label>
+                  <input
+                    type="text"
+                    name="cardNumber"
+                    value={formData.cardNumber}
+                    onChange={handleInputChange}
+                    onFocus={() => setIsCardFlipped(false)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
+                    placeholder="1234 5678 9012 3456"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Nome no Cartão
+                  </label>
+                  <input
+                    type="text"
+                    name="cardHolder"
+                    value={formData.cardHolder}
+                    onChange={handleInputChange}
+                    onFocus={() => setIsCardFlipped(false)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
+                    placeholder="NOME COMO ESTÁ NO CARTÃO"
+                    required
+                  />
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="w-1/2">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       Data de Validade
                     </label>
@@ -277,7 +304,7 @@ const Checkout = () => {
                       required
                     />
                   </div>
-                  <div>
+                  <div className="w-1/2">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       CVV
                     </label>
@@ -294,46 +321,183 @@ const Checkout = () => {
                     />
                   </div>
                 </div>
+              </div>
 
-                {/* Cartão */}
-                <div className="w-full md:w-2/3 flex justify-center md:justify-end">
-                  <CreditCard
-                    cardNumber={formData.cardNumber}
-                    cardHolder={formData.cardHolder}
-                    expiryDate={formData.cardExpiry}
-                    cvv={formData.cardCVV}
-                    isFlipped={isCardFlipped}
-                  />
+              {/* Preview do Cartão */}
+              <div className="flex justify-center">
+                <CreditCard
+                  cardNumber={formData.cardNumber}
+                  cardHolder={formData.cardHolder}
+                  expiryDate={formData.cardExpiry}
+                  cvv={formData.cardCVV}
+                  isFlipped={isCardFlipped}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Seção PIX */}
+          {paymentMethod === 'pix' && (
+            <div className="mt-6 space-y-6">
+              <div className="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg">
+                <div className="flex items-center gap-3 mb-3">
+                  <PixIcon className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                  <p className="font-medium text-gray-900 dark:text-white">
+                    Pague com PIX
+                  </p>
+                </div>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  Ao clicar em "Gerar QR Code", você receberá um QR Code para fazer o pagamento pelo seu banco.
+                  O pagamento será confirmado instantaneamente.
+                </p>
+              </div>
+              
+              <div className="flex justify-center">
+                <div className="w-48 h-48 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 text-center px-4">
+                    Clique em "Gerar QR Code" para visualizar o código PIX
+                  </p>
                 </div>
               </div>
             </div>
+          )}
 
-            {/* Botão de PIX */}
-            <div className="mb-4">
-              <button
-                type="button"
-                onClick={() => {
-                  // Aqui você pode adicionar a lógica para gerar o QR Code do PIX
-                  console.log('Gerar PIX');
-                }}
-                className="w-full bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 px-6 py-3 rounded-lg border-2 border-indigo-600 dark:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-600 transition-colors flex items-center justify-center gap-2"
-              >
-                <PixIcon className="w-6 h-6" />
-                Pagar com PIX
-              </button>
+          {/* Seção Boleto */}
+          {paymentMethod === 'boleto' && (
+            <div className="mt-6 space-y-6">
+              <div className="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-lg">
+                <div className="flex items-center gap-3 mb-3">
+                  <svg className="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <p className="font-medium text-gray-900 dark:text-white">
+                    Pague com Boleto
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    • O boleto será gerado após a finalização da compra
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    • Prazo de vencimento: 3 dias úteis
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    • Após o pagamento, pode levar até 3 dias úteis para a confirmação
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    • O boleto pode ser pago em qualquer banco ou casa lotérica
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex justify-center">
+                <div className="w-full max-w-md bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
+                  <div className="space-y-3">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600 dark:text-gray-300">Valor do Pedido:</span>
+                      <span className="font-medium text-gray-900 dark:text-white">R$ {product.price.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600 dark:text-gray-300">Taxa do Boleto:</span>
+                      <span className="font-medium text-gray-900 dark:text-white">R$ 3,99</span>
+                    </div>
+                    <div className="border-t border-gray-200 dark:border-gray-700 pt-3">
+                      <div className="flex justify-between">
+                        <span className="font-medium text-gray-900 dark:text-white">Total:</span>
+                        <span className="font-medium text-gray-900 dark:text-white">R$ {(product.price + 3.99).toFixed(2)}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            {/* Botão de Finalizar Compra */}
-            <div>
-              <button
-                type="submit"
-                className="w-full bg-indigo-600 dark:bg-indigo-800 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-900 transition-colors"
-              >
-                Finalizar Compra
-              </button>
-            </div>
-          </form>
+          )}
         </div>
+
+        {/* Informações de Entrega */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Informações de Entrega</h2>
+          
+          {/* Dados do Destinatário */}
+          <div className="mb-6">
+            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Dados do Destinatário</h3>
+            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 space-y-2">
+              <p className="text-gray-900 dark:text-white">
+                <span className="font-medium">{user?.name}</span>
+              </p>
+              <p className="text-gray-600 dark:text-gray-300 text-sm">
+                {user?.email}
+              </p>
+            </div>
+          </div>
+
+          {/* Endereço de Entrega */}
+          <div>
+            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Endereço de Entrega</h3>
+            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 space-y-3">
+              <p className="text-gray-900 dark:text-white">
+                {user?.address?.street}, {user?.address?.number}
+                {user?.address?.complement && ` - ${user.address.complement}`}
+              </p>
+              <p className="text-gray-600 dark:text-gray-300">
+                {user?.address?.neighborhood}
+              </p>
+              <p className="text-gray-600 dark:text-gray-300">
+                {user?.address?.city} - {user?.address?.state}
+              </p>
+              <p className="text-gray-600 dark:text-gray-300">
+                CEP: {user?.address?.zipCode}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Botão de Finalizar */}
+        {paymentMethod && (
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+            <div className="flex flex-col space-y-4">
+              {/* Resumo dos Valores */}
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-gray-600 dark:text-gray-300">Subtotal:</span>
+                  <span className="text-gray-900 dark:text-white">R$ {product.price.toFixed(2)}</span>
+                </div>
+                {paymentMethod === 'pix' && (
+                  <div className="flex justify-between text-green-600 dark:text-green-400">
+                    <span>Desconto PIX (5%):</span>
+                    <span>- R$ {(product.price * 0.05).toFixed(2)}</span>
+                  </div>
+                )}
+                {paymentMethod === 'boleto' && (
+                  <div className="flex justify-between">
+                    <span className="text-gray-600 dark:text-gray-300">Taxa do Boleto:</span>
+                    <span className="text-gray-900 dark:text-white">R$ 3,99</span>
+                  </div>
+                )}
+                <div className="flex justify-between text-lg font-semibold pt-2 border-t border-gray-200 dark:border-gray-700">
+                  <span className="text-gray-900 dark:text-white">Total:</span>
+                  <span className="text-gray-900 dark:text-white">
+                    {paymentMethod === 'pix' 
+                      ? `R$ ${(product.price * 0.95).toFixed(2)}`
+                      : paymentMethod === 'boleto'
+                        ? `R$ ${(product.price + 3.99).toFixed(2)}`
+                        : `R$ ${product.price.toFixed(2)}`
+                    }
+                  </span>
+                </div>
+              </div>
+
+              <form onSubmit={handleSubmit}>
+                <button
+                  type="submit"
+                  className="w-full bg-indigo-600 dark:bg-indigo-500 text-white px-6 py-4 rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors font-medium text-lg"
+                >
+                  Finalizar Pedido
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
