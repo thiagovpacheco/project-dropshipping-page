@@ -20,9 +20,9 @@ const TrocasDevolucoesPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border-l-4 border-indigo-500 dark:border-indigo-400"
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border-l-4 border-[#7C3AED] dark:border-[#7C3AED]"
           >
-            <h2 className="text-xl font-medium text-indigo-600 dark:text-indigo-400 mb-4">Informações Gerais</h2>
+            <h2 className="text-xl font-medium text-[#7C3AED] dark:text-[#8B5CF6] mb-4">Informações Gerais</h2>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
               Nossa política de trocas e devoluções foi desenvolvida de acordo com o Código de Defesa do Consumidor.
               Garantimos a troca ou devolução de produtos dentro do prazo de 7 dias corridos após o recebimento,
@@ -34,20 +34,21 @@ const TrocasDevolucoesPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border-l-4 border-purple-500 dark:border-purple-400"
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border-l-4 border-[#7C3AED] dark:border-[#7C3AED]"
           >
-            <h2 className="text-xl font-medium text-purple-600 dark:text-purple-400 mb-4">Processo de Solicitação</h2>
+            <h2 className="text-xl font-medium text-[#7C3AED] dark:text-[#8B5CF6] mb-4">Processo de Solicitação</h2>
             <div className="space-y-4">
-              {[
+              {[/* eslint-disable max-len */
                 'Entre em contato com nosso atendimento',
                 'Informe o número do pedido',
                 'Descreva o motivo da troca ou devolução',
                 'Aguarde as instruções por email',
                 'Embale o produto adequadamente',
                 'Envie conforme as instruções recebidas'
+              /* eslint-enable max-len */
               ].map((step, index) => (
                 <div key={index} className="flex items-start">
-                  <span className="flex items-center justify-center w-6 h-6 rounded-full bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 text-sm mr-3 shrink-0">
+                  <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[#7C3AED]/10 dark:bg-[#7C3AED]/20 text-[#7C3AED] dark:text-[#8B5CF6] text-sm mr-3 shrink-0">
                     {index + 1}
                   </span>
                   <span className="text-gray-600 dark:text-gray-400">{step}</span>
@@ -61,19 +62,20 @@ const TrocasDevolucoesPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border-l-4 border-green-500 dark:border-green-400"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border-l-4 border-[#7C3AED] dark:border-[#7C3AED]"
             >
-              <h2 className="text-xl font-medium text-green-600 dark:text-green-400 mb-4">Condições Necessárias</h2>
+              <h2 className="text-xl font-medium text-[#7C3AED] dark:text-[#8B5CF6] mb-4">Condições Necessárias</h2>
               <ul className="space-y-3">
-                {[
+                {[/* eslint-disable max-len */
                   'Produto na embalagem original',
                   'Todos os acessórios inclusos',
                   'Sem sinais de uso',
                   'Nota fiscal presente',
                   'Dentro do prazo de 7 dias'
+                /* eslint-enable max-len */
                 ].map((item, index) => (
                   <li key={index} className="flex items-center text-gray-600 dark:text-gray-400">
-                    <svg className="w-4 h-4 mr-2 text-green-500 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-4 h-4 mr-2 text-[#7C3AED] dark:text-[#8B5CF6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     {item}
@@ -86,18 +88,19 @@ const TrocasDevolucoesPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border-l-4 border-blue-500 dark:border-blue-400"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border-l-4 border-[#7C3AED] dark:border-[#7C3AED]"
             >
-              <h2 className="text-xl font-medium text-blue-600 dark:text-blue-400 mb-4">Prazos de Reembolso</h2>
+              <h2 className="text-xl font-medium text-[#7C3AED] dark:text-[#8B5CF6] mb-4">Prazos de Reembolso</h2>
               <div className="space-y-3">
-                {[
+                {[/* eslint-disable max-len */
                   { method: 'Cartão de crédito', time: 'até 2 faturas' },
                   { method: 'PIX', time: 'até 10 dias úteis' },
                   { method: 'Boleto', time: 'até 10 dias úteis' }
+                /* eslint-enable max-len */
                 ].map((item, index) => (
                   <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700 last:border-0">
                     <span className="text-gray-600 dark:text-gray-400">{item.method}</span>
-                    <span className="text-blue-500 dark:text-blue-400">{item.time}</span>
+                    <span className="text-gray-600 dark:text-gray-400">{item.time}</span>
                   </div>
                 ))}
               </div>
@@ -108,18 +111,18 @@ const TrocasDevolucoesPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border-l-4 border-amber-500 dark:border-amber-400"
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border-l-4 border-[#7C3AED] dark:border-[#7C3AED]"
           >
-            <h2 className="text-xl font-medium text-amber-600 dark:text-amber-400 mb-4">Dúvidas Frequentes</h2>
+            <h2 className="text-xl font-medium text-[#7C3AED] dark:text-[#8B5CF6] mb-4">Dúvidas Frequentes</h2>
             <div className="space-y-4">
               <div className="border-b border-gray-100 dark:border-gray-700 pb-4">
-                <h3 className="font-medium text-amber-600 dark:text-amber-400 mb-2">Quem paga o frete da devolução?</h3>
+                <h3 className="font-medium text-[#7C3AED] dark:text-[#8B5CF6] mb-2">Quem paga o frete da devolução?</h3>
                 <p className="text-gray-600 dark:text-gray-400">
                   Em caso de defeito do produto, nós pagamos. Para arrependimento ou desistência, o cliente arca com os custos.
                 </p>
               </div>
               <div>
-                <h3 className="font-medium text-amber-600 dark:text-amber-400 mb-2">Qual o prazo para análise do produto?</h3>
+                <h3 className="font-medium text-[#7C3AED] dark:text-[#8B5CF6] mb-2">Qual o prazo para análise do produto?</h3>
                 <p className="text-gray-600 dark:text-gray-400">
                   Após recebermos o produto, a análise é feita em até 5 dias úteis.
                 </p>
@@ -131,7 +134,7 @@ const TrocasDevolucoesPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg p-8 text-center text-white shadow-lg"
+            className="bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] rounded-lg p-8 text-center text-white shadow-lg"
           >
             <h2 className="text-xl font-medium mb-4">Precisa de Ajuda?</h2>
             <p className="mb-6 text-white/90">
