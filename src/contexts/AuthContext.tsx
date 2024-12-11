@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 interface User {
   id: string;
@@ -24,6 +24,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   register: (formData: FormData) => Promise<void>;
+  updateUser: (userData: User) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -31,23 +32,30 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  useEffect(() => {
-    // Verificar se há um usuário salvo no localStorage
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      try {
-        const parsedUser = JSON.parse(savedUser);
-        // Validar se o usuário tem os campos necessários
-        if (parsedUser && typeof parsedUser === 'object' && parsedUser.id && parsedUser.name && parsedUser.email) {
-          setUser(parsedUser);
-        } else {
-          localStorage.removeItem('user');
-        }
-      } catch (error) {
-        localStorage.removeItem('user');
-      }
+  const updateUser = useCallback(async (userData: User) => {
+    try {
+      localStorage.setItem('user', JSON.stringify(userData));
+      setUser(userData);
+    } catch (error) {
+      console.error('Erro ao atualizar usuário:', error);
     }
   }, []);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        try {
+          const parsedUser = JSON.parse(storedUser);
+          setUser(parsedUser);
+        } catch (error) {
+          console.error('Erro ao carregar dados do usuário:', error);
+        }
+      }
+    };
+
+    loadUser();
+  }, []); // Executa apenas na montagem
 
   const login = async (email: string, password: string) => {
     // Simulação de login com dados completos
@@ -69,8 +77,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     };
     
-    setUser(fakeUser);
-    localStorage.setItem('user', JSON.stringify(fakeUser));
+    await updateUser(fakeUser);
   };
 
   const logout = () => {
@@ -99,8 +106,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       };
       
-      setUser(newUser);
-      localStorage.setItem('user', JSON.stringify(newUser));
+      await updateUser(newUser);
     } catch (error) {
       console.error('Error during registration:', error);
       throw error;
@@ -114,7 +120,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isAuthenticated: !!user,
         login,
         logout,
-        register
+        register,
+        updateUser
       }}
     >
       {children}
