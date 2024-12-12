@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import FreeShippingBanner from './components/FreeShippingBanner';
 import Navbar from './components/Navbar';
 import { Hero } from './components/Hero';
-import { FeaturedProducts } from './components/FeaturedProducts';
+import { TopCategories } from './components/TopCategories';
 import { InfoSection } from './components/InfoSection';
 import { Footer } from './components/Footer';
 import { ThemeToggle } from './components/ThemeToggle';
@@ -15,6 +15,7 @@ import { UserProvider } from './contexts/UserContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { NavbarProvider } from './contexts/NavbarContext';
 import { OrderProvider } from './contexts/OrderContext';
+import { CustomerReviews } from './components/CustomerReviews';
 
 // Pages
 import ElectronicsPage from './pages/ElectronicsPage';
@@ -38,7 +39,8 @@ const HomePage = () => (
   <>
     <Hero />
     <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-      <FeaturedProducts />
+      <TopCategories />
+      <CustomerReviews />
       <InfoSection />
     </div>
   </>
@@ -60,7 +62,16 @@ function App() {
                         <Navbar />
                         <main className="w-full">
                           <Routes>
-                            <Route path="/" element={<HomePage />} />
+                            <Route path="/" element={
+                              <>
+                                <Hero />
+                                <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+                                  <TopCategories />
+                                  <CustomerReviews />
+                                  <InfoSection />
+                                </div>
+                              </>
+                            } />
                             <Route path="/register" element={<RegisterPage />} />
                             <Route path="/eletronicos/*" element={<ElectronicsPage />} />
                             <Route path="/smartphones/*" element={<SmartphonesPage />} />
