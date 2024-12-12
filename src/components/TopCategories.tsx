@@ -149,34 +149,42 @@ const recommendedProducts = [
   {
     id: 1,
     name: "Smart Home Camera",
+    category: "Smart Home",
     price: 75.99,
     oldPrice: 79.99,
-    image: "https://images.unsplash.com/photo-1558089687-f282ffcbc126?auto=format&fit=crop&q=80",
-    discount: 5
+    discount: 5,
+    image: "https://images.unsplash.com/photo-1558089687-f282ffcbc126?q=80&w=800&auto=format&fit=crop",
+    isNew: false
   },
   {
     id: 2,
     name: "4K Gaming Monitor",
+    category: "Monitores",
     price: 319.99,
     oldPrice: 399.99,
-    image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80",
-    discount: 20
+    discount: 20,
+    image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=800&auto=format&fit=crop",
+    isNew: false
   },
   {
     id: 3,
     name: "Wireless Gaming Mouse",
+    category: "Periféricos",
     price: 69.99,
     oldPrice: 89.99,
-    image: "https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&q=80",
-    discount: 22
+    discount: 22,
+    image: "https://images.unsplash.com/photo-1527814050087-3793815479db?q=80&w=800&auto=format&fit=crop",
+    isNew: false
   },
   {
     id: 4,
     name: "Mechanical Keyboard",
+    category: "Periféricos",
     price: 116.99,
     oldPrice: 129.99,
-    image: "https://images.unsplash.com/photo-1601445638532-3c6f6c3aa1d6?auto=format&fit=crop&q=80",
-    discount: 10
+    discount: 10,
+    image: "https://images.unsplash.com/photo-1601445638532-3c6f6c3aa1d6?q=80&w=800&auto=format&fit=crop",
+    isNew: false
   }
 ];
 
@@ -274,7 +282,7 @@ const products = [
     name: "Placa de Vídeo ASUS RTX 3070 Ti",
     category: "Eletrônicos",
     price: 4299.90,
-    image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1591488320449-4b52cd9b104e?q=80&w=800&auto=format&fit=crop",
     isNew: true
   },
   {
@@ -395,44 +403,95 @@ const smartphones = [
 
 const bestSellers = [
   {
-    id: 1,
-    name: 'iPhone 14 Pro',
-    price: 629.99,
-    oldPrice: 899.99,
-    image: 'https://images.unsplash.com/photo-1697644371824-41d4d0a8a12b?auto=format&fit=crop&q=80',
-    discount: 30
-  },
-  {
     id: 2,
-    name: 'MacBook Air M2',
+    name: "MacBook Air M2",
+    category: "Notebooks",
     price: 939.24,
     oldPrice: 1104.99,
-    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80',
-    discount: 15
+    discount: 15,
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=800&auto=format&fit=crop",
+    isNew: true
   },
   {
     id: 3,
-    name: 'Apple Watch Series 8',
+    name: "Apple Watch Series 8",
+    category: "Smartwatches",
     price: 255.99,
     oldPrice: 319.99,
-    image: 'https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?auto=format&fit=crop&q=80',
-    discount: 20
+    discount: 20,
+    image: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?q=80&w=800&auto=format&fit=crop",
+    isNew: false
   },
   {
     id: 4,
-    name: 'AirPods Pro',
+    name: "AirPods Pro",
+    category: "Áudio",
     price: 175.99,
     oldPrice: 219.99,
-    image: 'https://images.unsplash.com/photo-1603351154351-5e2d0600bb77?q=80&w=800&auto=format&fit=crop',
-    discount: 20
+    discount: 20,
+    image: "https://images.unsplash.com/photo-1603351154351-5e2d0600bb77?q=80&w=800&auto=format&fit=crop",
+    isNew: false
   },
   {
     id: 5,
     name: 'iPad Pro 12.9"',
+    category: "Tablets",
     price: 758.99,
     oldPrice: 1011.99,
-    image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80',
-    discount: 25
+    discount: 25,
+    image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=800&auto=format&fit=crop",
+    isNew: false
+  }
+];
+
+const techProducts = [
+  {
+    id: 1,
+    name: "Drone DJI Mini 3 Pro",
+    price: 645.99,
+    oldPrice: 759.99,
+    image: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&q=80",
+    badge: "Drones",
+    badgeColor: "bg-blue-100 text-blue-800",
+    extraBadge: "#1 em Drones",
+    extraBadgeColor: "bg-green-100 text-green-800",
+    discount: 15
+  },
+  {
+    id: 2,
+    name: "GoPro Hero 11 Black",
+    price: 319.99,
+    oldPrice: 399.99,
+    image: "https://images.unsplash.com/photo-1564466809058-bf4114d55352?auto=format&fit=crop&q=80",
+    badge: "Câmeras",
+    badgeColor: "bg-blue-100 text-blue-800",
+    extraBadge: "Mais Vendido",
+    extraBadgeColor: "bg-green-100 text-green-800",
+    discount: 20
+  },
+  {
+    id: 3,
+    name: "Samsung 49\" Ultrawide",
+    price: 899.99,
+    oldPrice: 999.99,
+    image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80",
+    badge: "Monitores",
+    badgeColor: "bg-blue-100 text-blue-800",
+    extraBadge: "Tendência",
+    extraBadgeColor: "bg-green-100 text-green-800",
+    discount: 10
+  },
+  {
+    id: 4,
+    name: "Steam Deck",
+    price: 617.49,
+    oldPrice: 649.99,
+    image: "https://images.unsplash.com/photo-1640955014216-75201056c829?auto=format&fit=crop&q=80",
+    badge: "Gaming",
+    badgeColor: "bg-blue-100 text-blue-800",
+    extraBadge: "Novo Lançamento",
+    extraBadgeColor: "bg-green-100 text-green-800",
+    discount: 5
   }
 ];
 
@@ -526,7 +585,7 @@ export function TopCategories() {
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-0.5">
                     {product.category}
                   </p>
-                  <h3 className="text-base font-medium text-gray-900 dark:text-white mb-1.5">
+                  <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-[#6366F1] dark:group-hover:text-[#818CF8] transition-colors">
                     {product.name}
                   </h3>
                   <div className="flex items-center justify-center gap-2">
@@ -607,7 +666,7 @@ export function TopCategories() {
                       alt={deal.name}
                       className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-110"
                     />
-                    <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                    <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-lg text-sm font-medium">
                       -{deal.discount}%
                     </div>
                   </div>
@@ -654,53 +713,17 @@ export function TopCategories() {
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                   Produtos Mais Vendidos
                 </h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
                   Os produtos favoritos dos nossos clientes
                 </p>
               </div>
             </div>
 
-            {/* Products Grid */}
-            <div className="grid grid-cols-5 gap-6">
-              {[
-                {
-                  name: "iPhone 14 Pro",
-                  price: 629.99,
-                  oldPrice: 899.99,
-                  discount: 30,
-                  image: "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?q=80&w=800&auto=format&fit=crop"
-                },
-                {
-                  name: "MacBook Air M2",
-                  price: 939.24,
-                  oldPrice: 1104.99,
-                  discount: 15,
-                  image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=800&auto=format&fit=crop"
-                },
-                {
-                  name: "Apple Watch Series 8",
-                  price: 255.99,
-                  oldPrice: 319.99,
-                  discount: 20,
-                  image: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?q=80&w=800&auto=format&fit=crop"
-                },
-                {
-                  name: "AirPods Pro",
-                  price: 175.99,
-                  oldPrice: 219.99,
-                  discount: 20,
-                  image: "https://images.unsplash.com/photo-1603351154351-5e2d0600bb77?q=80&w=800&auto=format&fit=crop"
-                },
-                {
-                  name: "iPad Pro 12.9\"",
-                  price: 758.99,
-                  oldPrice: 1011.99,
-                  discount: 25,
-                  image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=800&auto=format&fit=crop"
-                }
-              ].map((product) => (
+            {/* Best Sellers Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+              {bestSellers.map((product) => (
                 <div
-                  key={product.name}
+                  key={product.id}
                   className="group cursor-pointer"
                   onClick={() => handleProductClick(product.name)}
                 >
@@ -716,19 +739,20 @@ export function TopCategories() {
                       </div>
                     )}
                   </div>
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1">
+
+                  <div className="px-2">
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-[#6366F1] dark:group-hover:text-[#818CF8] transition-colors">
                       {product.name}
                     </h3>
                     <div className="flex items-center gap-2">
-                      <span className="text-base font-bold text-gray-900 dark:text-white">
-                        R$ {product.price}
-                      </span>
                       {product.oldPrice && (
                         <span className="text-sm text-gray-500 line-through">
-                          R$ {product.oldPrice}
+                          R$ {product.oldPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                         </span>
                       )}
+                      <span className="text-base font-bold text-gray-900 dark:text-white">
+                        R$ {product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -801,39 +825,10 @@ export function TopCategories() {
               </div>
             </div>
 
-            <div className="grid grid-cols-4 gap-6">
-              {[
-                {
-                  name: "Smart Home Camera",
-                  price: 75.99,
-                  oldPrice: 79.99,
-                  discount: 5,
-                  image: "https://images.unsplash.com/photo-1558089687-f282ffcbc126?auto=format&fit=crop&q=80"
-                },
-                {
-                  name: "4K Gaming Monitor",
-                  price: 319.99,
-                  oldPrice: 399.99,
-                  discount: 20,
-                  image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80"
-                },
-                {
-                  name: "Wireless Gaming Mouse",
-                  price: 69.99,
-                  oldPrice: 89.99,
-                  discount: 22,
-                  image: "https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&q=80"
-                },
-                {
-                  name: "Mechanical Keyboard",
-                  price: 116.99,
-                  oldPrice: 129.99,
-                  discount: 10,
-                  image: "https://images.unsplash.com/photo-1601445638532-3c6f6c3aa1d6?auto=format&fit=crop&q=80"
-                }
-              ].map((product) => (
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+              {recommendedProducts.map((product) => (
                 <div
-                  key={product.name}
+                  key={product.id}
                   className="group cursor-pointer"
                   onClick={() => handleProductClick(product.name)}
                 >
@@ -849,19 +844,20 @@ export function TopCategories() {
                       </div>
                     )}
                   </div>
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1">
+
+                  <div className="px-2">
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-[#6366F1] dark:group-hover:text-[#818CF8] transition-colors">
                       {product.name}
                     </h3>
                     <div className="flex items-center gap-2">
-                      <span className="text-base font-bold text-gray-900 dark:text-white">
-                        R$ {product.price}
-                      </span>
                       {product.oldPrice && (
                         <span className="text-sm text-gray-500 line-through">
-                          R$ {product.oldPrice}
+                          R$ {product.oldPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                         </span>
                       )}
+                      <span className="text-base font-bold text-gray-900 dark:text-white">
+                        R$ {product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -942,66 +938,13 @@ export function TopCategories() {
               </p>
             </div>
 
-            <div className="grid grid-cols-4 gap-6">
-              {[
-                {
-                  name: "Drone DJI Mini 3 Pro",
-                  price: 645.99,
-                  oldPrice: 759.99,
-                  image: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&q=80",
-                  badge: "Drones",
-                  badgeColor: "bg-blue-100 text-blue-800",
-                  extraBadge: "#1 em Drones",
-                  extraBadgeColor: "bg-green-100 text-green-800"
-                },
-                {
-                  name: "GoPro Hero 11 Black",
-                  price: 319.99,
-                  oldPrice: 399.99,
-                  image: "https://images.unsplash.com/photo-1564466809058-bf4114d55352?auto=format&fit=crop&q=80",
-                  badge: "Câmeras",
-                  badgeColor: "bg-blue-100 text-blue-800",
-                  extraBadge: "Mais Vendido",
-                  extraBadgeColor: "bg-green-100 text-green-800"
-                },
-                {
-                  name: "Samsung 49\" Ultrawide",
-                  price: 899.99,
-                  oldPrice: 999.99,
-                  image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80",
-                  badge: "Monitores",
-                  badgeColor: "bg-blue-100 text-blue-800",
-                  extraBadge: "Tendência",
-                  extraBadgeColor: "bg-green-100 text-green-800"
-                },
-                {
-                  name: "Steam Deck",
-                  price: 617.49,
-                  oldPrice: 649.99,
-                  image: "https://images.unsplash.com/photo-1640955014216-75201056c829?auto=format&fit=crop&q=80",
-                  badge: "Gaming",
-                  badgeColor: "bg-blue-100 text-blue-800",
-                  extraBadge: "Novo Lançamento",
-                  extraBadgeColor: "bg-green-100 text-green-800"
-                }
-              ].map((product) => (
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+              {techProducts.map((product) => (
                 <div
-                  key={product.name}
+                  key={product.id}
                   className="group cursor-pointer"
                   onClick={() => handleProductClick(product.name)}
                 >
-                  {/* Badges */}
-                  <div className="flex gap-2 mb-3">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${product.badgeColor}`}>
-                      {product.badge}
-                    </span>
-                    {product.extraBadge && (
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${product.extraBadgeColor}`}>
-                        {product.extraBadge}
-                      </span>
-                    )}
-                  </div>
-
                   {/* Product Image */}
                   <div className="relative overflow-hidden bg-gray-100 dark:bg-gray-800 aspect-square rounded-xl mb-4">
                     <img
@@ -1009,11 +952,16 @@ export function TopCategories() {
                       alt={product.name}
                       className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
                     />
+                    {product.discount && (
+                      <div className="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-lg text-sm font-medium">
+                        -{product.discount}%
+                      </div>
+                    )}
                   </div>
 
                   {/* Product Info */}
                   <div>
-                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1">
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-[#6366F1] dark:group-hover:text-[#818CF8] transition-colors">
                       {product.name}
                     </h3>
                     <div className="flex items-center gap-2">
