@@ -99,7 +99,7 @@ const sellingProducts = [
     price: 175.99,
     oldPrice: 219.99,
     discount: 20,
-    image: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?q=80&w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1603351154351-5e2d0600bb77?q=80&w=800&auto=format&fit=crop"
   },
   {
     id: 5,
@@ -423,7 +423,7 @@ const bestSellers = [
     name: 'AirPods Pro',
     price: 175.99,
     oldPrice: 219.99,
-    image: 'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1603351154351-5e2d0600bb77?q=80&w=800&auto=format&fit=crop',
     discount: 20
   },
   {
@@ -526,7 +526,7 @@ export function TopCategories() {
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-0.5">
                     {product.category}
                   </p>
-                  <h3 className="text-base font-medium text-gray-900 dark:text-white mb-1.5 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  <h3 className="text-base font-medium text-gray-900 dark:text-white mb-1.5">
                     {product.name}
                   </h3>
                   <div className="flex items-center justify-center gap-2">
@@ -560,7 +560,7 @@ export function TopCategories() {
                 className={`${banner.bgColor} rounded-2xl p-6 flex items-center justify-between overflow-hidden relative group cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl`}
               >
                 <div className="flex-1 z-10">
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                     {banner.title}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-4">
@@ -616,7 +616,7 @@ export function TopCategories() {
                       <span className="inline-block px-3 py-1.5 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full text-sm font-medium mb-2">
                         {deal.category}
                       </span>
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-1">
                         {deal.name}
                       </h3>
                       <div className="grid grid-cols-2 gap-2 mt-3">
@@ -689,7 +689,7 @@ export function TopCategories() {
                   price: 175.99,
                   oldPrice: 219.99,
                   discount: 20,
-                  image: "https://images.unsplash.com/photo-1588423771073-b8903b3bb85b5?q=80&w=800&auto=format&fit=crop"
+                  image: "https://images.unsplash.com/photo-1603351154351-5e2d0600bb77?q=80&w=800&auto=format&fit=crop"
                 },
                 {
                   name: "iPad Pro 12.9\"",
@@ -717,7 +717,7 @@ export function TopCategories() {
                     )}
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-[#6366F1] dark:group-hover:text-[#818CF8] transition-colors">
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1">
                       {product.name}
                     </h3>
                     <div className="flex items-center gap-2">
@@ -762,7 +762,7 @@ export function TopCategories() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent z-10" />
                     <div className="absolute bottom-4 left-4 right-4 z-10">
-                      <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-indigo-400 transition-colors">
+                      <h3 className="text-xl font-semibold text-white mb-2">
                         {category.title}
                       </h3>
                       <p className="text-gray-300 mb-4">
@@ -850,7 +850,7 @@ export function TopCategories() {
                     )}
                   </div>
                   <div>
-                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-[#6366F1] dark:group-hover:text-[#818CF8] transition-colors">
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1">
                       {product.name}
                     </h3>
                     <div className="flex items-center gap-2">
@@ -908,20 +908,20 @@ export function TopCategories() {
                     </div>
 
                     {/* Title and Description */}
-                    <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">
+                    <h3 className="text-2xl font-bold text-white mb-2">
                       {collection.title}
                     </h3>
-                    <p className="text-gray-300 mb-4">
+                    <p className="text-gray-300">
                       {collection.description}
                     </p>
 
-                    {/* Items Count and CTA */}
+                    {/* Products count and Explore link */}
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-300">
                         {collection.items} produtos
                       </span>
                       <div className="flex items-center gap-2 text-indigo-300 group-hover:text-indigo-400 transition-colors">
-                        <span className="font-medium">Explorar Coleção</span>
+                        <span>Explorar Coleção</span>
                         <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
@@ -1013,7 +1013,7 @@ export function TopCategories() {
 
                   {/* Product Info */}
                   <div>
-                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-[#6366F1] dark:group-hover:text-[#818CF8] transition-colors">
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1">
                       {product.name}
                     </h3>
                     <div className="flex items-center gap-2">
