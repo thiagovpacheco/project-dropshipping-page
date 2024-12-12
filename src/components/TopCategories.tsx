@@ -324,54 +324,52 @@ const featuredProducts = [
     id: 1,
     name: "iPhone 14 Pro Max",
     category: "Smartphones",
-    price: 7999.99,
-    discount: 15,
-    image: "https://images.unsplash.com/photo-1663499482523-1c0c1bae4ce1?q=80&w=800&auto=format&fit=crop",
-    isNew: true
+    price: 6799.99,
+    originalPrice: 7999.99,
+    image: "https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?q=80&w=774&auto=format&fit=crop",
+    isNew: true,
   },
   {
     id: 2,
     name: "ASUS RTX 3070 Ti",
     category: "Hardware",
-    price: 4499.99,
-    discount: 20,
-    image: "https://images.unsplash.com/photo-1591489378430-ef2f4c626b35?q=80&w=800&auto=format&fit=crop",
-    isNew: false
+    price: 3599.99,
+    originalPrice: 4499.99,
+    image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?q=80&w=774&auto=format&fit=crop",
   },
   {
     id: 3,
     name: "MacBook Pro M2",
     category: "Notebooks",
     price: 12999.99,
-    image: "https://images.unsplash.com/photo-1639249227523-78502e9bb8b7?q=80&w=800&auto=format&fit=crop",
-    isNew: true
+    originalPrice: null,
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=774&auto=format&fit=crop",
+    isNew: true,
   },
   {
     id: 4,
     name: "iPad Pro M2",
     category: "Tablets",
-    price: 8999.99,
-    discount: 10,
-    image: "https://images.unsplash.com/photo-1589739900243-4b52cd9b104e?q=80&w=800&auto=format&fit=crop",
-    isNew: false
+    price: 8099.99,
+    originalPrice: 8999.99,
+    image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=774&auto=format&fit=crop",
   },
   {
     id: 5,
     name: "JBL Flip 6",
     category: "Audio",
     price: 799.99,
-    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?q=80&w=800&auto=format&fit=crop",
-    isNew: false
+    originalPrice: null,
+    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?q=80&w=774&auto=format&fit=crop",
   },
   {
     id: 6,
     name: "PlayStation 5",
     category: "Games",
-    price: 4499.99,
-    discount: 12,
-    image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=800&auto=format&fit=crop",
-    isNew: false
-  }
+    price: 3959.99,
+    originalPrice: 4499.99,
+    image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=774&auto=format&fit=crop",
+  },
 ];
 
 const smartphones = [
@@ -518,8 +516,8 @@ export function TopCategories() {
   const handleAddToCart = (e: React.MouseEvent, product: typeof featuredProducts[0]) => {
     e.stopPropagation(); // Prevent product click navigation
     
-    const finalPrice = product.discount 
-      ? calculateDiscountedPrice(product.price, product.discount)
+    const finalPrice = product.originalPrice 
+      ? calculateDiscountedPrice(product.originalPrice, product.discount)
       : product.price;
 
     addToCart({
@@ -589,16 +587,13 @@ export function TopCategories() {
                     {product.name}
                   </h3>
                   <div className="flex items-center justify-center gap-2">
-                    {product.discount && (
+                    {product.originalPrice && (
                       <span className="text-sm text-gray-500 line-through">
-                        R$ {product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                        R$ {product.originalPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                       </span>
                     )}
                     <span className="text-base font-bold text-gray-900 dark:text-white">
-                      R$ {(product.discount 
-                        ? calculateDiscountedPrice(product.price, product.discount)
-                        : product.price
-                      ).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                      R$ {product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                     </span>
                   </div>
                 </div>
