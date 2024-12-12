@@ -13,7 +13,7 @@ interface FiltersProps {
   setSelectedDiscountRanges: (ranges: string[]) => void;
 }
 
-export const categories = [
+const categories = [
   { value: 'todos', label: 'Todos' },
   { value: 'iphone', label: 'iPhones' },
   { value: 'android', label: 'Android' },
@@ -21,17 +21,9 @@ export const categories = [
   { value: 'acessorios', label: 'Acessórios' }
 ];
 
-export const brands = [
-  'Apple',
-  'Samsung',
-  'Xiaomi',
-  'Motorola',
-  'Nokia',
-  'LG',
-  'Generic'
-];
+const brands = ['Apple', 'Samsung', 'Xiaomi', 'Motorola', 'Nokia', 'LG', 'Generic'];
 
-export const discountRanges = [
+const discountRanges = [
   { label: 'Até 10% OFF', value: '0-10' },
   { label: '10% a 20% OFF', value: '10-20' },
   { label: '20% a 30% OFF', value: '20-30' },
@@ -175,7 +167,7 @@ export const Filters: React.FC<FiltersProps> = ({
                 <input
                   type="range"
                   min="0"
-                  max="15000"
+                  max="10000"
                   step="100"
                   value={priceRange[1]}
                   onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
@@ -215,68 +207,52 @@ export const Filters: React.FC<FiltersProps> = ({
               </svg>
             </button>
             <div
-              className={`space-y-3 transition-all duration-300 ease-in-out ${
-                expandedSection === 'brands' ? 'opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+              className={`transition-all duration-300 ease-in-out ${
+                expandedSection === 'brands' ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
               }`}
             >
-              {/* Brand Search */}
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Buscar marcas..."
-                  value={brandSearchQuery}
-                  onChange={(e) => setBrandSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-600 
-                           bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100
-                           focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent
-                           placeholder-gray-400 dark:placeholder-gray-500
-                           transition-all duration-200 text-base"
-                />
-                <svg
-                  className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-
-              <div className="space-y-2.5 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-indigo-500 scrollbar-track-gray-200 dark:scrollbar-track-gray-700">
-                {filteredBrands.map((brand) => (
-                  <label
-                    key={brand}
-                    className="flex items-center space-x-3 px-4 py-2.5 cursor-pointer rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200"
+              <div className="space-y-3">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Buscar marca..."
+                    value={brandSearchQuery}
+                    onChange={(e) => setBrandSearchQuery(e.target.value)}
+                    className="w-full px-4 py-2 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg
+                             placeholder-gray-400 dark:placeholder-gray-400 text-gray-900 dark:text-white
+                             focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent"
+                  />
+                  <svg
+                    className="absolute right-3 top-2.5 w-4 h-4 text-gray-400 dark:text-gray-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
                   >
-                    <div className="relative flex items-center">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <div className="space-y-1 max-h-60 overflow-y-auto px-1">
+                  {filteredBrands.map((brand) => (
+                    <label
+                      key={brand}
+                      className="flex items-center px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50"
+                    >
                       <input
                         type="checkbox"
                         checked={selectedBrands.includes(brand)}
                         onChange={() => handleBrandChange(brand)}
-                        className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-gray-300 dark:border-gray-600
-                                 checked:border-indigo-500 checked:bg-indigo-500 dark:checked:border-indigo-400 dark:checked:bg-indigo-400
-                                 hover:border-indigo-500 dark:hover:border-indigo-400
-                                 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 dark:focus:ring-indigo-400/30
-                                 transition-all duration-200"
+                        className="w-4 h-4 text-indigo-600 dark:text-indigo-400 border-gray-300 dark:border-gray-600 rounded
+                                 focus:ring-indigo-500 dark:focus:ring-indigo-400"
                       />
-                      <svg
-                        className="pointer-events-none absolute h-3.5 w-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={3}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <span className="text-base font-medium text-slate-600 dark:text-slate-300">{brand}</span>
-                  </label>
-                ))}
+                      <span className="ml-3 text-sm text-gray-700 dark:text-gray-200">{brand}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Promoções */}
+          {/* Promotions */}
           <div className="space-y-3">
             <button
               onClick={() => toggleSection('promotions')}
@@ -300,35 +276,29 @@ export const Filters: React.FC<FiltersProps> = ({
               </svg>
             </button>
             <div
-              className={`overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out ${
-                expandedSection === 'promotions' ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+              className={`transition-all duration-300 ease-in-out ${
+                expandedSection === 'promotions' ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
               }`}
             >
-              <div className="space-y-1 px-2">
+              <div className="space-y-1 px-1">
                 {discountRanges.map((range) => (
                   <label
                     key={range.value}
-                    className="flex items-center px-4 py-3 rounded-lg transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer"
+                    className="flex items-center px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50"
                   >
-                    <div className="flex items-center min-h-[24px] w-full">
-                      <input
-                        type="checkbox"
-                        checked={selectedDiscountRanges.includes(range.value)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedDiscountRanges([...selectedDiscountRanges, range.value]);
-                          } else {
-                            setSelectedDiscountRanges(
-                              selectedDiscountRanges.filter((value) => value !== range.value)
-                            );
-                          }
-                        }}
-                        className="w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500 dark:border-gray-600 dark:focus:ring-indigo-400"
-                      />
-                      <span className="ml-3 text-slate-600 dark:text-slate-300">
-                        {range.label}
-                      </span>
-                    </div>
+                    <input
+                      type="checkbox"
+                      checked={selectedDiscountRanges.includes(range.value)}
+                      onChange={() => {
+                        const newRanges = selectedDiscountRanges.includes(range.value)
+                          ? selectedDiscountRanges.filter(r => r !== range.value)
+                          : [...selectedDiscountRanges, range.value];
+                        setSelectedDiscountRanges(newRanges);
+                      }}
+                      className="w-4 h-4 text-indigo-600 dark:text-indigo-400 border-gray-300 dark:border-gray-600 rounded
+                               focus:ring-indigo-500 dark:focus:ring-indigo-400"
+                    />
+                    <span className="ml-3 text-sm text-gray-700 dark:text-gray-200">{range.label}</span>
                   </label>
                 ))}
               </div>
