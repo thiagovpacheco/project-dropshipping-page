@@ -5,6 +5,7 @@ import CreditCard from '../components/CreditCard';
 import PixIcon from '../components/PixIcon';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavbar } from '../contexts/NavbarContext';
+import { useOrder } from '../contexts/OrderContext';
 
 interface CheckoutProduct {
   id: string;
@@ -32,6 +33,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { user, updateUser } = useAuth();
   const { setShowLoginModal } = useNavbar();
+  const { addOrder } = useOrder();
   const [refreshKey, setRefreshKey] = useState(0);
 
   const checkoutState = useMemo(() => {
@@ -83,6 +85,7 @@ const Checkout = () => {
     cardExpiry: '',
     cardCVV: ''
   });
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -102,6 +105,7 @@ const Checkout = () => {
     }
 
     setFormData(prev => ({
+
       ...prev,
       [name]: formattedValue
     }));
@@ -120,6 +124,58 @@ const Checkout = () => {
   const handleGoBack = useCallback(() => {
     navigate(-1);
   }, [navigate]);
+
+  const handleFinalizarCompra = async () => {
+    if (!paymentMethod) {
+      alert('Selecione uma forma de pagamento');
+      return;
+    }
+
+    try {
+      // Criar o pedido
+      const orderData = {
+        userId: user?.id || '',
+        products: checkoutState.items.map(item => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          image: item.image
+        })),
+        total: checkoutState.total,
+        createdAt: new Date().toISOString(),
+        paymentMethod,
+        address: {
+          street: user?.address?.street || '',
+          number: user?.address?.number || '',
+          complement: user?.address?.complement,
+          neighborhood: user?.address?.neighborhood || '',
+          city: user?.address?.city || '',
+          state: user?.address?.state || '',
+          zipCode: user?.address?.zipCode || ''
+        }
+      };
+
+      // Adicionar o pedido
+      addOrder(orderData);
+
+      // Limpar o carrinho
+      localStorage.removeItem('cart');
+
+      // Mostrar mensagem de sucesso
+      setShowSuccessMessage(true);
+
+      // Redirecionar após 3 segundos
+      setTimeout(() => {
+        navigate('/', {
+          state: { message: 'Pedido realizado com sucesso!' }
+        });
+      }, 3000);
+    } catch (error) {
+      console.error('Erro ao finalizar compra:', error);
+      alert('Erro ao finalizar a compra. Tente novamente.');
+    }
+  };
 
   if (!user) {
     return (
@@ -161,7 +217,7 @@ const Checkout = () => {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Nenhum produto selecionado</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Nenhum produto selecionado</h2>
           <button
             onClick={handleGoBack}
             className="mt-4 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200"
@@ -174,7 +230,25 @@ const Checkout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-slate-900/50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {showSuccessMessage && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 transform transition-all">
+            <div className="text-center">
+              <svg className="w-16 h-16 mx-auto text-green-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="1.5"/>
+                <path d="M8 12L11 15L16 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <h3 className="mt-4 text-xl font-medium text-gray-900 dark:text-gray-100">
+                Compra realizada com sucesso!
+              </h3>
+              <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                Você será redirecionado para a página inicial em instantes...
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Progress Bar */}
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         <div className="mb-8">
@@ -558,7 +632,7 @@ const Checkout = () => {
               </div>
 
               <button
-                onClick={handleSubmit}
+                onClick={handleFinalizarCompra}
                 className="w-full mt-6 py-3 px-4 text-base font-medium text-white bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
               >
                 Finalizar Pedido

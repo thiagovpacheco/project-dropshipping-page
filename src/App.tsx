@@ -14,6 +14,7 @@ import { MenuProvider } from './contexts/MenuContext';
 import { UserProvider } from './contexts/UserContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { NavbarProvider } from './contexts/NavbarContext';
+import { OrderProvider } from './contexts/OrderContext';
 
 // Pages
 import ElectronicsPage from './pages/ElectronicsPage';
@@ -30,6 +31,7 @@ import Checkout from './pages/Checkout';
 import SearchResults from './pages/SearchResults';
 import AtendimentoPage from './pages/AtendimentoPage';
 import TrocasDevolucoesPage from './pages/TrocasDevolucoesPage';
+import MeusPedidos from './pages/MeusPedidos';
 
 // Home page component
 const HomePage = () => (
@@ -52,31 +54,34 @@ function App() {
               <UserProvider>
                 <NavigationProvider>
                   <NavbarProvider>
-                    <div className="min-h-screen w-full overflow-x-hidden bg-white dark:bg-slate-900 transition-colors duration-300">
-                      <FreeShippingBanner />
-                      <Navbar />
-                      <main className="w-full">
-                        <Routes>
-                          <Route path="/" element={<HomePage />} />
-                          <Route path="/register" element={<RegisterPage />} />
-                          <Route path="/eletronicos/*" element={<ElectronicsPage />} />
-                          <Route path="/smartphones/*" element={<SmartphonesPage />} />
-                          <Route path="/audio/*" element={<AudioPage />} />
-                          <Route path="/produto/:productId" element={<ProductOffer />} />
-                          <Route path="/cart" element={<Cart />} />
-                          <Route path="/checkout" element={<Checkout />} />
-                          <Route path="/fotografia/*" element={<PhotographyPage />} />
-                          <Route path="/games/*" element={<GamesPage />} />
-                          <Route path="/tv-home/*" element={<TVHomePage />} />
-                          <Route path="/conta" element={<AccountData />} />
-                          <Route path="/pesquisa" element={<SearchResults />} />
-                          <Route path="/atendimento" element={<AtendimentoPage />} />
-                          <Route path="/trocas-devolucoes" element={<TrocasDevolucoesPage />} />
-                        </Routes>
-                      </main>
-                      <Footer />
-                      <ThemeToggle />
-                    </div>
+                    <OrderProvider>
+                      <div className="min-h-screen w-full overflow-x-hidden bg-white dark:bg-slate-900 transition-colors duration-300">
+                        <FreeShippingBanner />
+                        <Navbar />
+                        <main className="w-full">
+                          <Routes>
+                            <Route path="/" element={<HomePage />} />
+                            <Route path="/register" element={<RegisterPage />} />
+                            <Route path="/eletronicos/*" element={<ElectronicsPage />} />
+                            <Route path="/smartphones/*" element={<SmartphonesPage />} />
+                            <Route path="/audio/*" element={<AudioPage />} />
+                            <Route path="/produto/:productId" element={<ProductOffer />} />
+                            <Route path="/cart" element={<Cart />} />
+                            <Route path="/checkout" element={<Checkout />} />
+                            <Route path="/fotografia/*" element={<PhotographyPage />} />
+                            <Route path="/games/*" element={<GamesPage />} />
+                            <Route path="/tv-home/*" element={<TVHomePage />} />
+                            <Route path="/conta" element={<AccountData />} />
+                            <Route path="/pesquisa" element={<SearchResults />} />
+                            <Route path="/atendimento" element={<AtendimentoPage />} />
+                            <Route path="/trocas-devolucoes" element={<TrocasDevolucoesPage />} />
+                            <Route path="/pedidos" element={<MeusPedidos />} />
+                          </Routes>
+                        </main>
+                        <Footer />
+                        <ThemeToggle />
+                      </div>
+                    </OrderProvider>
                   </NavbarProvider>
                 </NavigationProvider>
               </UserProvider>
