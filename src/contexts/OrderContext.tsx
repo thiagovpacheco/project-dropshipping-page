@@ -43,13 +43,19 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [orders, setOrders] = useState<Order[]>([]);
   const { user } = useAuth();
 
-  // Carregar pedidos do localStorage ao iniciar
+  // Carregar pedidos do localStorage ao iniciar ou quando o usuário mudar
   useEffect(() => {
     if (user) {
       const storedOrders = localStorage.getItem(`orders_${user.id}`);
       if (storedOrders) {
         setOrders(JSON.parse(storedOrders));
+      } else {
+        // Se não houver pedidos salvos para este usuário, limpa os pedidos
+        setOrders([]);
       }
+    } else {
+      // Se não houver usuário logado, limpa os pedidos
+      setOrders([]);
     }
   }, [user]);
 
