@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Monitor, Headphones, Camera, Star, ChevronRight, ChevronLeft, ArrowRight } from 'lucide-react';
+import { Monitor, Headphones, Camera, Star, ChevronRight, ChevronLeft, ArrowRight, Eye, ShoppingCart } from 'lucide-react';
 
 // Banner data
 const banners = [
@@ -118,7 +118,7 @@ const sellingProducts = [
   },
   {
     id: 5,
-    name: "iPad Pro 12.9",
+    name: "iPad Pro 12.9\"",
     price: 1099.99,
     image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80",
     rating: 4.8,
@@ -275,6 +275,108 @@ const trendingTechProducts = [
   }
 ];
 
+const products = [
+  {
+    id: 1,
+    name: "iPhone 14 Pro Max",
+    category: "Smartphones",
+    price: 7999.90,
+    image: "/products/iphone.webp",
+    isNew: true
+  },
+  {
+    id: 2,
+    name: "Placa de Vídeo ASUS RTX 3070 Ti",
+    category: "Eletrônicos",
+    price: 4299.90,
+    image: "/products/rtx.webp",
+    isNew: true
+  },
+  {
+    id: 3,
+    name: "MacBook Pro M2 14\"",
+    category: "Eletrônicos",
+    price: 14999.90,
+    image: "/products/macbook.webp",
+    isNew: true
+  },
+  {
+    id: 4,
+    name: "iPad Pro 12.9\" M2",
+    category: "Eletrônicos",
+    price: 10499.90,
+    image: "/products/ipad.webp",
+    isNew: true
+  },
+  {
+    id: 5,
+    name: "JBL Flip 6",
+    category: "Áudio",
+    price: 699.90,
+    image: "/products/jbl.webp",
+    isNew: true
+  },
+  {
+    id: 6,
+    name: "PlayStation 5",
+    category: "Games",
+    price: 3999.90,
+    image: "/products/ps5.webp",
+    isNew: true
+  }
+];
+
+const featuredProducts = [
+  {
+    id: 1,
+    name: "iPhone 14 Pro Max",
+    category: "Smartphones",
+    price: 7999.90,
+    image: "/products/iphone.webp",
+    isNew: true
+  },
+  {
+    id: 2,
+    name: "Placa de Vídeo ASUS RTX 3070 Ti",
+    category: "Eletrônicos",
+    price: 4299.90,
+    image: "/products/rtx.webp",
+    isNew: true
+  },
+  {
+    id: 3,
+    name: "MacBook Pro M2 14\"",
+    category: "Eletrônicos",
+    price: 14999.90,
+    image: "/products/macbook.webp",
+    isNew: true
+  },
+  {
+    id: 4,
+    name: "iPad Pro 12.9\" M2",
+    category: "Eletrônicos",
+    price: 10499.90,
+    image: "/products/ipad.webp",
+    isNew: true
+  },
+  {
+    id: 5,
+    name: "JBL Flip 6",
+    category: "Áudio",
+    price: 699.90,
+    image: "/products/jbl.webp",
+    isNew: true
+  },
+  {
+    id: 6,
+    name: "PlayStation 5",
+    category: "Games",
+    price: 3999.90,
+    image: "/products/ps5.webp",
+    isNew: true
+  }
+];
+
 export function TopCategories() {
   const navigate = useNavigate();
 
@@ -285,528 +387,604 @@ export function TopCategories() {
     });
   };
 
-  const calculateDiscountedPrice = (price: number, discount: number) => {
+  const calculateDiscountedPrice = (price: number, discount?: number) => {
+    if (!discount) return price;
     return price * (1 - discount / 100);
   };
 
-  return (
-    <section className="py-8 bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Promotional Banners */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-          {banners.map((banner) => (
-            <div
-              key={banner.id}
-              className={`${banner.bgColor} rounded-2xl p-6 flex items-center justify-between overflow-hidden relative group cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl`}
-            >
-              <div className="flex-1 z-10">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                  {banner.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  {banner.subtitle}
-                </p>
-                <button className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-all duration-300 transform hover:translate-x-1">
-                  {banner.buttonText}
-                </button>
-              </div>
-              <div className="w-48 h-48 relative transform transition-transform duration-300 group-hover:scale-110">
-                <img
-                  src={banner.image}
-                  alt={banner.title}
-                  className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg"
-                />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-white/50 to-transparent dark:from-slate-900/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </div>
-          ))}
-        </div>
+  const handleProductClick = (productName: string) => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+    navigate('/produto/' + productName);
+  };
 
-        {/* Today's Best Deals */}
-        <div className="mb-12">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Ofertas do Dia
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
-                Não perca essas ofertas exclusivas
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <button className="p-2 rounded-full bg-white dark:bg-slate-800 shadow-md hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors duration-300">
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button className="p-2 rounded-full bg-white dark:bg-slate-800 shadow-md hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors duration-300">
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
+  return (
+    <div className="bg-white dark:bg-slate-900">
+      {/* Featured Products Section */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              Produtos em Destaque
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              Descubra nossa seleção exclusiva de produtos premium com os melhores preços e qualidade garantida.
+            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {bestDeals.map((deal) => (
+
+          {/* Products Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featuredProducts.map((product) => (
               <div
-                key={deal.id}
-                className="bg-white dark:bg-slate-800 rounded-xl p-6 flex gap-6 hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                key={product.name}
+                onClick={() => handleProductClick(product.name)}
+                className="group cursor-pointer"
               >
-                <div className="w-40 h-40 rounded-lg overflow-hidden flex-shrink-0 relative">
+                {/* Product Card */}
+                <div className="relative overflow-hidden bg-gray-100 dark:bg-gray-800 aspect-square rounded-3xl mb-4">
                   <img
-                    src={deal.image}
-                    alt={deal.name}
-                    className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-110"
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
                   />
-                  <div className="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    -{deal.discount}%
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+                    <button className="bg-white text-gray-900 p-3 rounded-full transform -translate-y-10 group-hover:translate-y-0 transition-all duration-300">
+                      <Eye className="w-5 h-5" />
+                    </button>
+                    <button className="bg-white text-gray-900 p-3 rounded-full transform translate-y-10 group-hover:translate-y-0 transition-all duration-300">
+                      <ShoppingCart className="w-5 h-5" />
+                    </button>
+                  </div>
+                  {/* New Badge */}
+                  {product.isNew && (
+                    <div className="absolute top-4 left-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-3 py-1 rounded-full text-sm font-medium">
+                      Novo
+                    </div>
+                  )}
+                </div>
+
+                {/* Product Info */}
+                <div className="text-center">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+                    {product.category}
+                  </p>
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                    {product.name}
+                  </h3>
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="text-lg font-bold text-gray-900 dark:text-white">
+                      {formatPrice(product.price)}
+                    </span>
                   </div>
                 </div>
-                <div className="flex flex-col justify-between flex-1">
-                  <div>
-                    <span className="inline-block px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full text-sm font-medium mb-2">
-                      {deal.category}
-                    </span>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                      {deal.name}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Categories Section */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Promotional Banners */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            {banners.map((banner) => (
+              <div
+                key={banner.id}
+                className={`${banner.bgColor} rounded-2xl p-6 flex items-center justify-between overflow-hidden relative group cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl`}
+              >
+                <div className="flex-1 z-10">
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                    {banner.title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                    {banner.subtitle}
+                  </p>
+                  <button className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-all duration-300 transform hover:translate-x-1">
+                    {banner.buttonText}
+                  </button>
+                </div>
+                <div className="w-48 h-48 relative transform transition-transform duration-300 group-hover:scale-110">
+                  <img
+                    src={banner.image}
+                    alt={banner.title}
+                    className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-r from-white/50 to-transparent dark:from-slate-900/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            ))}
+          </div>
+
+          {/* Today's Best Deals */}
+          <div className="mb-12">
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  Ofertas do Dia
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                  Não perca essas ofertas exclusivas
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <button className="p-2 rounded-full bg-white dark:bg-slate-800 shadow-md hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors duration-300">
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button className="p-2 rounded-full bg-white dark:bg-slate-800 shadow-md hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors duration-300">
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {bestDeals.map((deal) => (
+                <div
+                  key={deal.name}
+                  className="bg-white dark:bg-slate-800 rounded-xl p-6 flex gap-6 hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                >
+                  <div className="w-40 h-40 rounded-lg overflow-hidden flex-shrink-0 relative">
+                    <img
+                      src={deal.image}
+                      alt={deal.name}
+                      className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <div className="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                      -{deal.discount}%
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-between flex-1">
+                    <div>
+                      <span className="inline-block px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full text-sm font-medium mb-2">
+                        {deal.category}
+                      </span>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                        {deal.name}
+                      </h3>
+                      <div className="flex items-center gap-2 mt-2">
+                        <div className="flex">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`w-4 h-4 ${
+                                i < Math.floor(deal.rating)
+                                  ? 'text-yellow-400 fill-current'
+                                  : 'text-gray-300'
+                              }`}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-sm text-gray-500">
+                          ({deal.reviews})
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 mt-3">
+                        {deal.features.map((feature, index) => (
+                          <span
+                            key={index}
+                            className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1"
+                          >
+                            <span className="w-1.5 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mt-4">
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                          {formatPrice(calculateDiscountedPrice(deal.price, deal.discount))}
+                        </span>
+                        <span className="text-sm text-gray-500 line-through">
+                          {formatPrice(deal.price)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Top Product Categories */}
+          <div className="mb-12">
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  Principais Categorias
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                  Explore nossas categorias mais populares
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {categories.map((category, index) => (
+                <div
+                  key={index}
+                  className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                >
+                  <div className="h-48 relative overflow-hidden">
+                    <img
+                      src={category.image}
+                      alt={category.title}
+                      className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-indigo-300 transition-colors">
+                        {category.title}
+                      </h3>
+                      <p className="text-gray-300 text-sm">
+                        {category.items.length} produtos
+                      </p>
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <ul className="space-y-2">
+                      {category.items.map((item, itemIndex) => (
+                        <li
+                          key={itemIndex}
+                          className="flex items-center justify-between text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-colors p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700/50"
+                        >
+                          <span>{item}</span>
+                          <ChevronRight className="w-4 h-4 transform transition-transform group-hover:translate-x-1" />
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Top Selling Products */}
+          <div className="mb-12">
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  Produtos Mais Vendidos
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                  Os produtos favoritos dos nossos clientes
+                </p>
+              </div>
+              <button className="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1 group">
+                <span>Ver Todos</span>
+                <ChevronRight className="w-4 h-4 transform transition-transform group-hover:translate-x-1" />
+              </button>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+              {sellingProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                >
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-48 object-cover transform transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <div className="absolute top-2 left-2 flex gap-2">
+                      {product.tag && (
+                        <span className={`px-2 py-1 rounded-full text-xs font-semibold
+                          ${product.tag === 'New' ? 'bg-green-500 text-white' :
+                            product.tag === 'Hot' ? 'bg-red-500 text-white' :
+                            'bg-indigo-500 text-white'}`}>
+                          {product.tag}
+                        </span>
+                      )}
+                    </div>
+                    {product.discount > 0 && (
+                      <span className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                        -{product.discount}%
+                      </span>
+                    )}
+                    {product.stock <= 10 && (
+                      <div className="absolute bottom-2 left-2 right-2 bg-black/70 text-white text-xs py-1 px-2 rounded-full text-center">
+                        Apenas {product.stock} unidades em estoque
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
+                      {product.name}
                     </h3>
-                    <div className="flex items-center gap-2 mt-2">
+                    <div className="flex items-center gap-2 mb-2">
                       <div className="flex">
                         {[...Array(5)].map((_, i) => (
                           <Star
                             key={i}
-                            className={`w-4 h-4 ${
-                              i < Math.floor(deal.rating)
+                            className={`w-3 h-3 ${
+                              i < Math.floor(product.rating)
                                 ? 'text-yellow-400 fill-current'
                                 : 'text-gray-300'
                             }`}
                           />
                         ))}
                       </div>
-                      <span className="text-sm text-gray-500">
-                        ({deal.reviews})
+                      <span className="text-xs text-gray-500">
+                        ({product.reviews})
                       </span>
                     </div>
-                    <div className="grid grid-cols-2 gap-2 mt-3">
-                      {deal.features.map((feature, index) => (
-                        <span
-                          key={index}
-                          className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1"
-                        >
-                          <span className="w-1.5 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>
-                          {feature}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="mt-4">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                        {formatPrice(calculateDiscountedPrice(deal.price, deal.discount))}
+                      <span className="text-lg font-bold text-gray-900 dark:text-white">
+                        {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
                       </span>
-                      <span className="text-sm text-gray-500 line-through">
-                        {formatPrice(deal.price)}
-                      </span>
+                      {product.discount > 0 && (
+                        <span className="text-sm text-gray-500 line-through">
+                          {formatPrice(product.price)}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Top Product Categories */}
-        <div className="mb-12">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Principais Categorias
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
-                Explore nossas categorias mais populares
-              </p>
+              ))}
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {categories.map((category, index) => (
-              <div
-                key={index}
-                className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
-              >
-                <div className="h-48 relative overflow-hidden">
-                  <img
-                    src={category.image}
-                    alt={category.title}
-                    className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-indigo-300 transition-colors">
-                      {category.title}
-                    </h3>
-                    <p className="text-gray-300 text-sm">
-                      {category.items.length} produtos
-                    </p>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <ul className="space-y-2">
-                    {category.items.map((item, itemIndex) => (
-                      <li
-                        key={itemIndex}
-                        className="flex items-center justify-between text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-colors p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700/50"
-                      >
-                        <span>{item}</span>
-                        <ChevronRight className="w-4 h-4 transform transition-transform group-hover:translate-x-1" />
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Top Selling Products */}
-        <div className="mb-12">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Produtos Mais Vendidos
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
-                Os produtos favoritos dos nossos clientes
-              </p>
-            </div>
-            <button className="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1 group">
-              <span>Ver Todos</span>
-              <ChevronRight className="w-4 h-4 transform transition-transform group-hover:translate-x-1" />
-            </button>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {sellingProducts.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
-              >
-                <div className="relative overflow-hidden">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-48 object-cover transform transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <div className="absolute top-2 left-2 flex gap-2">
-                    {product.tag && (
-                      <span className={`px-2 py-1 rounded-full text-xs font-semibold
-                        ${product.tag === 'New' ? 'bg-green-500 text-white' :
-                          product.tag === 'Hot' ? 'bg-red-500 text-white' :
-                          'bg-indigo-500 text-white'}`}>
-                        {product.tag}
-                      </span>
-                    )}
-                  </div>
-                  {product.discount > 0 && (
-                    <span className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
-                      -{product.discount}%
-                    </span>
-                  )}
-                  {product.stock <= 10 && (
-                    <div className="absolute bottom-2 left-2 right-2 bg-black/70 text-white text-xs py-1 px-2 rounded-full text-center">
-                      Apenas {product.stock} unidades em estoque
-                    </div>
-                  )}
-                </div>
-                <div className="p-4">
-                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="flex">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-3 h-3 ${
-                            i < Math.floor(product.rating)
-                              ? 'text-yellow-400 fill-current'
-                              : 'text-gray-300'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                    <span className="text-xs text-gray-500">
-                      ({product.reviews})
-                    </span>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-lg font-bold text-gray-900 dark:text-white">
-                      {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
-                    </span>
-                    {product.discount > 0 && (
-                      <span className="text-sm text-gray-500 line-through">
-                        {formatPrice(product.price)}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* New Season Smartphones Banner */}
-        <div className="mb-12">
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600">
-            <div className="flex justify-between items-center p-8">
-              <div className="flex-1">
-                <h2 className="text-3xl font-bold text-white mb-4">
-                  Nova Temporada de Smartphones
-                </h2>
-                <p className="text-lg text-white/90 mb-6 max-w-xl">
-                  Descubra os últimos lançamentos com até 40% de desconto
-                </p>
-                <div className="flex gap-4">
-                  {newSeasonProducts.map((product) => (
-                    <div
-                      key={product.id}
-                      className="bg-white/10 backdrop-blur-md rounded-xl p-4 flex gap-4 hover:bg-white/20 transition-colors cursor-pointer"
-                    >
-                      <div className="w-24 h-24 rounded-lg overflow-hidden">
-                        <img
-                          src={product.image}
-                          alt={product.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div>
-                        <h3 className="text-white font-semibold mb-1">
-                          {product.name}
-                        </h3>
-                        <div className="flex items-center gap-2 mb-2">
-                          <div className="flex">
-                            {[...Array(5)].map((_, i) => (
-                              <Star
-                                key={i}
-                                className={`w-3 h-3 ${
-                                  i < Math.floor(product.rating)
-                                    ? 'text-yellow-400 fill-current'
-                                    : 'text-white/30'
-                                }`}
-                              />
-                            ))}
-                          </div>
-                          <span className="text-xs text-white/70">
-                            ({product.reviews})
-                          </span>
-                        </div>
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-lg font-bold text-white">
-                            {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
-                          </span>
-                          <span className="text-sm text-white/70 line-through">
-                            {formatPrice(product.price)}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="hidden lg:block absolute -right-10 top-1/2 -translate-y-1/2">
-                <div className="w-80 h-80 relative">
-                  {/* Add phone illustration or image here */}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Recommended Products */}
-        <div className="mb-12">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Produtos Recomendados
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
-                Baseado nas suas preferências
-              </p>
-            </div>
-            <button className="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1 group">
-              <span>Ver Todos</span>
-              <ChevronRight className="w-4 h-4 transform transition-transform group-hover:translate-x-1" />
-            </button>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            {recommendedProducts.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
-              >
-                <div className="relative overflow-hidden">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-48 object-cover transform transition-transform duration-300 group-hover:scale-110"
-                  />
-                  {product.discount > 0 && (
-                    <span className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
-                      -{product.discount}%
-                    </span>
-                  )}
-                </div>
-                <div className="p-4">
-                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="flex">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-3 h-3 ${
-                            i < Math.floor(product.rating)
-                              ? 'text-yellow-400 fill-current'
-                              : 'text-gray-300'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                    <span className="text-xs text-gray-500">
-                      ({product.reviews})
-                    </span>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-lg font-bold text-gray-900 dark:text-white">
-                      {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
-                    </span>
-                    {product.discount > 0 && (
-                      <span className="text-sm text-gray-500 line-through">
-                        {formatPrice(product.price)}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Featured Collections Section */}
-        <div className="mb-12">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Coleções em Destaque
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
-                Explore nossas seleções especiais
-              </p>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredCollections.map((collection) => (
-              <div
-                key={collection.id}
-                className={`group cursor-pointer relative overflow-hidden rounded-2xl ${
-                  collection.featured ? 'md:col-span-2 lg:col-span-1' : ''
-                }`}
-              >
-                {/* Background Image with Overlay */}
-                <div className="relative h-[400px] w-full overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent z-10" />
-                  <img
-                    src={collection.image}
-                    alt={collection.title}
-                    className="absolute inset-0 w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
-                  />
-                </div>
-
-                {/* Content Overlay */}
-                <div className="absolute inset-0 z-20 p-6 flex flex-col justify-end">
-                  {/* Category Badge */}
-                  <div className={`inline-flex items-center self-start px-3 py-1.5 mb-4 rounded-full 
-                    bg-${collection.accent}-100 dark:bg-${collection.accent}-900/30 
-                    text-${collection.accent}-600 dark:text-${collection.accent}-400 text-sm font-medium`}>
-                    {collection.category}
-                  </div>
-
-                  {/* Title and Description */}
-                  <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-${collection.accent}-400 transition-colors">
-                    {collection.title}
-                  </h3>
-                  <p className="text-gray-300 mb-4">
-                    {collection.description}
+          {/* New Season Smartphones Banner */}
+          <div className="mb-12">
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600">
+              <div className="flex justify-between items-center p-8">
+                <div className="flex-1">
+                  <h2 className="text-3xl font-bold text-white mb-4">
+                    Nova Temporada de Smartphones
+                  </h2>
+                  <p className="text-lg text-white/90 mb-6 max-w-xl">
+                    Descubra os últimos lançamentos com até 40% de desconto
                   </p>
-
-                  {/* Items Count and CTA */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-300">
-                      {collection.items} produtos
-                    </span>
-                    <div className={`flex items-center gap-2 text-${collection.accent}-400 
-                      group-hover:text-${collection.accent}-300 transition-colors`}>
-                      <span className="font-medium">Explorar Coleção</span>
-                      <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                    </div>
+                  <div className="flex gap-4">
+                    {newSeasonProducts.map((product) => (
+                      <div
+                        key={product.id}
+                        className="bg-white/10 backdrop-blur-md rounded-xl p-4 flex gap-4 hover:bg-white/20 transition-colors cursor-pointer"
+                      >
+                        <div className="w-24 h-24 rounded-lg overflow-hidden">
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div>
+                          <h3 className="text-white font-semibold mb-1">
+                            {product.name}
+                          </h3>
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="flex">
+                              {[...Array(5)].map((_, i) => (
+                                <Star
+                                  key={i}
+                                  className={`w-3 h-3 ${
+                                    i < Math.floor(product.rating)
+                                      ? 'text-yellow-400 fill-current'
+                                      : 'text-white/30'
+                                  }`}
+                                />
+                              ))}
+                            </div>
+                            <span className="text-xs text-white/70">
+                              ({product.reviews})
+                            </span>
+                          </div>
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-lg font-bold text-white">
+                              {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
+                            </span>
+                            <span className="text-sm text-white/70 line-through">
+                              {formatPrice(product.price)}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="hidden lg:block absolute -right-10 top-1/2 -translate-y-1/2">
+                  <div className="w-80 h-80 relative">
+                    {/* Add phone illustration or image here */}
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Trending Tech Section */}
-        <div className="mb-12">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Tecnologia em Alta
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
-                Produtos mais buscados da semana
-              </p>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {trendingTechProducts.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
-              >
-                <div className="relative p-6">
-                  <div className="absolute top-3 left-3">
-                    <span className="inline-block px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full text-xs font-medium">
-                      {product.category}
-                    </span>
-                  </div>
-                  <div className="absolute top-3 right-3">
-                    <span className="inline-block px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full text-xs font-medium">
-                      {product.trending}
-                    </span>
-                  </div>
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-48 object-contain transform transition-transform duration-300 group-hover:scale-110"
-                  />
-                </div>
-                <div className="p-4 bg-gray-50 dark:bg-slate-700/50">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-xl font-bold text-gray-900 dark:text-white">
-                      {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
-                    </span>
+
+          {/* Recommended Products */}
+          <div className="mb-12">
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  Produtos Recomendados
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                  Baseado nas suas preferências
+                </p>
+              </div>
+              <button className="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1 group">
+                <span>Ver Todos</span>
+                <ChevronRight className="w-4 h-4 transform transition-transform group-hover:translate-x-1" />
+              </button>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+              {recommendedProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                >
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-48 object-cover transform transition-transform duration-300 group-hover:scale-110"
+                    />
                     {product.discount > 0 && (
-                      <span className="text-sm text-gray-500 line-through">
-                        {formatPrice(product.price)}
+                      <span className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                        -{product.discount}%
                       </span>
                     )}
                   </div>
+                  <div className="p-4">
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
+                      {product.name}
+                    </h3>
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="flex">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`w-3 h-3 ${
+                              i < Math.floor(product.rating)
+                                ? 'text-yellow-400 fill-current'
+                                : 'text-gray-300'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-xs text-gray-500">
+                        ({product.reviews})
+                      </span>
+                    </div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-lg font-bold text-gray-900 dark:text-white">
+                        {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
+                      </span>
+                      {product.discount > 0 && (
+                        <span className="text-sm text-gray-500 line-through">
+                          {formatPrice(product.price)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
 
-      </div>
-    </section>
+          {/* Featured Collections Section */}
+          <div className="mb-12">
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  Coleções em Destaque
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                  Explore nossas seleções especiais
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featuredCollections.map((collection) => (
+                <div
+                  key={collection.id}
+                  className={`group cursor-pointer relative overflow-hidden rounded-2xl ${
+                    collection.featured ? 'md:col-span-2 lg:col-span-1' : ''
+                  }`}
+                >
+                  {/* Background Image with Overlay */}
+                  <div className="relative h-[400px] w-full overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent z-10" />
+                    <img
+                      src={collection.image}
+                      alt={collection.title}
+                      className="absolute inset-0 w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+
+                  {/* Content Overlay */}
+                  <div className="absolute inset-0 z-20 p-6 flex flex-col justify-end">
+                    {/* Category Badge */}
+                    <div className={`inline-flex items-center self-start px-3 py-1.5 mb-4 rounded-full 
+                      bg-${collection.accent}-100 dark:bg-${collection.accent}-900/30 
+                      text-${collection.accent}-600 dark:text-${collection.accent}-400 text-sm font-medium`}>
+                      {collection.category}
+                    </div>
+
+                    {/* Title and Description */}
+                    <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-${collection.accent}-400 transition-colors">
+                      {collection.title}
+                    </h3>
+                    <p className="text-gray-300 mb-4">
+                      {collection.description}
+                    </p>
+
+                    {/* Items Count and CTA */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-300">
+                        {collection.items} produtos
+                      </span>
+                      <div className={`flex items-center gap-2 text-${collection.accent}-400 
+                        group-hover:text-${collection.accent}-300 transition-colors`}>
+                        <span className="font-medium">Explorar Coleção</span>
+                        <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Trending Tech Section */}
+          <div className="mb-12">
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  Tecnologia em Alta
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                  Produtos mais buscados da semana
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {trendingTechProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                >
+                  <div className="relative p-6">
+                    <div className="absolute top-3 left-3">
+                      <span className="inline-block px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full text-xs font-medium">
+                        {product.category}
+                      </span>
+                    </div>
+                    <div className="absolute top-3 right-3">
+                      <span className="inline-block px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full text-xs font-medium">
+                        {product.trending}
+                      </span>
+                    </div>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-48 object-contain transform transition-transform duration-300 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="p-4 bg-gray-50 dark:bg-slate-700/50">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                      {product.name}
+                    </h3>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-xl font-bold text-gray-900 dark:text-white">
+                        {formatPrice(calculateDiscountedPrice(product.price, product.discount))}
+                      </span>
+                      {product.discount > 0 && (
+                        <span className="text-sm text-gray-500 line-through">
+                          {formatPrice(product.price)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
   );
 }
