@@ -580,19 +580,18 @@ export function TopCategories() {
 
                 {/* Product Info */}
                 <div className="text-center">
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-0.5">
-                    {product.category}
-                  </p>
                   <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-[#6366F1] dark:group-hover:text-[#818CF8] transition-colors">
                     {product.name}
                   </h3>
-                  <div className="flex items-center justify-center gap-2">
-                    {product.originalPrice && (
-                      <span className="text-sm text-gray-500 line-through">
-                        R$ {product.originalPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                      </span>
-                    )}
-                    <span className="text-base font-bold text-gray-900 dark:text-white">
+                  <div className="flex flex-col items-center">
+                    <div className="flex items-center justify-center w-full">
+                      {product.originalPrice && (
+                        <span className="text-xs text-gray-500 line-through">
+                          R$ {product.originalPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-base font-bold text-gray-900 dark:text-white mt-0.5">
                       R$ {product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                     </span>
                   </div>
@@ -611,20 +610,20 @@ export function TopCategories() {
             {banners.map((banner) => (
               <div
                 key={banner.id}
-                className={`${banner.bgColor} rounded-2xl p-6 flex items-center justify-between overflow-hidden relative group cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl`}
+                className={`${banner.bgColor} rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 sm:justify-between overflow-hidden relative group cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl`}
               >
-                <div className="flex-1 z-10">
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                <div className="flex-1 z-10 text-center sm:text-left">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
                     {banner.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4">
                     {banner.subtitle}
                   </p>
-                  <button className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-all duration-300 transform hover:translate-x-1">
+                  <button className="bg-indigo-600 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-indigo-700 transition-all duration-300 transform hover:translate-x-1 text-sm sm:text-base">
                     {banner.buttonText}
                   </button>
                 </div>
-                <div className="w-48 h-48 relative transform transition-transform duration-300 group-hover:scale-110">
+                <div className="w-32 h-32 sm:w-48 sm:h-48 relative transform transition-transform duration-300 group-hover:scale-110">
                   <img
                     src={banner.image}
                     alt={banner.title}
@@ -653,9 +652,9 @@ export function TopCategories() {
               {bestDeals.map((deal) => (
                 <div
                   key={deal.name}
-                  className="bg-white dark:bg-slate-800 rounded-xl p-6 flex gap-6 hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                  className="bg-white dark:bg-slate-800 rounded-xl p-4 sm:p-6 flex flex-col sm:flex-row gap-4 sm:gap-6 hover:shadow-xl transition-all duration-300 group cursor-pointer"
                 >
-                  <div className="w-40 h-40 rounded-lg overflow-hidden flex-shrink-0 relative">
+                  <div className="w-full sm:w-40 h-40 rounded-lg overflow-hidden flex-shrink-0 relative">
                     <img
                       src={deal.image}
                       alt={deal.name}
@@ -667,17 +666,14 @@ export function TopCategories() {
                   </div>
                   <div className="flex flex-col justify-between flex-1">
                     <div>
-                      <span className="inline-block px-3 py-1.5 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full text-sm font-medium mb-2">
-                        {deal.category}
-                      </span>
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mt-1">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mt-1">
                         {deal.name}
                       </h3>
                       <div className="grid grid-cols-2 gap-2 mt-3">
                         {deal.features.map((feature, index) => (
                           <span
                             key={index}
-                            className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1"
+                            className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1"
                           >
                             <span className="w-1.5 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>
                             {feature}
@@ -687,10 +683,10 @@ export function TopCategories() {
                     </div>
                     <div className="mt-4">
                       <div className="flex items-baseline gap-2">
-                        <span className="text-base font-bold text-gray-900 dark:text-white">
+                        <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
                           R$ {calculateDiscountedPrice(deal.price, deal.discount).toFixed(2)}
                         </span>
-                        <span className="text-sm text-gray-500 line-through">
+                        <span className="text-sm sm:text-base text-gray-500 line-through">
                           R$ {deal.price.toFixed(2)}
                         </span>
                       </div>
@@ -736,16 +732,18 @@ export function TopCategories() {
                   </div>
 
                   <div className="px-2">
-                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-[#6366F1] dark:group-hover:text-[#818CF8] transition-colors">
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-2 truncate">
                       {product.name}
                     </h3>
-                    <div className="flex items-center gap-2">
-                      {product.oldPrice && (
-                        <span className="text-sm text-gray-500 line-through">
-                          R$ {product.oldPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                        </span>
-                      )}
-                      <span className="text-base font-bold text-gray-900 dark:text-white">
+                    <div className="flex flex-col items-center">
+                      <div className="flex items-center justify-center w-full">
+                        {product.oldPrice && (
+                          <span className="text-xs text-gray-500 line-through">
+                            R$ {product.oldPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-base font-bold text-gray-900 dark:text-white mt-0.5">
                         R$ {product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                       </span>
                     </div>
@@ -841,16 +839,18 @@ export function TopCategories() {
                   </div>
 
                   <div className="px-2">
-                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-[#6366F1] dark:group-hover:text-[#818CF8] transition-colors">
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-2 truncate">
                       {product.name}
                     </h3>
-                    <div className="flex items-center gap-2">
-                      {product.oldPrice && (
-                        <span className="text-sm text-gray-500 line-through">
-                          R$ {product.oldPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                        </span>
-                      )}
-                      <span className="text-base font-bold text-gray-900 dark:text-white">
+                    <div className="flex flex-col items-center">
+                      <div className="flex items-center justify-center w-full">
+                        {product.oldPrice && (
+                          <span className="text-xs text-gray-500 line-through">
+                            R$ {product.oldPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-base font-bold text-gray-900 dark:text-white mt-0.5">
                         R$ {product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                       </span>
                     </div>
@@ -956,18 +956,20 @@ export function TopCategories() {
 
                   {/* Product Info */}
                   <div>
-                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1 group-hover:text-[#6366F1] dark:group-hover:text-[#818CF8] transition-colors">
+                    <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-2 truncate">
                       {product.name}
                     </h3>
-                    <div className="flex items-center gap-2">
-                      <span className="text-base font-bold text-gray-900 dark:text-white">
-                        R$ {product.price}
+                    <div className="flex flex-col items-center">
+                      <div className="flex items-center justify-center w-full">
+                        {product.oldPrice && (
+                          <span className="text-xs text-gray-500 line-through">
+                            R$ {product.oldPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-base font-bold text-gray-900 dark:text-white mt-0.5">
+                        R$ {product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                       </span>
-                      {product.oldPrice && (
-                        <span className="text-sm text-gray-500 line-through">
-                          R$ {product.oldPrice}
-                        </span>
-                      )}
                     </div>
                   </div>
                 </div>
