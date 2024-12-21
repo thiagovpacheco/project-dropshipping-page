@@ -1,160 +1,89 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { Product } from '../types/product';
 
-// Definindo os tipos
-export interface CartItem {
-  id: number;
-  name: string;
-  price: number;
+interface CartItem extends Product {
   quantity: number;
-  image: string;
-  maxQuantity?: number;
-}
-
-interface CartState {
-  items: CartItem[];
 }
 
 interface CartContextType {
-  state: CartState;
-  addToCart: (item: CartItem) => void;
-  removeFromCart: (id: number) => void;
-  updateQuantity: (id: number, quantity: number) => void;
+  items: CartItem[];
+  addToCart: (product: Product) => void;
+  removeFromCart: (productId: number) => void;
+  updateQuantity: (productId: number, quantity: number) => void;
   clearCart: () => void;
+  totalItems: number;
+  totalPrice: number;
 }
 
-// Criando o contexto
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-// Tipos de ações
-type CartAction =
-  | { type: 'ADD_ITEM'; payload: CartItem }
-  | { type: 'REMOVE_ITEM'; payload: number }
-  | { type: 'UPDATE_QUANTITY'; payload: { id: number; quantity: number } }
-  | { type: 'CLEAR_CART' }
-  | { type: 'LOAD_CART'; payload: CartItem[] };
-
-// Reducer para gerenciar o estado
-const cartReducer = (state: CartState, action: CartAction): CartState => {
-  switch (action.type) {
-    case 'ADD_ITEM': {
-      const existingItem = state.items.find(item => item.id === action.payload.id);
-      if (existingItem) {
-        const newQuantity = (existingItem.quantity || 0) + (action.payload.quantity || 1);
-        const finalQuantity = action.payload.maxQuantity 
-          ? Math.min(newQuantity, action.payload.maxQuantity) 
-          : newQuantity;
-        
-        return {
-          ...state,
-          items: state.items.map(item =>
-            item.id === action.payload.id
-              ? { 
-                  ...item, 
-                  quantity: finalQuantity,
-                  price: Number(action.payload.price) || 0
-                }
-              : item
-          ),
-        };
-      }
-      return {
-        ...state,
-        items: [...state.items, { 
-          ...action.payload,
-          quantity: action.payload.quantity || 1,
-          price: Number(action.payload.price) || 0
-        }],
-      };
-    }
-
-    case 'REMOVE_ITEM':
-      return {
-        ...state,
-        items: state.items.filter(item => item.id !== action.payload),
-      };
-
-    case 'UPDATE_QUANTITY':
-      return {
-        ...state,
-        items: state.items.map(item =>
-          item.id === action.payload.id
-            ? { 
-                ...item, 
-                quantity: Math.min(
-                  action.payload.quantity, 
-                  item.maxQuantity || Number.MAX_SAFE_INTEGER
-                )
-              }
-            : item
-        ),
-      };
-
-    case 'CLEAR_CART':
-      return {
-        ...state,
-        items: [],
-      };
-
-    case 'LOAD_CART':
-      return {
-        ...state,
-        items: action.payload,
-      };
-
-    default:
-      return state;
-  }
-};
-
-// Provider Component
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, { items: [] });
+  const [items, setItems] = useState<CartItem[]>(() => {
+    const savedItems = localStorage.getItem('cart');
+    return savedItems ? JSON.parse(savedItems) : [];
+  });
 
-  // Carregar carrinho do localStorage quando o componente montar
   useEffect(() => {
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      dispatch({ type: 'LOAD_CART', payload: JSON.parse(savedCart) });
+    localStorage.setItem('cart', JSON.stringify(items));
+  }, [items]);
+
+  const addToCart = (product: Product) => {
+    setItems(currentItems => {
+      const existingItem = currentItems.find(item => item.id === product.id);
+      if (existingItem) {
+        return currentItems.map(item =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...currentItems, { ...product, quantity: 1 }];
+    });
+  };
+
+  const removeFromCart = (productId: number) => {
+    setItems(currentItems => currentItems.filter(item => item.id !== productId));
+  };
+
+  const updateQuantity = (productId: number, quantity: number) => {
+    if (quantity < 1) {
+      removeFromCart(productId);
+      return;
     }
-  }, []);
 
-  // Salvar carrinho no localStorage quando houver mudanças
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(state.items));
-  }, [state.items]);
-
-  const addToCart = (item: CartItem) => {
-    dispatch({ type: 'ADD_ITEM', payload: item });
-  };
-
-  const removeFromCart = (id: number) => {
-    dispatch({ type: 'REMOVE_ITEM', payload: id });
-  };
-
-  const updateQuantity = (id: number, quantity: number) => {
-    dispatch({ type: 'UPDATE_QUANTITY', payload: { id, quantity } });
+    setItems(currentItems =>
+      currentItems.map(item =>
+        item.id === productId
+          ? { ...item, quantity }
+          : item
+      )
+    );
   };
 
   const clearCart = () => {
-    dispatch({ type: 'CLEAR_CART' });
+    setItems([]);
+  };
+
+  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  const value = {
+    items,
+    addToCart,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    totalItems,
+    totalPrice,
   };
 
   return (
-    <CartContext.Provider
-      value={{
-        state,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        clearCart,
-      }}
-    >
+    <CartContext.Provider value={value}>
       {children}
     </CartContext.Provider>
   );
 };
 
-// Hook personalizado para usar o contexto
 export const useCart = () => {
   const context = useContext(CartContext);
   if (context === undefined) {

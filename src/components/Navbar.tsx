@@ -118,7 +118,7 @@ const Navbar = () => {
   const userMenuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const { state: { items } } = useCart();
+  const { items } = useCart();
   const { theme } = useTheme();
   const { isMenuOpen, setIsMenuOpen } = useMenu();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);

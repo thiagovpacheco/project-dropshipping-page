@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
+<<<<<<< HEAD
     "preview": "vite preview"
   },
   "dependencies": {
@@ -21,18 +22,52 @@
     "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
+=======
+    "preview": "vite preview",
+    "migrate": "tsx src/scripts/migrateProducts.ts"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@headlessui/react": "^2.2.0",
+    "@heroicons/react": "^2.2.0",
+    "@mui/icons-material": "^6.2.1",
+    "@mui/material": "^6.2.1",
+    "firebase": "^11.1.0",
+    "framer-motion": "^11.13.1",
+    "lucide-react": "^0.344.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^5.3.0",
+    "react-router-dom": "^6.28.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+>>>>>>> 3e4c5d3 (refactor: atualiza interface do ProductCard e ElectronicsPage para usar Tailwind CSS)
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
+<<<<<<< HEAD
     "@vitejs/plugin-react": "^4.2.1",
+=======
+    "@vitejs/plugin-react": "^4.3.4",
+>>>>>>> 3e4c5d3 (refactor: atualiza interface do ProductCard e ElectronicsPage para usar Tailwind CSS)
     "autoprefixer": "^10.4.18",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
+<<<<<<< HEAD
     "typescript": "^5.3.3",
     "vite": "^5.1.5"
+=======
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.3.3",
+    "vite": "^5.4.11"
+>>>>>>> 3e4c5d3 (refactor: atualiza interface do ProductCard e ElectronicsPage para usar Tailwind CSS)
   }
 }

@@ -1,5 +1,5 @@
 export interface Product {
-  id: string;
+  id: number;
   name: string;
   description: string;
   price: number;
@@ -7,11 +7,9 @@ export interface Product {
   image: string;
   category: string;
   brand: string;
-  isPromotion?: boolean;
-  rating?: number;
-  reviews?: number;
-  inStock?: boolean;
   isNew?: boolean;
-  isFeatured?: boolean;
-  maxQuantity?: number;
+  isPromotion?: boolean;
+  stock?: number;
+  sales?: number;
+  createdAt?: string;
 }
