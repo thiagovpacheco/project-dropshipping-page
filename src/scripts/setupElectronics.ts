@@ -13,7 +13,9 @@ const initialProducts = [
     isPromotion: true,
     discountPercentage: 11,
     stock: 10,
-    sales: 150
+    sales: 150,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'Samsung Galaxy S23 Ultra',
@@ -27,7 +29,9 @@ const initialProducts = [
     isPromotion: true,
     discountPercentage: 9,
     stock: 15,
-    sales: 120
+    sales: 120,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'Xiaomi 13 Pro',
@@ -41,7 +45,9 @@ const initialProducts = [
     isPromotion: true,
     discountPercentage: 8,
     stock: 8,
-    sales: 80
+    sales: 80,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'MacBook Pro 14\' M3 Pro',
@@ -55,7 +61,9 @@ const initialProducts = [
     isPromotion: true,
     discountPercentage: 15,
     stock: 5,
-    sales: 45
+    sales: 45,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'Sony WH-1000XM4',
@@ -69,7 +77,9 @@ const initialProducts = [
     isPromotion: true,
     discountPercentage: 20,
     stock: 20,
-    sales: 200
+    sales: 200,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'Smart TV LG OLED 65\'',
@@ -83,7 +93,9 @@ const initialProducts = [
     isPromotion: true,
     discountPercentage: 18,
     stock: 7,
-    sales: 35
+    sales: 35,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'PlayStation 5',
@@ -97,7 +109,9 @@ const initialProducts = [
     isPromotion: true,
     discountPercentage: 15,
     stock: 12,
-    sales: 180
+    sales: 180,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'Dell XPS 15',
@@ -111,7 +125,9 @@ const initialProducts = [
     isPromotion: true,
     discountPercentage: 13,
     stock: 6,
-    sales: 40
+    sales: 40,
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
   {
     name: 'Samsung Neo QLED 75\'',
@@ -125,7 +141,9 @@ const initialProducts = [
     isPromotion: true,
     discountPercentage: 14,
     stock: 4,
-    sales: 25
+    sales: 25,
+    createdAt: new Date(),
+    updatedAt: new Date()
   }
 ];
 
@@ -137,7 +155,7 @@ export async function setupElectronics() {
   try {
     // Criar cada produto
     for (const product of initialProducts) {
-      await electronicsService.createProduct(product);
+      await electronicsService.addProduct(product);
       console.log(`Produto criado: ${product.name}`);
     }
 

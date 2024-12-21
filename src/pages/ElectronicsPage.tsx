@@ -1,12 +1,15 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ProductCard } from '../components/Electronics/ProductCard';
 import { Filters } from '../components/Electronics/Filters';
-import { mockProducts } from '../components/Electronics/mockData';
 import { Product } from '../types/product';
+import { ElectronicsService } from '../services/electronics.service';
+import { toast } from 'react-hot-toast';
 
 const ElectronicsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('categoria') || '');
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
@@ -16,16 +19,23 @@ const ElectronicsPage: React.FC = () => {
   const [isFiltering, setIsFiltering] = useState(false);
   const productsRef = useRef<HTMLDivElement>(null);
 
+  const electronicsService = ElectronicsService.getInstance();
+
+  useEffect(() => {
+    const unsubscribe = electronicsService.onProductsChange((updatedProducts) => {
+      setProducts(updatedProducts);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   // Função para rolar suavemente até os produtos
   const scrollToProducts = () => {
     if (productsRef.current) {
-      const yOffset = -100; // Offset para deixar um espaço no topo
+      const yOffset = -100;
       const y = productsRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      
-      window.scrollTo({
-        top: y,
-        behavior: 'smooth'
-      });
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
@@ -36,7 +46,6 @@ const ElectronicsPage: React.FC = () => {
   ) => {
     setIsFiltering(true);
 
-    // Atualiza o filtro específico
     switch (type) {
       case 'category':
         setSelectedCategory(value);
@@ -52,7 +61,6 @@ const ElectronicsPage: React.FC = () => {
         break;
     }
 
-    // Rola até os produtos após um pequeno delay
     setTimeout(() => {
       scrollToProducts();
       setIsFiltering(false);
@@ -75,69 +83,66 @@ const ElectronicsPage: React.FC = () => {
       searchParams.set('categoria', selectedCategory);
     }
     setSearchParams(searchParams);
-  }, [selectedCategory]);
+  }, [selectedCategory, searchParams, setSearchParams]);
 
-  const filteredProducts = useMemo(() => {
-    return mockProducts.filter(product => {
-      // Filtro de busca
-      if (searchQuery && !product.name.toLowerCase().includes(searchQuery.toLowerCase())) {
-        return false;
-      }
+  const filteredProducts = products.filter(product => {
+    // Filtro de busca
+    if (searchQuery && !product.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+      return false;
+    }
 
-      // Filtro de categoria (ignora se for "todos" ou vazio)
-      if (selectedCategory && selectedCategory !== 'todos' && product.category !== selectedCategory) {
-        return false;
-      }
+    // Filtro de categoria
+    if (selectedCategory && selectedCategory !== 'todos' && product.category !== selectedCategory) {
+      return false;
+    }
 
-      // Filtro de marcas
-      if (selectedBrands.length > 0 && !selectedBrands.includes(product.brand)) {
-        return false;
-      }
+    // Filtro de marcas
+    if (selectedBrands.length > 0 && !selectedBrands.includes(product.brand)) {
+      return false;
+    }
 
-      // Filtro de preço
-      if (product.price < priceRange[0] || product.price > priceRange[1]) {
-        return false;
-      }
+    // Filtro de preço
+    if (product.price < priceRange[0] || product.price > priceRange[1]) {
+      return false;
+    }
 
-      // Filtro de faixa de desconto
-      if (selectedDiscountRanges.length > 0) {
-        // Verifica se o produto tem preço original e está em promoção
-        if (!product.originalPrice || !product.isPromotion) return false;
-        
-        const discountPercentage = Math.floor(((product.originalPrice - product.price) / product.originalPrice) * 100);
-        
-        return selectedDiscountRanges.some(range => {
-          const [min, max] = range.split('-').map(Number);
-          if (max === 100) {
-            return discountPercentage >= 50;
-          }
-          return discountPercentage >= min && discountPercentage < max;
-        });
-      }
-
-      return true;
-    }).sort((a, b) => {
-      switch (sortOption) {
-        case 'price-asc':
-          return a.price - b.price;
-        case 'price-desc':
-          return b.price - a.price;
-        case 'most-sold':
-          return (b.sales || 0) - (a.sales || 0);
-        case 'most-recent':
-          return new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime();
-        case 'highest-discount': {
-          const getDiscount = (p: Product) => {
-            if (!p.originalPrice || !p.isPromotion) return 0;
-            return ((p.originalPrice - p.price) / p.originalPrice) * 100;
-          };
-          return getDiscount(b) - getDiscount(a);
+    // Filtro de faixa de desconto
+    if (selectedDiscountRanges.length > 0) {
+      if (!product.originalPrice || !product.isPromotion) return false;
+      
+      const discountPercentage = Math.floor(((product.originalPrice - product.price) / product.originalPrice) * 100);
+      
+      return selectedDiscountRanges.some(range => {
+        const [min, max] = range.split('-').map(Number);
+        if (max === 100) {
+          return discountPercentage >= 50;
         }
-        default:
-          return 0;
+        return discountPercentage >= min && discountPercentage < max;
+      });
+    }
+
+    return true;
+  }).sort((a, b) => {
+    switch (sortOption) {
+      case 'price-asc':
+        return a.price - b.price;
+      case 'price-desc':
+        return b.price - a.price;
+      case 'most-sold':
+        return (b.sales || 0) - (a.sales || 0);
+      case 'most-recent':
+        return new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime();
+      case 'highest-discount': {
+        const getDiscount = (p: Product) => {
+          if (!p.originalPrice || !p.isPromotion) return 0;
+          return ((p.originalPrice - p.price) / p.originalPrice) * 100;
+        };
+        return getDiscount(b) - getDiscount(a);
       }
-    });
-  }, [searchQuery, selectedCategory, selectedBrands, priceRange, selectedDiscountRanges, sortOption]);
+      default:
+        return 0;
+    }
+  });
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -204,21 +209,32 @@ const ElectronicsPage: React.FC = () => {
           </div>
 
           {/* Products Grid */}
-          <div className={`transition-opacity duration-300 ${isFiltering ? 'opacity-50' : 'opacity-100'}`}>
-            {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12">
-                <p className="text-lg text-slate-600 dark:text-slate-400">
-                  Nenhum produto encontrado com os filtros selecionados.
-                </p>
-              </div>
-            )}
-          </div>
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="bg-slate-200 dark:bg-slate-700 h-64 rounded-lg mb-4"></div>
+                  <div className="space-y-3">
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div>
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-opacity duration-300 ${isFiltering ? 'opacity-50' : 'opacity-100'}`}>
+              {filteredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+              {filteredProducts.length === 0 && (
+                <div className="col-span-full text-center py-8">
+                  <p className="text-slate-600 dark:text-slate-400">
+                    Nenhum produto encontrado com os filtros selecionados.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

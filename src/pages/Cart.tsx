@@ -11,7 +11,7 @@ const formatCurrency = (value: number) => {
 };
 
 const Cart = () => {
-  const { state: { items }, removeFromCart, updateQuantity } = useCart();
+  const { items, removeFromCart, updateQuantity } = useCart();
   const [coupon, setCoupon] = useState('');
   const navigate = useNavigate();
 

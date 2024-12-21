@@ -1,5 +1,5 @@
 export interface Product {
-  id: number;
+  id: string;
   name: string;
   description: string;
   price: number;
@@ -9,7 +9,9 @@ export interface Product {
   brand: string;
   isNew?: boolean;
   isPromotion?: boolean;
-  stock?: number;
-  sales?: number;
-  createdAt?: string;
+  discountPercentage?: number;
+  stock: number;
+  sales: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
